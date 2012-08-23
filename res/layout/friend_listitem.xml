@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:orientation="horizontal" 
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants" 
+    android:paddingLeft="6dip"
+    android:paddingRight="6dip"
+    android:paddingTop="10dip"
+    android:paddingBottom="9dip">   
+
+    <ImageView 
+    	android:id="@+id/friend_listitem_userface"
+      	style="@style/user_face_image"/>
+
+	<LinearLayout
+    	android:layout_width="fill_parent" 
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical"
+    	android:layout_marginLeft="6dip"> 
+
+	    <LinearLayout 
+	    	android:orientation="horizontal" 
+	        android:layout_width="fill_parent"  
+	        android:layout_height="wrap_content">   
+	            
+		    <ImageView 
+		        android:id="@+id/friend_listitem_gender"  
+		      	android:layout_width="16dip" 
+		        android:layout_height="16dip"
+		        android:layout_gravity="center_vertical"
+		        android:src="@drawable/widget_gender_man"/>
+		        
+	       	<TextView 
+	       	    android:id="@+id/friend_listitem_name"  
+	    		android:layout_width="wrap_content" 
+	           	android:layout_height="wrap_content" 
+	           	android:layout_marginLeft="3dip"
+	           	android:textStyle="bold"
+	           	android:textSize="@dimen/text_size_14"
+	            android:textColor="@color/listitem_blue"
+	            android:includeFontPadding="false"
+	            android:singleLine="true"
+	            android:ellipsize="end"/>
+	            
+       	</LinearLayout>
+	    
+	    <TextView 
+	        android:id="@+id/friend_listitem_expertise" 
+	        android:layout_width="fill_parent" 
+	     	android:layout_height="wrap_content"
+	     	android:layout_marginTop="8dip"
+     		android:textSize="@dimen/text_size_12"
+	     	android:textColor="@color/listitem_black"
+	    	android:ellipsize="end"/> 	
+       	
+    </LinearLayout>
+
+</LinearLayout> 

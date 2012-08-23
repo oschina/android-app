@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="horizontal" 
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content"
+	android:gravity="center_horizontal"
+	android:background="@drawable/widget_bar_bg_n">
+	<RadioButton
+	    android:id="@+id/user_center_footbar_relation"
+	    style="@style/user_center_footbar"
+	    android:layout_marginLeft="5dip"
+	    android:drawableLeft="@drawable/widget_bar_relation_add"
+	    android:text="加关注"/>
+	<ImageView
+		style="@style/main_footbar_cutline"
+		android:src="@drawable/widget_bar_cut_off"/>
+	<RadioButton
+	    android:id="@+id/user_center_footbar_message"
+	    style="@style/user_center_footbar"
+	    android:layout_marginLeft="15dip"
+	    android:drawableLeft="@drawable/widget_bar_mail"
+	    android:text="留言"/>
+	<ImageView
+		style="@style/main_footbar_cutline"
+		android:src="@drawable/widget_bar_cut_off"/>
+	<RadioButton
+	    android:id="@+id/user_center_footbar_atme"
+	    style="@style/user_center_footbar"
+	    android:layout_marginLeft="6dip"
+	    android:drawableLeft="@drawable/widget_bar_atme"
+	    android:text="提到Ta"/>
+</LinearLayout>

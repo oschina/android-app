@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:orientation="horizontal" 
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants" 
+    android:paddingLeft="6dip"
+    android:paddingRight="6dip"
+    android:paddingTop="8dip"
+    android:paddingBottom="7dip">   
+
+    <LinearLayout
+        android:orientation="vertical" 
+    	android:layout_width="fill_parent" 
+    	android:layout_height="wrap_content"
+    	android:layout_weight="1">
+	    <TextView android:id="@+id/software_listitem_name" 
+	        android:layout_width="fill_parent" 
+	     	android:layout_height="wrap_content"
+	     	android:textSize="@dimen/text_size_15"
+	     	android:textColor="@color/listitem_black"
+	     	android:textStyle="bold"
+	     	android:singleLine="true"/> 	
+	     	
+	    <TextView android:id="@+id/software_listitem_description" 
+	        android:layout_width="fill_parent" 
+	     	android:layout_height="wrap_content"
+	     	android:layout_marginTop="8dip"
+	     	android:textSize="@dimen/text_size_12"
+	     	android:textColor="@color/listitem_gray"
+	     	android:singleLine="true"/> 	
+	</LinearLayout>
+	
+    <ImageView 
+        android:layout_width="wrap_content" 
+     	android:layout_height="wrap_content"
+     	android:layout_gravity="center_vertical"
+     	android:layout_marginRight="10dip" 
+     	android:src="@drawable/widget_right_icon"/>
+    
+</LinearLayout> 

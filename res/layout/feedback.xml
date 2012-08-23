@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" 
+	android:layout_height="fill_parent">
+    <ScrollView 
+    	android:id="@+id/feedback_scrollview" 
+    	android:layout_width="fill_parent" 
+    	android:layout_height="wrap_content" 
+    	android:layout_centerInParent="true"
+    	android:paddingTop="14.0dip" 
+    	android:paddingLeft="14.0dip" 
+    	android:paddingRight="14.0dip" 
+    	android:scrollbars="none" >
+        <LinearLayout 
+         	android:layout_width="fill_parent" 
+    	 	android:layout_height="wrap_content"      
+    	 	android:paddingLeft="20dip"
+    	 	android:paddingRight="20dip"    
+         	android:background="@drawable/login_bg"
+         	android:orientation="vertical">            
+            <TextView
+             	android:layout_width="wrap_content" 
+             	android:layout_height="wrap_content"
+             	android:layout_gravity="center_horizontal" 
+             	android:layout_marginTop="30dip" 
+             	android:textSize="@dimen/text_size_18"
+             	android:textColor="@color/black" 
+             	android:textStyle="bold" 
+             	android:text="意见反馈" />
+            <TextView
+             	android:layout_width="wrap_content" 
+             	android:layout_height="wrap_content"
+             	android:layout_marginTop="15dip" 
+             	android:textSize="@dimen/text_size_13"
+             	android:textColor="@color/black" 
+             	android:text="欢迎您提出宝贵的意见和建议" />
+       	    <EditText
+		        android:id="@+id/feedback_content"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="5dip" 
+		        android:textSize="@dimen/text_size_13"
+		        android:lines="4"
+		        android:autoLink="web|email"
+		        android:gravity="top"
+		        android:hint="输入您的意见和建议"/>
+	    	<Button
+		    	android:id="@+id/feedback_publish"
+		        android:layout_width="fill_parent"
+		    	android:layout_height="45dip"
+		    	android:layout_marginTop="15dip"
+		    	android:layout_marginBottom="30dip"
+		    	android:background="@drawable/login_btn_selector" 
+		    	android:textSize="@dimen/text_size_18"
+		        android:text="提交反馈"/>
+        </LinearLayout>            
+    </ScrollView>
+    <ImageButton 
+	    android:id="@+id/feedback_close_button" 
+	    android:layout_width="wrap_content" 
+	    android:layout_height="wrap_content"
+	    android:layout_alignRight="@+id/feedback_scrollview" 
+	    android:layout_alignTop="@+id/feedback_scrollview"
+	    android:background="@drawable/login_close_button"  />
+</RelativeLayout>

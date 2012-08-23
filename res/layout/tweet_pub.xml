@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  	android:layout_width="fill_parent"
+  	android:layout_height="fill_parent"
+  	android:orientation="vertical"
+  	android:background="@color/white">
+    
+	<include layout="@layout/tweet_pub_header"/>
+
+	<LinearLayout
+	    android:id="@+id/tweet_pub_message"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+   	    android:gravity="center"
+	    android:visibility="gone">
+		<LinearLayout
+	    	android:id="@+id/tweet_pub_message"
+	    	android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+   		    android:padding="5.0dip"
+   		    android:background="@drawable/review_bg_blue">
+	   		<ProgressBar style="@style/loading_small"/>
+		   	<TextView 
+		        android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:layout_marginLeft="3dip"
+		        android:textSize="15sp"
+		        android:textColor="@color/black"
+		        android:text="动弹后台发布中···"/>
+	   	</LinearLayout>
+	</LinearLayout>
+	
+	<FrameLayout
+	    android:id="@+id/tweet_pub_form"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:layout_weight="1">
+	    
+	    <EditText
+	        android:id="@+id/tweet_pub_content"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:autoLink="web"
+	        android:gravity="top"
+	        android:hint="请输入动弹内容"
+	        android:background="@null"/>
+
+		<ImageView
+			android:id="@+id/tweet_pub_image"
+			android:layout_width="60.0dip"
+			android:layout_height="45.0dip"
+			android:layout_marginLeft="5.0dip"
+			android:layout_marginBottom="5.0dip"
+			android:layout_gravity="left|bottom"
+			android:clickable="true"
+			android:visibility="gone"/>
+		
+		<LinearLayout 
+ 			android:id="@+id/tweet_pub_clearwords"
+		    android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginRight="5.0dip"
+			android:layout_marginBottom="5.0dip"
+			android:layout_gravity="right|bottom"
+			android:gravity="center"
+	        android:background="@drawable/clearwords_bg"
+	        android:clickable="true">
+		   	<TextView 
+		   	    android:id="@+id/tweet_pub_numberwords"
+		   	    android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:textColor="@color/black"
+	        	android:text="160"/>
+		    <ImageView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="3dip"
+				android:src="@drawable/clearwords_icon"/>
+		</LinearLayout>
+	        
+	</FrameLayout>
+
+	<include layout="@layout/tweet_pub_footer"/>
+	
+</LinearLayout>

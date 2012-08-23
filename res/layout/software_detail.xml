@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  	android:layout_width="fill_parent"
+  	android:layout_height="fill_parent"
+  	android:orientation="vertical"
+  	android:background="@color/white">
+
+	<FrameLayout
+	    android:id="@+id/software_detail_header"
+	   	android:layout_width="fill_parent"
+	   	android:layout_height="wrap_content"
+	   	android:gravity="center_vertical"
+	   	android:paddingLeft="2dip"
+   		android:paddingRight="2dip"
+	   	android:orientation="horizontal"
+	   	android:background="@drawable/head_bg">
+	   	<ImageView 
+	   		android:id="@+id/software_detail_back"
+		   	android:layout_width="wrap_content" 
+		   	android:layout_height="wrap_content" 
+		   	android:layout_gravity="left|center"
+		   	android:clickable="true" 
+		   	android:background="@drawable/head_back"/>
+	   	<TextView 
+	   		style="@style/detail_head_title" 
+	   		android:layout_gravity="center"
+	   		android:text="@string/software_detail_head_title"/>
+   	   	<ProgressBar 
+			android:id="@+id/software_detail_head_progress" 
+			style="@style/loading_small"
+			android:layout_gravity="right|center"
+			android:layout_marginRight="5dip"/>
+	   	<ImageView 
+	   		android:id="@+id/software_detail_favorite"
+		   	android:layout_width="wrap_content" 
+		   	android:layout_height="wrap_content" 
+		   	android:layout_gravity="right|center"
+		   	android:clickable="true" 
+		   	android:background="@drawable/head_favorite"
+		   	android:visibility="gone"/>
+	   	<ImageView 
+	   		android:id="@+id/software_detail_refresh"
+		   	android:layout_width="wrap_content" 
+		   	android:layout_height="wrap_content" 
+		   	android:layout_gravity="right|center"
+		   	android:clickable="true" 
+		   	android:background="@drawable/head_refresh"
+			android:visibility="gone"/>
+	</FrameLayout>
+
+    <ScrollView
+    	android:id="@+id/software_detail_scrollview" 
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:layout_weight="1"
+    	android:scrollbars="vertical"
+    	android:fadingEdge="none">
+	   	<LinearLayout
+	   	    android:id="@+id/software_detail_ll" 
+	   		android:orientation="vertical"
+	    	android:layout_width="fill_parent" 
+	    	android:layout_height="wrap_content">	
+			
+			<LinearLayout
+				android:orientation="horizontal" 
+		        android:layout_width="fill_parent"  
+		        android:layout_height="wrap_content"
+	        	android:layout_marginTop="8.0dip"
+	         	android:layout_marginLeft="6.0dip"
+				android:layout_marginRight="6.0dip">
+			   	<ImageView 
+			   		android:id="@+id/software_detail_logo"
+				   	android:layout_width="wrap_content" 
+				   	android:layout_height="wrap_content"
+				   	android:layout_gravity="center_vertical"/>
+		        <TextView 
+		        	android:id="@+id/software_detail_title" 
+		            android:layout_width="wrap_content" 
+		         	android:layout_height="wrap_content"
+		         	android:layout_gravity="bottom"
+		         	android:layout_marginLeft="3.0dip"
+		         	android:textStyle="bold"
+		         	android:textSize="@dimen/text_size_18"
+		         	android:textColor="@color/black"/>
+	        </LinearLayout>     
+		   	
+			<View style="@style/detail_cut_line"/>
+		   	
+			<WebView 
+				android:id="@+id/software_detail_webview"
+	        	android:layout_width="fill_parent"
+	        	android:layout_height="wrap_content"
+	        	android:background="@color/white"/>
+	        	
+		    <TableLayout 
+                android:orientation="vertical" 
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content" 
+                android:layout_marginTop="15.0dip" 
+	         	android:layout_marginLeft="6.0dip"
+				android:layout_marginRight="6.0dip"
+                android:paddingBottom="10.0dip" 
+                android:background="@drawable/login_user_table_bg" >
+                   <LinearLayout 
+                      	android:layout_width="fill_parent" 
+                      	android:layout_height="wrap_content"
+                      	android:layout_marginTop="7.0dip" >
+                       <TextView 
+                          	android:layout_width="wrap_content" 
+                          	android:layout_height="wrap_content" 
+                          	android:layout_marginLeft="8.0dip" 
+                          	android:textSize="@dimen/text_size_15" 
+                        	android:textStyle="bold" 
+                          	android:textColor="#ff000000" 
+                          	android:text="授权协议：" />
+                       <TextView 
+                       		android:id="@+id/software_detail_license"  
+                          	android:layout_width="wrap_content" 
+                          	android:layout_height="wrap_content" 
+                          	android:layout_marginRight="8.0dip" 
+                          	android:textSize="@dimen/text_size_15" 
+                          	android:textColor="#ff000000"/>
+                   </LinearLayout>
+                   <ImageView 
+                   		android:id="@+id/software_detail_language_iv"  
+	                    android:layout_width="fill_parent" 
+	                    android:layout_height="wrap_content" 
+	                    android:layout_marginTop="5.0dip" 
+	                    android:layout_marginLeft="2.0dip" 
+	                    android:layout_marginRight="2.0dip" 
+	                    android:src="@drawable/login_line" 
+	                    android:scaleType="fitXY" />
+                   <LinearLayout 
+                   		android:id="@+id/software_detail_language_ll"  
+	                    android:layout_width="fill_parent" 
+	                    android:layout_height="wrap_content" 
+	                    android:layout_marginTop="7.0dip">
+                       <TextView 
+	                        android:layout_width="wrap_content" 
+	                        android:layout_height="wrap_content" 
+	                        android:layout_marginLeft="8.0dip" 
+	                        android:textSize="@dimen/text_size_15" 
+	                        android:textStyle="bold" 
+	                        android:textColor="#ff000000" 
+	                        android:text="开发语言：" />
+                       <TextView 
+                       		android:id="@+id/software_detail_language"  
+	                        android:layout_width="wrap_content" 
+	                        android:layout_height="wrap_content" 
+	                        android:layout_marginRight="8.0dip" 
+	                        android:textSize="@dimen/text_size_15" 
+	                        android:textColor="#ff000000"/>
+	               </LinearLayout>
+                   <ImageView 
+                   		android:id="@+id/software_detail_os_iv"  
+	                    android:layout_width="fill_parent" 
+	                    android:layout_height="wrap_content" 
+	                    android:layout_marginTop="5.0dip" 
+	                    android:layout_marginLeft="2.0dip" 
+	                    android:layout_marginRight="2.0dip" 
+	                    android:src="@drawable/login_line" 
+	                    android:scaleType="fitXY" />
+                   <LinearLayout 
+                   		android:id="@+id/software_detail_os_ll"  
+	                    android:layout_width="fill_parent" 
+	                    android:layout_height="wrap_content" 
+	                    android:layout_marginTop="7.0dip">
+                       <TextView 
+	                        android:layout_width="wrap_content" 
+	                        android:layout_height="wrap_content" 
+	                        android:layout_marginLeft="8.0dip" 
+	                        android:textSize="@dimen/text_size_15" 
+	                        android:textStyle="bold" 
+	                        android:textColor="#ff000000" 
+	                        android:text="操作系统：" />
+                       <TextView 
+                       		android:id="@+id/software_detail_os"  
+	                        android:layout_width="wrap_content" 
+	                        android:layout_height="wrap_content" 
+	                        android:layout_marginRight="8.0dip" 
+	                        android:textSize="@dimen/text_size_15" 
+	                        android:textColor="#ff000000"/>
+                   </LinearLayout>
+                   <ImageView 
+	                    android:layout_width="fill_parent" 
+	                    android:layout_height="wrap_content" 
+	                    android:layout_marginTop="5.0dip" 
+	                    android:layout_marginLeft="2.0dip" 
+	                    android:layout_marginRight="2.0dip" 
+	                    android:src="@drawable/login_line" 
+	                    android:scaleType="fitXY" />
+                   <LinearLayout 
+	                    android:layout_width="fill_parent" 
+	                    android:layout_height="wrap_content" 
+	                    android:layout_marginTop="7.0dip">
+                       <TextView 
+	                        android:layout_width="wrap_content" 
+	                        android:layout_height="wrap_content" 
+	                        android:layout_marginLeft="8.0dip" 
+	                        android:textSize="@dimen/text_size_15" 
+	                        android:textStyle="bold" 
+	                        android:textColor="#ff000000" 
+	                        android:text="收录时间：" />
+                       <TextView 
+                       		android:id="@+id/software_detail_recordtime"  
+	                        android:layout_width="wrap_content" 
+	                        android:layout_height="wrap_content" 
+	                        android:layout_marginRight="8.0dip" 
+	                        android:textSize="@dimen/text_size_15" 
+	                        android:textColor="#ff000000"/>
+                   </LinearLayout>
+             </TableLayout>
+             
+             <RelativeLayout
+				android:orientation="horizontal" 
+		        android:layout_width="fill_parent"  
+		        android:layout_height="wrap_content"
+	        	android:layout_marginTop="15.0dip"
+	        	android:layout_marginBottom="25.0dip"
+	         	android:layout_marginLeft="6.0dip"
+				android:layout_marginRight="6.0dip">
+             	<Button 
+               		android:layout_alignParentLeft="true"
+                   	android:id="@+id/software_detail_homepage" 
+                   	android:layout_width="88.0dip" 
+                   	android:layout_height="35.0dip" 
+                   	android:background="@drawable/login_btn_selector"
+                   	android:text="软件首页" />
+             	<Button 
+               		android:layout_centerHorizontal="true"
+                   	android:id="@+id/software_detail_download" 
+                   	android:layout_width="88.0dip" 
+                   	android:layout_height="35.0dip" 
+                   	android:background="@drawable/login_btn_selector"
+                   	android:text="软件下载" />
+             	<Button 
+               		android:layout_alignParentRight="true"
+                   	android:id="@+id/software_detail_document" 
+                   	android:layout_width="88.0dip" 
+                   	android:layout_height="35.0dip" 
+                   	android:background="@drawable/login_btn_selector"
+                   	android:text="软件文档" />
+             </RelativeLayout>
+        </LinearLayout>	
+    </ScrollView>
+   	
+</LinearLayout>

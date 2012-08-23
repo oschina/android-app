@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" 
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content">	
+	
+    <LinearLayout 
+		android:orientation="horizontal" 
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content"
+		android:gravity="center_horizontal"
+		android:background="@drawable/widget_bar_bg_n">	
+		<ImageView
+			android:id="@+id/tweet_pub_footbar_face"
+			style="@style/main_footbar_image"
+			android:src="@drawable/widget_bar_face"/>
+		<ImageView
+			style="@style/main_footbar_cutline"
+			android:src="@drawable/widget_bar_cut_off"/>
+		<ImageView 
+			android:id="@+id/tweet_pub_footbar_photo"
+			style="@style/main_footbar_image"
+			android:src="@drawable/widget_bar_photo"/>
+		<ImageView
+			style="@style/main_footbar_cutline"
+			android:src="@drawable/widget_bar_cut_off"/>
+		<ImageView 
+			android:id="@+id/tweet_pub_footbar_atme"
+			style="@style/main_footbar_image" 
+			android:src="@drawable/widget_bar_atme"/>
+		<ImageView
+			style="@style/main_footbar_cutline"
+			android:src="@drawable/widget_bar_cut_off"/>
+		<ImageView 
+			android:id="@+id/tweet_pub_footbar_software"
+			style="@style/main_footbar_image" 
+			android:src="@drawable/widget_bar_soft"/>
+	</LinearLayout>
+	
+    <GridView 
+        android:id="@+id/tweet_pub_faces"
+        android:layout_width="fill_parent" 
+		android:layout_height="220dip"
+		android:numColumns="auto_fit"
+		android:columnWidth="50dip"
+		android:stretchMode="columnWidth"
+		android:gravity="center"
+		android:fadingEdge="none"
+		android:scrollingCache="false"
+		android:background="@color/face_bg"
+		android:visibility="gone"/>
+    
+</LinearLayout>

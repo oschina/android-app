@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   	android:orientation="vertical" 
+   	android:layout_width="fill_parent" 
+   	android:layout_height="fill_parent">
+   	<LinearLayout 
+		android:layout_width="fill_parent" 
+   		android:layout_height="35.0dip" 
+   		android:orientation="horizontal" 
+   		android:gravity="center_vertical">
+       	<Button 
+	        android:id="@+id/frame_btn_active_lastest"
+			style="@style/frame_button"
+         	android:text="@string/frame_title_active_lastest"/>
+       	<ImageView android:layout_width="wrap_content" android:layout_height="fill_parent" android:background="@drawable/frame_button_cutline"/>
+		<Button 
+			android:id="@+id/frame_btn_active_atme"
+			style="@style/frame_button"
+         	android:text="@string/frame_title_active_atme"/>
+		<ImageView android:layout_width="wrap_content" android:layout_height="fill_parent" android:background="@drawable/frame_button_cutline"/>
+		<Button 
+			android:id="@+id/frame_btn_active_comment"
+			style="@style/frame_button"
+         	android:text="@string/frame_title_active_comment"/>
+		<ImageView android:layout_width="wrap_content" android:layout_height="fill_parent" android:background="@drawable/frame_button_cutline"/>
+		<Button 
+			android:id="@+id/frame_btn_active_myself"
+			style="@style/frame_button"
+         	android:text="@string/frame_title_active_myself"/>
+		<ImageView android:layout_width="wrap_content" android:layout_height="fill_parent" android:background="@drawable/frame_button_cutline"/>
+		<Button 
+			android:id="@+id/frame_btn_active_message"
+			style="@style/frame_button"
+         	android:text="@string/frame_title_active_message"/>
+	</LinearLayout>
+	
+	<net.oschina.app.widget.PullToRefreshListView
+	  	android:id="@+id/frame_listview_active"
+	    style="@style/widget_listview"/>
+	
+	<net.oschina.app.widget.PullToRefreshListView
+	  	android:id="@+id/frame_listview_message"
+	    style="@style/widget_listview"
+	    android:divider="@null"
+		android:visibility="gone"/>
+</LinearLayout>

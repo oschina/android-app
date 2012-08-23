@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent"
+    android:orientation="vertical" 
+	android:background="@drawable/about_bg">
+	    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="200dip"
+        android:textSize="@dimen/text_size_16"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="OSChina.NET for Android"/>
+    
+    <TextView 
+        android:id="@+id/about_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="160dip"
+        android:textColor="@color/black"
+        android:text="版本：1.0.0"/>
+    
+    <Button 
+        android:id="@+id/about_update"
+        android:layout_width="100dip"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="110dip"
+        android:background="@drawable/login_btn_selector" 
+        android:text="检查新版本"/>
+    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="30dip"
+        android:textColor="@color/black"
+        android:text="Copyright ©2008-2012 奥思网络版权所有"/>
+    
+</FrameLayout>

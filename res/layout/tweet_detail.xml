@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  	android:layout_width="fill_parent"
+  	android:layout_height="fill_parent"
+  	android:orientation="vertical"
+  	android:background="@color/white">
+    
+	<include layout="@layout/tweet_detail_header"/>
+
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_weight="1">
+		
+    	<LinearLayout
+	    	android:id="@+id/tweet_detail_linearlayout"
+			android:orientation="vertical"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+		
+			<net.oschina.app.widget.PullToRefreshListView
+			  	android:id="@+id/tweet_detail_commentlist"
+			    style="@style/widget_listview"/>
+		</LinearLayout>
+		
+	</LinearLayout>
+	
+	<include layout="@layout/tweet_detail_footer"/>
+	
+</LinearLayout>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:orientation="vertical" 
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants" 
+    android:gravity="center_vertical"
+    android:minHeight="50dip"
+    android:paddingLeft="6dip"
+    android:paddingRight="6dip"
+    android:paddingTop="8dip"
+    android:paddingBottom="7dip">   
+
+    <TextView android:id="@+id/search_listitem_title" 
+        android:layout_width="fill_parent" 
+     	android:layout_height="wrap_content"
+     	android:textSize="@dimen/text_size_15"
+     	android:textColor="@color/listitem_black"
+     	android:textStyle="bold"
+     	android:singleLine="true"/> 	
+
+    <LinearLayout android:id="@+id/search_listitem_ll"  
+    	android:orientation="horizontal" 
+        android:layout_width="fill_parent"  
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dip">   
+       	
+       	<TextView android:id="@+id/search_listitem_author"  
+    		android:layout_width="wrap_content" 
+           	android:layout_height="wrap_content" 
+           	android:textSize="@dimen/text_size_10"
+            android:textColor="@color/listitem_gray"/>
+       	
+       	<TextView
+    		android:layout_width="wrap_content" 
+           	android:layout_height="wrap_content" 
+           	android:layout_marginLeft="10dip"
+           	android:textSize="@dimen/text_size_10"
+            android:textColor="@color/listitem_gray"
+            android:text="发布于"/>
+       	
+       	<TextView android:id="@+id/search_listitem_date"  
+    		android:layout_width="wrap_content" 
+           	android:layout_height="wrap_content"
+           	android:layout_marginLeft="3dip" 
+           	android:textSize="@dimen/text_size_10"
+            android:textColor="@color/listitem_gray"/>
+       	
+    </LinearLayout>
+    
+</LinearLayout> 

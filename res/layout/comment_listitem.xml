@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:orientation="horizontal" 
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"    
+    android:descendantFocusability="blocksDescendants" 
+    android:paddingLeft="6dip"
+    android:paddingRight="6dip"
+    android:paddingTop="8dip"
+    android:paddingBottom="7dip">   
+
+    <ImageView 
+    	android:id="@+id/comment_listitem_userface"
+      	style="@style/user_face_image"/>
+
+	<LinearLayout
+    	android:layout_width="fill_parent" 
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical"
+    	android:layout_marginLeft="6dip"> 
+	       	
+       	<TextView 
+       		android:id="@+id/comment_listitem_username"  
+    		android:layout_width="wrap_content" 
+           	android:layout_height="wrap_content"
+       	    android:includeFontPadding="false"
+           	android:textSize="@dimen/text_size_14"
+            android:textColor="@color/listitem_blue"/>	         	
+        
+	    <LinearLayout
+			android:id="@+id/comment_listitem_refers"
+    		android:layout_width="fill_parent" 
+    		android:layout_height="wrap_content"
+    		android:layout_marginTop="8dip"
+    		android:orientation="vertical"
+    		android:background="@drawable/review_bg_blue">
+    	</LinearLayout>
+	    
+		<net.oschina.app.widget.LinkView 
+			android:id="@+id/comment_listitem_content" 
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dip"
+			android:textSize="@dimen/text_size_15"
+			android:textColor="@color/listitem_black"
+			android:textColorLink="@color/listitem_blue"
+			android:autoLink="web|email"/>
+		
+		<LinearLayout
+			android:id="@+id/comment_listitem_relies"
+    		android:layout_width="fill_parent" 
+    		android:layout_height="wrap_content"
+    		android:layout_marginTop="8dip"
+    		android:orientation="vertical"
+    		android:background="@drawable/review_bg_top">
+    	</LinearLayout>
+    	
+		<LinearLayout 
+	    	android:orientation="horizontal" 
+	        android:layout_width="fill_parent"  
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="8dip"> 
+			<TextView 
+	        	android:id="@+id/comment_listitem_client" 
+	            android:layout_width="wrap_content" 
+	         	android:layout_height="wrap_content"
+	         	android:layout_marginRight="10.0dip"
+	         	android:textSize="@dimen/text_size_10"
+	         	android:textColor="@color/listitem_gray"/>
+			
+	       	<TextView 
+	        	android:id="@+id/comment_listitem_date" 
+	            android:layout_width="wrap_content" 
+	         	android:layout_height="wrap_content"
+	         	android:textSize="@dimen/text_size_10"
+	         	android:textColor="@color/listitem_gray"/> 
+        </LinearLayout>
+			        
+	</LinearLayout>
+
+</LinearLayout> 

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  	android:layout_width="fill_parent"
+  	android:layout_height="fill_parent"
+  	android:orientation="vertical"
+  	android:background="@color/white">
+    
+	<include layout="@layout/comment_pub_header"/>
+
+	<LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:layout_weight="1"
+	    android:orientation="vertical">
+   	   	<net.oschina.app.widget.LinkView 
+	   		android:id="@+id/comment_pub_quote"
+	        android:layout_width="fill_parent"
+	    	android:layout_height="wrap_content"
+	    	android:layout_margin="2dip"
+	    	android:maxLines="5"
+	        android:padding="5.0dip"
+	        android:autoLink="web|email"
+	        android:textSize="14sp"
+	        android:textColor="@color/black"
+	        android:textColorLink="@color/listitem_blue"
+	        android:background="@drawable/review_bg_blue"/>
+	    <EditText
+	        android:id="@+id/comment_pub_content"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:lines="5"
+	        android:autoLink="web"
+	        android:gravity="top"
+	        android:hint="@string/comment_pub_content_hint"/>
+        <CheckBox 
+            android:id="@+id/comment_pub_zone" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:layout_marginLeft="3.0dip"
+            android:layout_gravity="left|center" 
+            android:button="@drawable/login_checkbox_selector"
+            android:textColor="@color/black"
+            android:text="转发到个人空间"
+            android:visibility="gone"/>
+	</LinearLayout>
+
+</LinearLayout>

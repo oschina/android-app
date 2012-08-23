@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <!-- share items -->
+    <string-array name="app_share_items">
+	    <item>新浪微博</item>
+	    <item>腾讯微博</item>
+    </string-array>
+    <string-array name="message_list_options">
+	    <item>回复</item>
+	    <item>转发</item>
+	    <item>删除</item>
+    </string-array>
+    <string-array name="message_detail_options">
+	    <item>转发</item>
+	    <item>删除</item>
+    </string-array>
+    <string-array name="comment_options_2">
+	    <item>回复</item>
+	    <item>删除</item>
+    </string-array>
+    <string-array name="comment_options_1">
+	    <item>回复</item>
+    </string-array>
+    <string-array name="favorite_options">
+	    <item>取消收藏</item>
+    </string-array>
+    <string-array name="post_pub_options">
+	    <item>提问</item>
+	    <item>分享</item>
+	    <item>综合</item>
+	    <item>职业</item>
+	    <item>站务</item>
+    </string-array>
+    <string-array name="head_titles">
+	    <item>资讯</item>
+	    <item>问答</item>
+	    <item>动弹</item>
+	    <item>我的空间</item>
+	    <item>留言</item>
+    </string-array>
+</resources>

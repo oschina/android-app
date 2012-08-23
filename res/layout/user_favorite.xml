@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  	android:layout_width="fill_parent"
+  	android:layout_height="fill_parent"
+  	android:orientation="vertical"
+  	android:background="@color/white">
+
+	<FrameLayout
+	   	android:layout_width="fill_parent"
+	   	android:layout_height="40dip"
+	   	android:gravity="center_vertical"
+	   	android:paddingLeft="2dip"
+   		android:paddingRight="7dip"
+	   	android:orientation="horizontal"
+	   	android:background="@drawable/widget_head_bg">
+	   	<ImageView 
+	   		android:id="@+id/favorite_head_back"
+		   	android:layout_width="wrap_content" 
+		   	android:layout_height="wrap_content" 
+		   	android:layout_gravity="left|center"
+		   	android:clickable="true" 
+		   	android:background="@drawable/head_back"/>
+	   	<TextView 
+	   		style="@style/detail_head_title" 
+	   		android:layout_gravity="center"
+	   		android:text="我的收藏夹"/>
+   	   	<ProgressBar 
+			android:id="@+id/favorite_head_progress" 
+			style="@style/loading_small"
+			android:layout_gravity="right|center"/>
+	</FrameLayout>
+
+	<LinearLayout
+	    android:id="@+id/favorite_ll" 
+	   	android:orientation="vertical" 
+	   	android:layout_width="fill_parent" 
+	   	android:layout_height="fill_parent">
+	   	<LinearLayout 
+			android:layout_width="fill_parent" 
+	   		android:layout_height="35.0dip" 
+	   		android:orientation="horizontal" 
+	   		android:gravity="center_vertical">
+			<Button 
+				android:id="@+id/favorite_catalog_software"
+				style="@style/frame_button"
+	         	android:text="软件"/>
+			<ImageView android:layout_width="wrap_content" android:layout_height="fill_parent" android:background="@drawable/frame_button_cutline"/>
+			<Button 
+				android:id="@+id/favorite_catalog_post"
+				style="@style/frame_button"
+	         	android:text="话题"/>
+			<ImageView android:layout_width="wrap_content" android:layout_height="fill_parent" android:background="@drawable/frame_button_cutline"/>
+			<Button 
+				android:id="@+id/favorite_catalog_code"
+				style="@style/frame_button"
+	         	android:text="代码"/>
+			<ImageView android:layout_width="wrap_content" android:layout_height="fill_parent" android:background="@drawable/frame_button_cutline"/>
+			<Button 
+				android:id="@+id/favorite_catalog_blog"
+				style="@style/frame_button"
+	         	android:text="博客"/>
+			<ImageView android:layout_width="wrap_content" android:layout_height="fill_parent" android:background="@drawable/frame_button_cutline"/>
+			<Button 
+				android:id="@+id/favorite_catalog_news"
+				style="@style/frame_button"
+	         	android:text="资讯"/>
+		</LinearLayout>
+		
+		<net.oschina.app.widget.PullToRefreshListView
+		  	android:id="@+id/favorite_listview"
+		    style="@style/widget_listview"/>
+		
+	</LinearLayout>
+   	
+</LinearLayout>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/main_relativelayout_header" 
+  	android:layout_width="fill_parent" 
+  	android:layout_height="40dip"
+  	android:background="@drawable/widget_head_bg">
+  	
+    <ImageView
+    	android:id="@+id/main_head_logo"
+  		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerVertical="true"
+		android:layout_alignParentLeft="true"
+		android:layout_marginLeft="5.0dip"
+		android:src="@drawable/frame_logo_news"/>
+    
+    <TextView 
+        android:id="@+id/main_head_title"
+        style="@style/main_head_title"
+		android:layout_toRightOf="@id/main_head_logo"
+		android:layout_centerVertical="true"
+		android:layout_marginLeft="5.0dip"
+		android:text="资讯"/>
+	
+   	<ProgressBar 
+		android:id="@+id/main_head_progress" 
+		style="@style/loading_small"
+		android:layout_toRightOf="@id/main_head_title"
+		android:layout_centerVertical="true"
+		android:layout_marginLeft="5.0dip"
+		android:visibility="gone"/>
+    
+    <ImageButton
+    	android:id="@+id/main_head_search"
+  		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerVertical="true"
+		android:layout_alignParentRight="true"
+		android:layout_marginRight="2.0dip"
+		android:background="@drawable/frame_icon_search"/>
+   	
+    <ImageButton
+    	android:id="@+id/main_head_pub_post"
+  		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerVertical="true"
+		android:layout_alignParentRight="true"
+		android:layout_marginRight="2.0dip"
+		android:background="@drawable/frame_icon_post"
+		android:visibility="gone"/>
+		
+    <ImageButton
+    	android:id="@+id/main_head_pub_tweet"
+	  	android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerVertical="true"
+		android:layout_alignParentRight="true"
+		android:layout_marginRight="2.0dip"
+		android:background="@drawable/frame_icon_tweet"
+		android:visibility="gone"/>
+</RelativeLayout>

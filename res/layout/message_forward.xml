@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  	android:layout_width="fill_parent"
+  	android:layout_height="fill_parent"
+  	android:orientation="vertical"
+  	android:background="@color/white">
+    
+	<LinearLayout
+	   	android:layout_width="fill_parent"
+	   	android:layout_height="wrap_content"
+	   	android:paddingLeft="2dip"
+   		android:paddingRight="7dip"
+	   	android:gravity="center_vertical"
+	   	android:orientation="horizontal"
+	   	android:background="@drawable/head_bg">
+	   	<ImageView 
+	   		android:id="@+id/message_forward_back"
+		   	android:layout_width="wrap_content" 
+		   	android:layout_height="wrap_content" 
+		   	android:clickable="true" 
+		   	android:background="@drawable/head_back"/>
+	   	<TextView 
+	   		style="@style/detail_head_title"
+	   		android:text="转发留言"/>
+	    <Button
+	    	android:id="@+id/message_forward_publish"
+	        android:layout_width="45dip"
+	    	android:layout_height="wrap_content"
+	    	android:background="@drawable/login_btn_selector" 
+	        android:text="发送"/>
+	</LinearLayout>
+
+	<LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:layout_weight="1"
+	    android:orientation="vertical">
+
+		<LinearLayout
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_marginTop="2.0dip">
+    	   	<TextView 
+		        android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+	        	android:layout_marginLeft="2.0dip"
+		        android:textSize="15sp"
+		        android:textColor="@color/black"
+		        android:text="发给："/>
+			<EditText
+		        android:id="@+id/message_forward_receiver"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:singleLine="true"
+		        android:hint="请输入对方昵称"/>
+		</LinearLayout>
+	   	
+	    <TextView 
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:layout_marginTop="3.0dip"
+	        android:layout_marginLeft="2.0dip"
+	        android:text="* 留言内容(最多250个字)"
+	        android:textSize="12sp"
+	        android:textColor="@color/head_text"/>
+	    <EditText
+	        android:id="@+id/message_forward_content"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:autoLink="web"
+	        android:gravity="top"
+	        android:hint="请输入留言内容"/>
+	</LinearLayout>
+
+</LinearLayout>

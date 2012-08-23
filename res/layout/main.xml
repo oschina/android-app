@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white">
+    
+	<include layout="@layout/main_header" />   
+    
+    <net.oschina.app.widget.ScrollLayout   
+	  android:id="@+id/main_scrolllayout"    
+	  android:layout_width="fill_parent"    
+	  android:layout_height="fill_parent"
+   	  android:layout_weight="1">    
+  
+ 	  <include layout="@layout/frame_news" />
+      
+	  <include layout="@layout/frame_question" />
+	  
+	  <include layout="@layout/frame_tweet" />
+	      
+	  <include layout="@layout/frame_active" />
+       
+	</net.oschina.app.widget.ScrollLayout> 
+    
+    <include layout="@layout/main_footer" />   
+
+</LinearLayout>

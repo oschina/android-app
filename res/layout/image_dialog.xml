@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewSwitcher xmlns:android="http://schemas.android.com/apk/res/android"
+   	android:id="@+id/imagedialog_view_switcher" 
+   	android:layout_width="fill_parent" 
+   	android:layout_height="fill_parent">
+	<ProgressBar
+		android:id="@+id/imagedialog_progress" 
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		style="?android:attr/progressBarStyleLarge"/>
+	<RelativeLayout
+		android:layout_width="fill_parent" 
+		android:layout_height="fill_parent">
+	    <LinearLayout 
+	    	android:id="@+id/imagedialog_ll" 
+	    	android:layout_width="wrap_content" 
+	    	android:layout_height="wrap_content" 
+	    	android:layout_centerInParent="true"
+	    	android:padding="14.0dip">
+	
+	        <ScrollView 
+	            android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
+				<ImageView
+					android:id="@+id/imagedialog_image"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:padding="3dip"
+					android:scaleType="fitXY"
+					android:src="@drawable/image_loading"
+					android:background="@drawable/widget_dface_border"/>
+			</ScrollView>
+			
+	    </LinearLayout>
+	    <ImageButton 
+		    android:id="@+id/imagedialog_close_button" 
+		    android:layout_width="wrap_content" 
+		    android:layout_height="wrap_content"
+		    android:layout_alignRight="@id/imagedialog_ll" 
+		    android:layout_alignTop="@id/imagedialog_ll"
+		    android:background="@drawable/login_close_button"/>
+	</RelativeLayout>
+</ViewSwitcher>

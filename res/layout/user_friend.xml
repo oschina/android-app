@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  	android:layout_width="fill_parent"
+  	android:layout_height="fill_parent"
+  	android:orientation="vertical"
+  	android:background="@color/white">
+
+	<FrameLayout
+	   	android:layout_width="fill_parent"
+	   	android:layout_height="40dip"
+	   	android:gravity="center_vertical"
+	   	android:paddingLeft="2dip"
+   		android:paddingRight="7dip"
+	   	android:orientation="horizontal"
+	   	android:background="@drawable/widget_head_bg">
+	   	<ImageView 
+	   		android:id="@+id/friend_head_back"
+		   	android:layout_width="wrap_content" 
+		   	android:layout_height="wrap_content" 
+		   	android:layout_gravity="left|center"
+		   	android:clickable="true" 
+		   	android:background="@drawable/head_back"/>
+	   	<TextView 
+	   		style="@style/detail_head_title" 
+	   		android:layout_gravity="center"
+	   		android:text="@string/user_friend_head_title"/>
+   	   	<ProgressBar 
+			android:id="@+id/friend_head_progress" 
+			style="@style/loading_small"
+			android:layout_gravity="right|center"/>
+	</FrameLayout>
+
+	<LinearLayout
+	    android:id="@+id/friend_ll" 
+	   	android:orientation="vertical" 
+	   	android:layout_width="fill_parent" 
+	   	android:layout_height="fill_parent">
+	   	<LinearLayout 
+			android:layout_width="fill_parent" 
+	   		android:layout_height="35.0dip" 
+	   		android:orientation="horizontal" 
+	   		android:gravity="center_vertical">
+			<Button 
+				android:id="@+id/friend_type_follower"
+				style="@style/frame_button"
+	         	android:text="@string/user_friend_follower"/>
+	       	<ImageView android:layout_width="wrap_content" android:layout_height="fill_parent" android:background="@drawable/frame_button_cutline"/>
+	       	<Button 
+		        android:id="@+id/friend_type_fans"
+				style="@style/frame_button"
+	         	android:text="@string/user_friend_fans"/>
+		</LinearLayout>
+		
+		<net.oschina.app.widget.PullToRefreshListView
+		  	android:id="@+id/friend_listview"
+		    style="@style/widget_listview"/>
+		
+	</LinearLayout>
+   	
+</LinearLayout>

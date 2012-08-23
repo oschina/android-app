@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ 	android:layout_width="fill_parent" 
+ 	android:layout_height="wrap_content" 
+ 	android:minHeight="?android:listPreferredItemHeight"
+ 	android:gravity="center_vertical" 
+ 	android:paddingRight="5dip"
+ 	android:paddingLeft="?android:scrollbarSize" >
+    <RelativeLayout 
+	    android:layout_width="wrap_content" 
+	    android:layout_height="wrap_content" 
+	    android:layout_weight="1.0">
+        <TextView 
+	        android:id="@android:id/title" 
+	        android:layout_width="wrap_content" 
+	        android:layout_height="wrap_content" 
+	        android:textSize="@dimen/text_size_18" 
+	        android:textColor="@color/primary_text_light" 
+	        android:ellipsize="marquee" 
+	        android:fadingEdge="horizontal" 
+	        android:singleLine="true" />
+        <TextView 
+	        android:id="@android:id/summary" 
+	        android:layout_width="wrap_content" 
+	        android:layout_height="wrap_content" 
+	        android:textSize="@dimen/text_size_14" 
+	        android:textColor="@color/secondary_text_light" 
+	        android:maxLines="4" 
+	        android:layout_below="@android:id/title" 
+	        android:layout_alignLeft="@android:id/title" />
+    </RelativeLayout>
+    <LinearLayout 
+     	android:id="@android:id/widget_frame"
+     	android:layout_width="wrap_content" 
+     	android:layout_height="wrap_content"
+	    android:gravity="center_vertical" 
+	    android:orientation="vertical" />
+</LinearLayout>

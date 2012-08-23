@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  	android:layout_width="fill_parent"
+  	android:layout_height="fill_parent"
+  	android:orientation="vertical"
+	android:background="@color/white">
+
+	<include layout="@layout/user_center_header"/>
+
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_weight="1">
+	
+		<LinearLayout 
+			android:layout_width="fill_parent" 
+			android:layout_height="35.0dip"
+			android:orientation="horizontal" 
+			android:gravity="center_vertical">
+	     	<Button 
+	     		android:id="@+id/user_center_btn_active"
+	     		style="@style/frame_button"
+	         	android:text="动态"/>
+	     	<ImageView android:layout_width="wrap_content" android:layout_height="fill_parent" android:background="@drawable/frame_button_cutline"/>
+	     	<Button 
+	     		android:id="@+id/user_center_btn_blog"
+	     		style="@style/frame_button"
+	         	android:text="博客(0)"/>
+	    </LinearLayout>
+	
+		<net.oschina.app.widget.PullToRefreshListView
+		  	android:id="@+id/user_center_activelist"
+		    style="@style/widget_listview"/>
+		
+		<net.oschina.app.widget.PullToRefreshListView
+		  	android:id="@+id/user_center_bloglist"
+		    style="@style/widget_listview"
+			android:visibility="gone"/>
+		
+	</LinearLayout>
+   	
+   	<include layout="@layout/user_center_footer"/>
+   	
+</LinearLayout>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   	android:layout_width="fill_parent"
+   	android:layout_height="wrap_content"
+   	android:paddingLeft="2dip"
+   	android:paddingRight="2dip"
+   	android:gravity="center_vertical"
+   	android:orientation="horizontal"
+   	android:background="@drawable/head_bg">
+   	<ImageView 
+   		android:id="@+id/comment_list_back"
+	   	android:layout_width="wrap_content" 
+	   	android:layout_height="wrap_content" 
+	   	android:clickable="true" 
+	   	android:background="@drawable/head_back"/>
+   	<TextView 
+   	    android:id="@+id/comment_list_head_title"
+   		style="@style/detail_head_title" 
+   		android:text="@string/comment_pub_head_title"/>
+    <Button
+    	android:id="@+id/comment_pub_publish"
+        android:layout_width="45dip"
+    	android:layout_height="wrap_content"
+    	android:background="@drawable/login_btn_selector" 
+        android:text="回复"/>
+</LinearLayout>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+ 	android:oneshot="false">
+    <item android:duration="100">
+        <layer-list>
+            <item android:drawable="@drawable/login_loading_00" />
+            <item android:drawable="@drawable/login_loading_10" />
+        </layer-list>
+    </item>
+    <item android:duration="100">
+        <layer-list>
+            <item android:drawable="@drawable/login_loading_01" />
+            <item android:drawable="@drawable/login_loading_11" />
+        </layer-list>
+    </item>
+    <item android:duration="100">
+        <layer-list>
+            <item android:drawable="@drawable/login_loading_02" />
+            <item android:drawable="@drawable/login_loading_12" />
+        </layer-list>
+    </item>
+    <item android:duration="100">
+        <layer-list>
+            <item android:drawable="@drawable/login_loading_03" />
+            <item android:drawable="@drawable/login_loading_13" />
+        </layer-list>
+    </item>
+    <item android:duration="100">
+        <layer-list>
+            <item android:drawable="@drawable/login_loading_04" />
+            <item android:drawable="@drawable/login_loading_14" />
+        </layer-list>
+    </item>
+    <item android:duration="100">
+        <layer-list>
+            <item android:drawable="@drawable/login_loading_05" />
+            <item android:drawable="@drawable/login_loading_15" />
+        </layer-list>
+    </item>
+    <item android:duration="100">
+        <layer-list>
+            <item android:drawable="@drawable/login_loading_06" />
+            <item android:drawable="@drawable/login_loading_16" />
+        </layer-list>
+    </item>
+    <item android:duration="100">
+        <layer-list>
+            <item android:drawable="@drawable/login_loading_07" />
+            <item android:drawable="@drawable/login_loading_17" />
+        </layer-list>
+    </item>
+    <item android:duration="100">
+        <layer-list>
+            <item android:drawable="@drawable/login_loading_08" />
+            <item android:drawable="@drawable/login_loading_18" />
+        </layer-list>
+    </item>
+    <item android:duration="100">
+        <layer-list>
+            <item android:drawable="@drawable/login_loading_09" />
+            <item android:drawable="@drawable/login_loading_19" />
+        </layer-list>
+    </item>
+</animation-list>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="network_not_connected">网络连接失败，请检查网络设置</string>
+    <string name="xml_parser_failed">数据解析异常</string>
+    <string name="io_exception_error">文件流异常</string>
+    <string name="http_status_code_error">网络异常，错误码：%d</string>
+    <string name="http_exception_error">网络异常，请求超时</string>
+    <string name="socket_exception_error">网络异常，读取数据超时</string>
+    <string name="app_run_code_error">应用程序运行时异常</string>
+    
+    <string name="app_menu_surelogout">确定退出程序吗？</string>
+    <string name="sure">确定</string>
+    <string name="cancle">取消</string>
+    
+    <string name="load_more">更多</string>
+    <string name="load_ing">加载中···</string>
+    <string name="load_full">已加载全部</string>
+    <string name="load_empty">暂无数据</string>
+    <string name="load_error">加载数据出错</string>
+    
+    <string name="select">选择</string>
+    
+    <string name="share">分享</string>
+    <string name="sharing">分享中...</string>
+    <string name="publishing">发布中...</string>
+    <string name="choose_image">请选择图片文件！</string>
+    <string name="delete_image">确定删除该图片吗？</string>
+    <string name="delete_tweet">确定删除该动弹吗？</string>
+    <string name="delete_blog">确定删除该博客吗？</string>
+    <string name="republish_tweet">网络超时，是否重新发布动弹？</string>
+    <string name="clearwords">清除文字吗？</string>
+    
+    <string name="msg_load_is_null">读取失败，可能已被删除</string>
+    <string name="msg_login_email_error">无效的邮箱地址</string>
+    <string name="msg_login_email_null">请输入邮箱</string>
+    <string name="msg_login_pwd_null">请输入密码</string>
+    <string name="msg_login_success">登录成功</string>
+    <string name="msg_login_fail">登录失败</string>
+    <string name="msg_login_error">用户未登录 或 密码错误</string>
+    <string name="msg_load_userface_fail">用户头像加载失败</string>
+    <string name="msg_load_image_fail">图片加载失败</string>
+    <string name="msg_read_detail_fail">无法获取文章信息</string>
+    <string name="msg_noaccess_delete">您没有删除权限</string>
+   	
+    <!-- LoginSina -->
+    <string name="sinalogin_check_account">账号不能为空</string>
+    <string name="sinalogin_check_pass">密码不能为空</string>
+    <string name="sinalogin_check_server">服务器验证中...</string>
+    
+    <!-- sina share message -->
+    <string name="OAUTH_ERROR">服务器验证失败</string>
+	<string name="OAUTH_RequestToken_ACCESS">第三方应用验证成功</string>
+	<string name="OAUTH_RequestToken_ERROR">第三方应用验证失败</string>
+	<string name="OAUTH_AccessToken_ACCESS">用户授权登录成功</string>
+	<string name="OAUTH_AccessToken_ERROR">用户授权登录失败</string>
+	<string name="OAUTH_AccessToken_SXPIRED">授权已过期，请重新授权登录</string>
+	<string name="Weibo_Message_NULL">分享数据不能为空</string>
+	<string name="Weibo_Message_LONG">已超出140个字</string>
+	<string name="Weibo_Share_Success">微博分享成功</string>
+	<string name="Weibo_Share_Error">微博分享失败</string>
+	<string name="Weibo_Share_Repeat">已经分享过了</string>
+</resources>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  	android:layout_width="fill_parent"
+  	android:layout_height="fill_parent"
+  	android:orientation="vertical"
+  	android:background="@color/white">
+	<FrameLayout
+	   	android:layout_width="fill_parent"
+	   	android:layout_height="wrap_content"
+	   	android:gravity="center_vertical"
+	   	android:paddingLeft="5dip"
+   		android:paddingRight="5dip"
+	   	android:orientation="horizontal"
+	   	android:background="@drawable/widget_head_bg">
+		<EditText
+	        android:id="@+id/search_editer"
+	        android:layout_width="fill_parent"
+	        android:layout_height="30dip"
+	        android:layout_gravity="left|center"
+	        android:layout_marginRight="36dip"
+	        android:singleLine="true"
+	        android:focusable="true" 
+	        android:focusableInTouchMode="true"
+	        android:imeOptions="actionDone"
+	        android:autoLink="web|email"
+	        android:gravity="top"
+	        android:background="@drawable/edit_search_bg"
+	        android:hint="输入搜索内容"/>			
+	   	<Button 
+	   		android:id="@+id/search_btn"
+		   	android:layout_width="wrap_content" 
+	      	android:layout_height="30dip" 
+	      	android:layout_gravity="right|center"
+	      	android:background="@drawable/btn_search_bg"/>
+   	   	<ProgressBar 
+			android:id="@+id/search_progress" 
+			style="@style/loading_small"
+			android:layout_gravity="right|center"
+			android:layout_marginRight="8dip"
+			android:background="@color/white"
+			android:visibility="gone"/>
+	</FrameLayout>
+
+	<LinearLayout
+	    android:id="@+id/search_ll" 
+	   	android:orientation="vertical" 
+	   	android:layout_width="fill_parent" 
+	   	android:layout_height="fill_parent">
+	   	<LinearLayout 
+			android:layout_width="fill_parent" 
+	   		android:layout_height="35.0dip" 
+	   		android:orientation="horizontal" 
+	   		android:gravity="center_vertical">
+			<Button 
+				android:id="@+id/search_catalog_software"
+				style="@style/frame_button"
+	         	android:text="软件"/>
+	   		<ImageView android:layout_width="wrap_content" android:layout_height="fill_parent" android:background="@drawable/frame_button_cutline"/>
+			<Button 
+				android:id="@+id/search_catalog_post"
+				style="@style/frame_button"
+	         	android:text="问答"/>
+			<ImageView android:layout_width="wrap_content" android:layout_height="fill_parent" android:background="@drawable/frame_button_cutline"/>
+			<Button 
+				android:id="@+id/search_catalog_blog"
+				style="@style/frame_button"
+	         	android:text="博客"/>
+			<ImageView android:layout_width="wrap_content" android:layout_height="fill_parent" android:background="@drawable/frame_button_cutline"/>
+	   		<Button 
+				android:id="@+id/search_catalog_news"
+				style="@style/frame_button"
+	         	android:text="新闻"/>
+			<ImageView android:layout_width="wrap_content" android:layout_height="fill_parent" android:background="@drawable/frame_button_cutline"
+			    android:visibility="gone" /> 
+			<Button 
+				android:id="@+id/search_catalog_code"
+				style="@style/frame_button"
+	         	android:text="代码"
+	         	android:visibility="gone"/>
+		</LinearLayout>
+		
+		<ListView
+		  	android:id="@+id/search_listview"
+		    style="@style/widget_listview"/>
+		
+	</LinearLayout>
+   	
+</LinearLayout>

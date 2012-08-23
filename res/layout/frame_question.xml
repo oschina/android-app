@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" 
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent">
+	<LinearLayout 
+		android:layout_width="fill_parent" 
+		android:layout_height="35.0dip"
+		android:orientation="horizontal" 
+		android:gravity="center_vertical">
+     	<Button 
+     		android:id="@+id/frame_btn_question_ask"
+     		style="@style/frame_button"
+         	android:text="@string/frame_title_question_ask"/>
+     	<ImageView android:layout_width="wrap_content" android:layout_height="fill_parent" android:background="@drawable/frame_button_cutline"/>
+        <Button 
+           	android:id="@+id/frame_btn_question_share"
+     		style="@style/frame_button"
+         	android:text="@string/frame_title_question_share"/>
+        <ImageView android:layout_width="wrap_content" android:layout_height="fill_parent" android:background="@drawable/frame_button_cutline"/>
+     	<Button 
+     		android:id="@+id/frame_btn_question_other"
+     		style="@style/frame_button" 
+         	android:text="@string/frame_title_question_other"/>
+     	<ImageView android:layout_width="wrap_content" android:layout_height="fill_parent" android:background="@drawable/frame_button_cutline"/>
+     	<Button 
+     		android:id="@+id/frame_btn_question_job"
+     		style="@style/frame_button"
+         	android:text="@string/frame_title_question_job"/>
+     	<ImageView android:layout_width="wrap_content" android:layout_height="fill_parent" android:background="@drawable/frame_button_cutline"/>
+     	<Button 
+     		android:id="@+id/frame_btn_question_site"
+     		style="@style/frame_button"
+         	android:text="@string/frame_title_question_site"/>
+    </LinearLayout>
+    
+	<net.oschina.app.widget.PullToRefreshListView
+	  	android:id="@+id/frame_listview_question"
+	    style="@style/widget_listview"/>
+	
+</LinearLayout>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:orientation="vertical" 
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"> 
+<LinearLayout 
+    android:orientation="horizontal" 
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+    android:paddingLeft="6dip"
+    android:paddingRight="6dip"
+    android:paddingTop="5dip"
+    android:paddingBottom="5dip">   
+
+    <ImageView 
+    	android:id="@+id/tweet_listitem_userface"
+      	style="@style/user_face_image"/>
+
+	<LinearLayout
+    	android:layout_width="fill_parent" 
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical"
+    	android:layout_marginLeft="6dip"> 
+
+	    <LinearLayout 
+	    	android:orientation="horizontal" 
+	        android:layout_width="wrap_content"  
+	        android:layout_height="wrap_content">   
+	       	
+	       	<TextView 
+	       		android:id="@+id/tweet_listitem_username"  
+	    		android:layout_width="wrap_content" 
+	           	android:layout_height="wrap_content" 
+        	    android:includeFontPadding="false"
+	           	android:textSize="@dimen/text_size_14"
+	            android:textColor="@color/listitem_blue"/>
+	       	
+	       	<TextView
+	    		android:layout_width="wrap_content" 
+	           	android:layout_height="wrap_content" 
+	           	android:layout_marginLeft="10dp"
+	           	android:includeFontPadding="false"
+	           	android:textSize="@dimen/text_size_10"
+	            android:textColor="@color/listitem_gray"
+	            android:text="更新了动弹"/>       	
+	    </LinearLayout>
+		<!-- 
+		<TextView 
+			android:id="@+id/tweet_listitem_content" 
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:autoLink="web|email"
+           	android:textSize="@dimen/text_size_12"
+            android:textColorLink="@color/blue"
+			android:textColor="@color/black"/>
+		-->
+		<WebView 
+			android:id="@+id/tweet_listitem_content"
+	       	android:layout_width="fill_parent"
+	       	android:layout_height="wrap_content"
+	       	android:background="@color/white"
+	       	android:layout_marginLeft="-8dip"
+	       	android:layout_marginRight="-10dip"/>
+		
+	    <ImageView 
+	    	android:id="@+id/tweet_listitem_image"
+	      	android:layout_width="wrap_content" 
+	        android:layout_height="wrap_content"
+	        android:scaleType="fitCenter"
+	        android:src="@drawable/image_loading"
+	        android:visibility="gone"/>
+			
+		<LinearLayout 
+	    	android:orientation="horizontal" 
+	        android:layout_width="wrap_content"  
+	        android:layout_height="wrap_content">   
+	        <TextView 
+	        	android:id="@+id/tweet_listitem_date" 
+	            android:layout_width="wrap_content" 
+	         	android:layout_height="wrap_content"
+	         	android:textSize="@dimen/text_size_10"
+	         	android:textColor="@color/listitem_gray"/>
+	         	
+		    <ImageView 
+		      	android:layout_width="wrap_content" 
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="10dip"
+		        android:layout_gravity="center_vertical"
+		        android:src="@drawable/widget_comment_count_icon"/>
+		        
+	       	<TextView android:id="@+id/tweet_listitem_commentCount"  
+	    		android:layout_width="wrap_content" 
+	           	android:layout_height="wrap_content" 
+	           	android:layout_marginLeft="3dip"
+	           	android:textSize="@dimen/text_size_10"
+	            android:textColor="@color/listitem_gray"/>
+        </LinearLayout>
+
+	</LinearLayout>
+
+</LinearLayout> 
+<View style="@style/detail_cut_line" android:layout_margin="0dip"/>
+</LinearLayout> 

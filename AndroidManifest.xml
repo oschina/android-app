@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="net.oschina.app"
+      android:versionCode="12"
+      android:versionName="1.6.2 Beta1">
+    <uses-sdk android:minSdkVersion="4" />
+
+    <application android:name=".AppContext" android:icon="@drawable/icon" android:label="@string/app_name" >
+        <activity android:name=".AppStart" android:theme="@android:style/Theme.NoTitleBar.Fullscreen" android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+		<activity android:name=".ui.About" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
+		<activity android:name=".ui.FeedBack" android:theme="@style/Theme.HalfTranslucent" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask" android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+		<activity android:name=".ui.Main" android:theme="@style/Theme.NoTitleBar" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
+		<activity android:name=".ui.LoginDialog" android:theme="@style/Theme.HalfTranslucent" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask" android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+		<activity android:name=".ui.NewsDetail" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation"/>
+		<activity android:name=".ui.SoftwareLib" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
+		<activity android:name=".ui.SoftwareDetail" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation"/>
+		<activity android:name=".ui.BlogDetail" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation"/>
+		<activity android:name=".ui.QuestionDetail" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation"/>
+		<activity android:name=".ui.QuestionPub" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateVisible|adjustResize"/>
+		<activity android:name=".ui.TweetDetail" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation"/>
+		<activity android:name=".ui.TweetPub" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateVisible|adjustResize"/>
+		<activity android:name=".ui.MessageDetail" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation"/>
+		<activity android:name=".ui.MessagePub" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateVisible|adjustResize"/>
+		<activity android:name=".ui.MessageForward" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateVisible|adjustResize"/>
+		<activity android:name=".ui.CommentPub" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateVisible|adjustResize"/>
+		<activity android:name=".ui.Setting" android:theme="@style/Theme.Preference" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
+		<activity android:name=".ui.Search" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask" android:windowSoftInputMode="stateVisible|adjustResize"/>
+		<activity android:name=".ui.UserInfo" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
+		<activity android:name=".ui.UserCenter" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation"/>
+		<activity android:name=".ui.UserFavorite" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
+		<activity android:name=".ui.UserFriend" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
+		<activity android:name=".ui.ImageDialog" android:theme="@style/Theme.HalfTranslucent" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
+		<activity android:name=".ui.ImageZoomDialog" android:theme="@style/Theme.ZoomLight.Fullscreen" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
+		<receiver android:name=".ui.BroadCast">
+            <intent-filter>
+                <action android:name="net.oschina.app.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+        </receiver>
+    </application>
+    
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
+</manifest>

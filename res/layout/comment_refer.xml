@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical">
+	<TextView
+		android:id="@+id/comment_refer_title"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:textSize="@dimen/text_size_13"
+		android:textColor="@color/black"
+		android:background="@color/lemonyellow"/>
+	<TextView
+		android:id="@+id/comment_refer_body"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:textSize="@dimen/text_size_13"
+		android:textColor="@color/black"/>
+</LinearLayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  	android:layout_width="fill_parent"
+  	android:layout_height="fill_parent"
+  	android:orientation="vertical"
+  	android:background="@color/white">
+    <FrameLayout 
+    	android:layout_width="fill_parent" 
+    	android:layout_height="40.dip"
+    	android:paddingLeft="2dip"
+   		android:paddingRight="2dip"
+    	android:background="@drawable/widget_head_bg">
+        <TextView 
+	        style="@style/detail_head_title"
+	        android:text="@string/setting_head_title"/>
+	   	<ImageView 
+		   	android:layout_width="wrap_content" 
+		   	android:layout_height="wrap_content" 
+		   	android:layout_gravity="left|center" 
+		   	android:clickable="true" 
+		   	android:background="@drawable/head_back"
+		   	android:onClick="back"/>
+    </FrameLayout>
+    <FrameLayout 
+	    android:id="@+id/setting_content" 
+	    android:layout_width="fill_parent" 
+	    android:layout_height="fill_parent"   
+		android:background="@color/white"/>
+</LinearLayout>
