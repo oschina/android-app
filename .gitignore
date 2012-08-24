@@ -1,6 +1,13 @@
+# built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
 *.class
 
-# Package Files #
-*.jar
-*.war
-*.ear
+# generated files
+bin/
+gen/
