@@ -134,6 +134,7 @@ public class LoginDialog extends Activity{
 					}
 				}else if(msg.what == 0){
 					mViewSwitcher.showPrevious();
+					btn_close.setVisibility(View.VISIBLE);
 					UIHelper.ToastMessage(LoginDialog.this, getString(R.string.msg_login_fail)+msg.obj);
 				}else if(msg.what == -1){
 					mViewSwitcher.showPrevious();
