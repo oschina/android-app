@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import net.oschina.app.AppConfig;
 import net.oschina.app.AppContext;
 import net.oschina.app.AppException;
 import net.oschina.app.AppManager;
@@ -37,6 +38,7 @@ import net.oschina.app.common.StringUtils;
 import net.oschina.app.common.UIHelper;
 import net.oschina.app.common.UpdateManager;
 import net.oschina.app.widget.BadgeView;
+import net.oschina.app.widget.NewDataToast;
 import net.oschina.app.widget.PullToRefreshListView;
 import net.oschina.app.widget.ScrollLayout;
 import android.app.Activity;
@@ -215,7 +217,6 @@ public class Main extends Activity {
         
         //启动轮询通知信息
         this.foreachUserNotice();
-        
     }
     
     @Override
@@ -241,22 +242,20 @@ public class Main extends Activity {
 		
 		if(intent.getBooleanExtra("LOGIN", false)){
 			//加载动弹、动态及留言(当前动弹的catalog大于0表示用户的uid)
-			if(lvTweetData.size() == 0 && curTweetCatalog > 0) {
-				this.loadLvTweetData(curTweetCatalog, 0, lvTweetHandler, UIHelper.LISTVIEW_ACTION_REFRESH);
+			if(lvTweetData.size() == 0 && curTweetCatalog > 0 && mCurSel == 2) {
+				this.loadLvTweetData(curTweetCatalog, 0, lvTweetHandler, UIHelper.LISTVIEW_ACTION_INIT);
 			}
-			if(lvActiveData.size() == 0) {
-				this.loadLvActiveData(curActiveCatalog, 0, lvActiveHandler, UIHelper.LISTVIEW_ACTION_REFRESH);
-			}
-			if(lvMsgData.size() == 0) {
-				this.loadLvMsgData(0, lvMsgHandler, UIHelper.LISTVIEW_ACTION_REFRESH);
+			else if(mCurSel == 3) {
+				if(lvActiveData.size() == 0) {
+					this.loadLvActiveData(curActiveCatalog, 0, lvActiveHandler, UIHelper.LISTVIEW_ACTION_INIT);
+				}
+				if(lvMsgData.size() == 0) {
+					this.loadLvMsgData(0, lvMsgHandler, UIHelper.LISTVIEW_ACTION_INIT);
+				}
 			}			
 		}else if(intent.getBooleanExtra("NOTICE", false)){
-			//查看最新信息 - 防止当前视图已在‘我的空间’而不触发OnViewChange事件
-			if(mScrollLayout.getCurScreen() != 3){
-				mScrollLayout.scrollToScreen(3);
-			}else{
-				setCurPoint(3);
-			}
+			//查看最新信息
+			mScrollLayout.scrollToScreen(3);
 		}
 	}
     
@@ -272,11 +271,11 @@ public class Main extends Activity {
 					if(res.getNotice() != null){
 						UIHelper.sendBroadCast(context, res.getNotice());
 					}
-					//发完动弹后-刷新最新、我的动弹&最新动态
-					if(curTweetCatalog >= 0) {
+					//发完动弹后-刷新最新动弹、我的动弹&最新动态(当前界面必须是动弹|动态)
+					if(curTweetCatalog >= 0 && mCurSel == 2) {
 						loadLvTweetData(curTweetCatalog, 0, lvTweetHandler, UIHelper.LISTVIEW_ACTION_REFRESH);
 					}	
-					if(curActiveCatalog == ActiveList.CATALOG_LASTEST) {
+					else if(curActiveCatalog == ActiveList.CATALOG_LASTEST && mCurSel == 3) {
 						loadLvActiveData(curActiveCatalog, 0, lvActiveHandler, UIHelper.LISTVIEW_ACTION_REFRESH);
 					}
 				}
@@ -293,14 +292,17 @@ public class Main extends Activity {
 									UIHelper.sendBroadCast(context, res.getNotice());
 								}
 								//发完动弹后-刷新最新、我的动弹&最新动态
-								if(curTweetCatalog >= 0) {
+								if(curTweetCatalog >= 0 && mCurSel == 2) {
 									loadLvTweetData(curTweetCatalog, 0, lvTweetHandler, UIHelper.LISTVIEW_ACTION_REFRESH);
 								}	
-								if(curActiveCatalog == ActiveList.CATALOG_LASTEST) {
+								else if(curActiveCatalog == ActiveList.CATALOG_LASTEST && mCurSel == 3) {
 									loadLvActiveData(curActiveCatalog, 0, lvActiveHandler, UIHelper.LISTVIEW_ACTION_REFRESH);
 								}
-								if(TweetPub.mContext != null)
-									UIHelper.finish((Activity)TweetPub.mContext);
+								if(TweetPub.mContext != null){
+									//清除动弹保存的临时编辑内容
+									appContext.removeProperty(AppConfig.TEMP_TWEET, AppConfig.TEMP_TWEET_IMAGE);
+									((Activity)TweetPub.mContext).finish();
+								}
 							}
 						}
 						else {
@@ -404,18 +406,9 @@ public class Main extends Activity {
         lvActiveHandler = this.getLvHandler(lvActive, lvActiveAdapter, lvActive_foot_more, lvActive_foot_progress, AppContext.PAGE_SIZE); 
         lvMsgHandler = this.getLvHandler(lvMsg, lvMsgAdapter, lvMsg_foot_more, lvMsg_foot_progress, AppContext.PAGE_SIZE);      	
     	
-        //加载数据				
+        //加载资讯数据
 		if(lvNewsData.size() == 0) {
 			loadLvNewsData(curNewsCatalog, 0, lvNewsHandler, UIHelper.LISTVIEW_ACTION_INIT);
-		}
-		if(lvQuestionData.size() == 0) {
-			loadLvQuestionData(curQuestionCatalog, 0, lvQuestionHandler, UIHelper.LISTVIEW_ACTION_INIT);
-		}     
-		if(lvTweetData.size() == 0) {
-			loadLvTweetData(curTweetCatalog, 0, lvTweetHandler, UIHelper.LISTVIEW_ACTION_INIT);
-		}  
-		if(lvActiveData.size() == 0) {
-			loadLvActiveData(curActiveCatalog, 0, lvActiveHandler, UIHelper.LISTVIEW_ACTION_INIT);
 		}
     }
     /**
@@ -579,7 +572,7 @@ public class Main extends Activity {
         		}
         		if(post == null) return;
         		
-        		//跳转到新闻详情
+        		//跳转到问答详情
         		UIHelper.showQuestionDetail(view.getContext(), post.getId());
         	}        	
 		});
@@ -844,7 +837,7 @@ public class Main extends Activity {
         		}
         		if(msg == null) return;  
         		
-        		//跳转到新闻详情
+        		//跳转到留言详情
         		UIHelper.showMessageDetail(view.getContext(), msg.getFriendId(), msg.getFriendName());
         	}        	
 		});
@@ -1041,11 +1034,14 @@ public class Main extends Activity {
     		mButtons[i].setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 					int pos = (Integer)(v.getTag());
-					//当前项点击刷新
+					//点击当前项刷新
 	    			if(mCurSel == pos) {
 		    			switch (pos) {
-						case 0://资讯
-							lvNews.clickRefresh();
+						case 0://资讯+博客
+							if(lvNews.getVisibility() == View.VISIBLE)
+								lvNews.clickRefresh();
+							else
+								lvBlog.clickRefresh();
 							break;	
 						case 1://问答
 							lvQuestion.clickRefresh();
@@ -1053,7 +1049,7 @@ public class Main extends Activity {
 						case 2://动弹
 							lvTweet.clickRefresh();
 							break;
-						case 3://动态
+						case 3://动态+留言
 							if(lvActive.getVisibility() == View.VISIBLE)
 								lvActive.clickRefresh();
 							else
@@ -1073,6 +1069,35 @@ public class Main extends Activity {
     	
     	mScrollLayout.SetOnViewChangeListener(new ScrollLayout.OnViewChangeListener() {
 			public void OnViewChange(int viewIndex) {
+				//切换列表视图-如果列表数据为空：加载数据
+				switch (viewIndex) {
+				case 0://资讯
+					if(lvNewsData.size() == 0) {
+						loadLvNewsData(curNewsCatalog, 0, lvNewsHandler, UIHelper.LISTVIEW_ACTION_INIT);
+					}
+					break;	
+				case 1://问答
+					if(lvQuestionData.size() == 0) {
+						loadLvQuestionData(curQuestionCatalog, 0, lvQuestionHandler, UIHelper.LISTVIEW_ACTION_INIT);
+					} 
+					break;
+				case 2://动弹
+					if(lvTweetData.size() == 0) {
+						loadLvTweetData(curTweetCatalog, 0, lvTweetHandler, UIHelper.LISTVIEW_ACTION_INIT);
+					}
+					break;
+				case 3://动态
+					if(lvActive.getVisibility() == View.VISIBLE) {
+						if(lvActiveData.size() == 0) {
+							loadLvActiveData(curActiveCatalog, 0, lvActiveHandler, UIHelper.LISTVIEW_ACTION_INIT);
+						}
+					} else {
+						if(lvMsgData.size() == 0) {
+							loadLvMsgData(0, lvMsgHandler, UIHelper.LISTVIEW_ACTION_INIT);
+						}
+					}
+					break;
+				}
 				setCurPoint(viewIndex);
 			}
 		});
@@ -1120,11 +1145,11 @@ public class Main extends Activity {
 			}    		
     		
 			if(bv_atme.isShown()) 
-				frameActiveBtnOnClick(framebtn_Active_atme, ActiveList.CATALOG_ATME, UIHelper.LISTVIEW_ACTION_REFRESH);
+				frameActiveBtnOnClick(framebtn_Active_atme, ActiveList.CATALOG_ATME, UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);
 			else if(bv_review.isShown()) 
-				frameActiveBtnOnClick(framebtn_Active_comment, ActiveList.CATALOG_COMMENT, UIHelper.LISTVIEW_ACTION_REFRESH);
+				frameActiveBtnOnClick(framebtn_Active_comment, ActiveList.CATALOG_COMMENT, UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);
 			else if(bv_message.isShown())
-				frameActiveBtnOnClick(framebtn_Active_message, 0, UIHelper.LISTVIEW_ACTION_REFRESH);
+				frameActiveBtnOnClick(framebtn_Active_message, 0, UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);
 		}
     }
     /**
@@ -1154,7 +1179,7 @@ public class Main extends Activity {
     	framebtn_Question_ask.setEnabled(false);
     	framebtn_Tweet_lastest.setEnabled(false);
     	framebtn_Active_lastest.setEnabled(false);
-    	//资讯
+    	//资讯+博客
     	framebtn_News_lastest.setOnClickListener(frameNewsBtnClick(framebtn_News_lastest,NewsList.CATALOG_ALL));
     	framebtn_News_blog.setOnClickListener(frameNewsBtnClick(framebtn_News_blog,BlogList.CATALOG_LATEST));
     	framebtn_News_recommend.setOnClickListener(frameNewsBtnClick(framebtn_News_recommend,BlogList.CATALOG_RECOMMEND));
@@ -1187,7 +1212,7 @@ public class Main extends Activity {
 				loadLvTweetData(uid, 0, lvTweetHandler, UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);
 			}
 		});
-    	//动态
+    	//动态+留言
     	framebtn_Active_lastest.setOnClickListener(frameActiveBtnClick(framebtn_Active_lastest,ActiveList.CATALOG_LASTEST));
     	framebtn_Active_atme.setOnClickListener(frameActiveBtnClick(framebtn_Active_atme,ActiveList.CATALOG_ATME));
     	framebtn_Active_comment.setOnClickListener(frameActiveBtnClick(framebtn_Active_comment,ActiveList.CATALOG_COMMENT));
@@ -1233,14 +1258,12 @@ public class Main extends Activity {
 		    		lvNews.setVisibility(View.GONE);
 		    		lvBlog.setVisibility(View.VISIBLE);
 		    		
-		    		if(lvBlogData.size() == 0){
-		    			loadLvBlogData(curNewsCatalog, 0, lvBlogHandler, UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);
-		    		}else{
+		    		if(lvBlogData.size() > 0){
 		    			lvBlog_foot_more.setText(R.string.load_more);
-		    			lvBlog_foot_progress.setVisibility(View.GONE);
-		    			
-		    			loadLvBlogData(curNewsCatalog, 0, lvBlogHandler, UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);
+		    			lvBlog_foot_progress.setVisibility(View.GONE);		    			
 		    		}
+		    		
+	    			loadLvBlogData(curNewsCatalog, 0, lvBlogHandler, UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);
 		    	}
 			}
 		};
@@ -1311,12 +1334,9 @@ public class Main extends Activity {
 					return;
 				}
 				
-				frameActiveBtnOnClick(btn, catalog);
+				frameActiveBtnOnClick(btn, catalog, UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);
 			}
 		};
-    }
-    private void frameActiveBtnOnClick(Button btn, int catalog) {
-    	frameActiveBtnOnClick(btn, catalog, UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);
     }
     private void frameActiveBtnOnClick(Button btn, int catalog, int action) {
     	if(btn == framebtn_Active_lastest)
@@ -1340,6 +1360,7 @@ public class Main extends Activity {
     	else
     		framebtn_Active_message.setEnabled(true);
     	
+    	/*
 		//是否处理通知信息
 		if(btn == framebtn_Active_atme && bv_atme.isShown()){
 			this.isClearNotice = true;
@@ -1351,6 +1372,7 @@ public class Main extends Activity {
 			this.isClearNotice = true;
 			this.curClearNoticeType = Notice.TYPE_MESSAGE;
 		}
+		*/
     	
     	//非留言展示动态列表
     	if(btn != framebtn_Active_message)
@@ -1369,14 +1391,12 @@ public class Main extends Activity {
     		lvActive.setVisibility(View.GONE);
     		lvMsg.setVisibility(View.VISIBLE);
     		
-    		if(lvMsgData.size() == 0){
-    			loadLvMsgData(0, lvMsgHandler, action);
-    		}else{
+    		if(lvMsgData.size() > 0){
     			lvMsg_foot_more.setText(R.string.load_more);
-    			lvMsg_foot_progress.setVisibility(View.GONE);
-    			
-    			loadLvMsgData(0, lvMsgHandler, action);
+    			lvMsg_foot_progress.setVisibility(View.GONE);   			
     		}
+    		
+    		loadLvMsgData(0, lvMsgHandler, action);
     	}
     }
     /**
@@ -1457,11 +1477,28 @@ public class Main extends Activity {
 			case UIHelper.LISTVIEW_ACTION_INIT:
 			case UIHelper.LISTVIEW_ACTION_REFRESH:
 			case UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG:
+				int newdata = 0;//新加载数据-只有刷新动作才会使用到
 				switch (objtype) {
 					case UIHelper.LISTVIEW_DATATYPE_NEWS:
 						NewsList nlist = (NewsList)obj;
 						notice = nlist.getNotice();
 						lvNewsSumData = what;
+						if(actiontype == UIHelper.LISTVIEW_ACTION_REFRESH){
+							if(lvNewsData.size() > 0){
+								for(News news1 : nlist.getNewslist()){
+									boolean b = false;
+									for(News news2 : lvNewsData){
+										if(news1.getId() == news2.getId()){
+											b = true;
+											break;
+										}
+									}
+									if(!b) newdata++;
+								}
+							}else{
+								newdata = what;
+							}
+						}
 						lvNewsData.clear();//先清除原有数据
 						lvNewsData.addAll(nlist.getNewslist());
 						break;
@@ -1469,6 +1506,22 @@ public class Main extends Activity {
 						BlogList blist = (BlogList)obj;
 						notice = blist.getNotice();
 						lvBlogSumData = what;
+						if(actiontype == UIHelper.LISTVIEW_ACTION_REFRESH){
+							if(lvBlogData.size() > 0){
+								for(Blog blog1 : blist.getBloglist()){
+									boolean b = false;
+									for(Blog blog2 : lvBlogData){
+										if(blog1.getId() == blog2.getId()){
+											b = true;
+											break;
+										}
+									}
+									if(!b) newdata++;
+								}
+							}else{
+								newdata = what;
+							}
+						}
 						lvBlogData.clear();//先清除原有数据
 						lvBlogData.addAll(blist.getBloglist());
 						break;
@@ -1476,6 +1529,22 @@ public class Main extends Activity {
 						PostList plist = (PostList)obj;
 						notice = plist.getNotice();
 						lvQuestionSumData = what;
+						if(actiontype == UIHelper.LISTVIEW_ACTION_REFRESH){
+							if(lvQuestionData.size() > 0){
+								for(Post post1 : plist.getPostlist()){
+									boolean b = false;
+									for(Post post2 : lvQuestionData){
+										if(post1.getId() == post2.getId()){
+											b = true;
+											break;
+										}
+									}
+									if(!b) newdata++;
+								}
+							}else{
+								newdata = what;
+							}
+						}
 						lvQuestionData.clear();//先清除原有数据
 						lvQuestionData.addAll(plist.getPostlist());
 						break;
@@ -1483,6 +1552,22 @@ public class Main extends Activity {
 						TweetList tlist = (TweetList)obj;
 						notice = tlist.getNotice();
 						lvTweetSumData = what;
+						if(actiontype == UIHelper.LISTVIEW_ACTION_REFRESH){
+							if(lvTweetData.size() > 0){
+								for(Tweet tweet1 : tlist.getTweetlist()){
+									boolean b = false;
+									for(Tweet tweet2 : lvTweetData){
+										if(tweet1.getId() == tweet2.getId()){
+											b = true;
+											break;
+										}
+									}
+									if(!b) newdata++;
+								}
+							}else{
+								newdata = what;
+							}
+						}
 						lvTweetData.clear();//先清除原有数据
 						lvTweetData.addAll(tlist.getTweetlist());
 						break;
@@ -1490,6 +1575,22 @@ public class Main extends Activity {
 						ActiveList alist = (ActiveList)obj;
 						notice = alist.getNotice();
 						lvActiveSumData = what;
+						if(actiontype == UIHelper.LISTVIEW_ACTION_REFRESH){
+							if(lvActiveData.size() > 0){
+								for(Active active1 : alist.getActivelist()){
+									boolean b = false;
+									for(Active active2 : lvActiveData){
+										if(active1.getId() == active2.getId()){
+											b = true;
+											break;
+										}
+									}
+									if(!b) newdata++;
+								}
+							}else{
+								newdata = what;
+							}
+						}
 						lvActiveData.clear();//先清除原有数据
 						lvActiveData.addAll(alist.getActivelist());
 						break;
@@ -1497,9 +1598,32 @@ public class Main extends Activity {
 						MessageList mlist = (MessageList)obj;
 						notice = mlist.getNotice();
 						lvMsgSumData = what;
+						if(actiontype == UIHelper.LISTVIEW_ACTION_REFRESH){
+							if(lvMsgData.size() > 0){
+								for(Messages msg1 : mlist.getMessagelist()){
+									boolean b = false;
+									for(Messages msg2 : lvMsgData){
+										if(msg1.getId() == msg2.getId()){
+											b = true;
+											break;
+										}
+									}
+									if(!b) newdata++;
+								}
+							}else{
+								newdata = what;
+							}
+						}
 						lvMsgData.clear();//先清除原有数据
 						lvMsgData.addAll(mlist.getMessagelist());
 						break;
+				}
+				if(actiontype == UIHelper.LISTVIEW_ACTION_REFRESH){
+					//提示新加载数据
+					if(newdata >0)
+						NewDataToast.makeText(this, getString(R.string.new_data_toast_message, newdata), true).show();
+					else
+						NewDataToast.makeText(this, getString(R.string.new_data_toast_none), false).show();
 				}
 				break;
 			case UIHelper.LISTVIEW_ACTION_SCROLL:

@@ -117,7 +117,7 @@ public class Search extends Activity{
 		}); 
     	mSearchEditer.setOnKeyListener(new View.OnKeyListener() {
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
-				if (keyCode == KeyEvent.KEYCODE_ENTER) {
+				if (keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_SEARCH) {
 					if(v.getTag() == null) {
 						v.setTag(1);
 						mSearchEditer.clearFocus();

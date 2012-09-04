@@ -1,5 +1,6 @@
 package net.oschina.app.ui;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -261,7 +262,10 @@ public class QuestionDetail extends Activity {
 						bv_comment.hide();
 					}
 					
-					String body = postDetail.getBody() + "<div style=\"margin-bottom: 80px\" />";
+					//显示标签
+					String tags = getPostTags(postDetail.getTags());
+					
+					String body = UIHelper.WEB_STYLE + postDetail.getBody() + tags + "<div style=\"margin-bottom: 80px\" />";
 					//读取用户设置：是否加载文章图片--默认有wifi下始终加载图片
 					boolean isLoadImage;
 					AppContext ac = (AppContext)getApplication();
@@ -275,10 +279,6 @@ public class QuestionDetail extends Activity {
 						body = body.replaceAll("(<img[^>]*?)\\s+height\\s*=\\s*\\S+","$1");
 					}else{
 						body = body.replaceAll("<\\s*img\\s+([^>]*)\\s*>","");
-					}
-					if(!body.trim().startsWith("<style>")){
-						String html = UIHelper.WEB_STYLE;
-						body = html + body;
 					}
 
 					mWebView.loadDataWithBaseURL(null, body, "text/html", "utf-8",null);
@@ -328,6 +328,16 @@ public class QuestionDetail extends Activity {
 		}.start();
     }
 	
+    private String getPostTags(List<String> taglist) {
+    	if(taglist == null)
+    		return "";
+    	String tags = "";
+    	for(String tag : taglist) {
+    		tags += String.format("<a class='tag' href='http://www.oschina.net/question/tag/%s' >&nbsp;%s&nbsp;</a>&nbsp;&nbsp;", URLEncoder.encode(tag), tag);
+    	}
+    	return String.format("<div style='margin-top:10px;'>%s</div>", tags);
+    }
+    
     /**
      * 底部栏切换
      * @param type
@@ -411,8 +421,7 @@ public class QuestionDetail extends Activity {
 			if(postId == 0){
 				return;
 			}
-			//跳到评论列表
-			//UIHelper.showCommentList(v.getContext(), CommentList.CATALOG_POST, postId);
+			//切换显示评论
 			viewSwitch(VIEWSWITCH_TYPE_COMMENTS);
 		}
 	};

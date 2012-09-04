@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.net.URLEncoder;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.UUID;
@@ -67,7 +68,7 @@ public class AppContext extends Application {
 	public static final int NETTYPE_CMNET = 0x03;
 	
 	public static final int PAGE_SIZE = 20;//默认分页大小
-	private static final int CACHE_TIME = 10*60000;//缓存失效时间
+	private static final int CACHE_TIME = 60*60000;//缓存失效时间
 	
 	private boolean login = false;	//登录状态
 	private int loginUid = 0;	//登录用户的id
@@ -223,7 +224,7 @@ public class AppContext extends Application {
 	public MyInformation getMyInformation(boolean isRefresh) throws AppException {
 		MyInformation myinfo = null;
 		String key = "myinfo_"+loginUid;
-		if(isNetworkConnected() && (isCacheDataFailure(key) || isRefresh)) {
+		if(isNetworkConnected() && (!isExistDataCache(key) || isRefresh)) {
 			try{
 				myinfo = ApiClient.myInformation(this, loginUid);
 				if(myinfo != null && myinfo.getName().length() > 0){
@@ -243,7 +244,7 @@ public class AppContext extends Application {
 				myinfo = new MyInformation();
 		}
 		return myinfo;
-	}
+	}	
 	
 	/**
 	 * 获取用户信息个人专页（包含该用户的动态信息以及个人信息）
@@ -260,8 +261,8 @@ public class AppContext extends Application {
 			_hisname = hisname;
 		}
 		UserInformation userinfo = null;
-		String key = "userinfo_"+uid+"_"+hisuid+"_"+hisname+"_"+pageIndex+"_"+PAGE_SIZE; 
-		if(isNetworkConnected() && (isCacheDataFailure(key) || isRefresh)) {			
+		String key = "userinfo_"+uid+"_"+hisuid+"_"+(URLEncoder.encode(hisname))+"_"+pageIndex+"_"+PAGE_SIZE; 
+		if(isNetworkConnected() && (!isExistDataCache(key) || isRefresh)) {			
 			try{
 				userinfo = ApiClient.information(this, uid, hisuid, _hisname, pageIndex, PAGE_SIZE);
 				if(userinfo != null && pageIndex == 0){
@@ -296,6 +297,16 @@ public class AppContext extends Application {
 	}
 	
 	/**
+	 * 更新用户头像
+	 * @param portrait 新上传的头像
+	 * @return
+	 * @throws AppException
+	 */
+	public Result updatePortrait(File portrait) throws AppException {
+		return ApiClient.updatePortrait(this, loginUid, portrait);
+	}
+	
+	/**
 	 * 清空通知消息
 	 * @param uid
 	 * @param type 1:@我的信息 2:未读消息 3:评论个数 4:新粉丝个数
@@ -326,7 +337,7 @@ public class AppContext extends Application {
 	public FavoriteList getFavoriteList(int type, int pageIndex, boolean isRefresh) throws AppException {
 		FavoriteList list = null;
 		String key = "favoritelist_"+loginUid+"_"+type+"_"+pageIndex+"_"+PAGE_SIZE; 
-		if(isNetworkConnected() && (isCacheDataFailure(key) || isRefresh)) {
+		if(isNetworkConnected() && (!isExistDataCache(key) || isRefresh)) {
 			try{
 				list = ApiClient.getFavoriteList(this, loginUid, type, pageIndex, PAGE_SIZE);
 				if(list != null && pageIndex == 0){
@@ -358,7 +369,7 @@ public class AppContext extends Application {
 	public FriendList getFriendList(int relation, int pageIndex, boolean isRefresh) throws AppException {
 		FriendList list = null;
 		String key = "friendlist_"+loginUid+"_"+relation+"_"+pageIndex+"_"+PAGE_SIZE; 
-		if(isNetworkConnected() && (isCacheDataFailure(key) || isRefresh)) {
+		if(isNetworkConnected() && (!isExistDataCache(key) || isRefresh)) {
 			try{
 				list = ApiClient.getFriendList(this, loginUid, relation, pageIndex, PAGE_SIZE);
 				if(list != null && pageIndex == 0){
@@ -391,7 +402,7 @@ public class AppContext extends Application {
 	public NewsList getNewsList(int catalog, int pageIndex, boolean isRefresh) throws AppException {
 		NewsList list = null;
 		String key = "newslist_"+catalog+"_"+pageIndex+"_"+PAGE_SIZE;
-		if(isNetworkConnected() && (isCacheDataFailure(key) || isRefresh)) {
+		if(isNetworkConnected() && (!isExistDataCache(key) || isRefresh)) {
 			try{
 				list = ApiClient.getNewsList(this, catalog, pageIndex, PAGE_SIZE);
 				if(list != null && pageIndex == 0){
@@ -404,7 +415,7 @@ public class AppContext extends Application {
 				list = (NewsList)readObject(key);
 				if(list == null)
 					throw e;
-			}
+			}		
 		} else {
 			list = (NewsList)readObject(key);
 			if(list == null)
@@ -422,7 +433,7 @@ public class AppContext extends Application {
 	public News getNews(int news_id, boolean isRefresh) throws AppException {		
 		News news = null;
 		String key = "news_"+news_id;
-		if(isNetworkConnected() && (isCacheDataFailure(key) || isRefresh)) {
+		if(isNetworkConnected() && (!isExistDataCache(key) || isRefresh)) {
 			try{
 				news = ApiClient.getNewsDetail(this, news_id);
 				if(news != null){
@@ -453,8 +464,8 @@ public class AppContext extends Application {
 	 */
 	public BlogList getUserBlogList(int authoruid, String authorname, int pageIndex, boolean isRefresh) throws AppException {
 		BlogList list = null;
-		String key = "userbloglist_"+authoruid+"_"+loginUid+"_"+pageIndex+"_"+PAGE_SIZE;
-		if(isNetworkConnected() && (isCacheDataFailure(key) || isRefresh)) {
+		String key = "userbloglist_"+authoruid+"_"+(URLEncoder.encode(authorname))+"_"+loginUid+"_"+pageIndex+"_"+PAGE_SIZE;
+		if(isNetworkConnected() && (!isExistDataCache(key) || isRefresh)) {
 			try{
 				list = ApiClient.getUserBlogList(this, authoruid, authorname, loginUid, pageIndex, PAGE_SIZE);
 				if(list != null && pageIndex == 0){
@@ -486,7 +497,7 @@ public class AppContext extends Application {
 	public BlogList getBlogList(String type, int pageIndex, boolean isRefresh) throws AppException {
 		BlogList list = null;
 		String key = "bloglist_"+type+"_"+pageIndex+"_"+PAGE_SIZE;
-		if(isNetworkConnected() && (isCacheDataFailure(key) || isRefresh)) {
+		if(isNetworkConnected() && (!isExistDataCache(key) || isRefresh)) {
 			try{
 				list = ApiClient.getBlogList(this, type, pageIndex, PAGE_SIZE);
 				if(list != null && pageIndex == 0){
@@ -517,7 +528,7 @@ public class AppContext extends Application {
 	public Blog getBlog(int blog_id, boolean isRefresh) throws AppException {
 		Blog blog = null;
 		String key = "blog_"+blog_id;
-		if(isNetworkConnected() && (isCacheDataFailure(key) || isRefresh)) {
+		if(isNetworkConnected() && (!isExistDataCache(key) || isRefresh)) {
 			try{
 				blog = ApiClient.getBlogDetail(this, blog_id);
 				if(blog != null){
@@ -549,7 +560,7 @@ public class AppContext extends Application {
 	public SoftwareList getSoftwareList(String searchTag, int pageIndex, boolean isRefresh) throws AppException {
 		SoftwareList list = null;
 		String key = "softwarelist_"+searchTag+"_"+pageIndex+"_"+PAGE_SIZE;
-		if(isNetworkConnected() && (isCacheDataFailure(key) || isRefresh)) {
+		if(isNetworkConnected() && (!isExistDataCache(key) || isRefresh)) {
 			try{
 				list = ApiClient.getSoftwareList(this, searchTag, pageIndex, PAGE_SIZE);
 				if(list != null && pageIndex == 0){
@@ -642,7 +653,7 @@ public class AppContext extends Application {
 	 */
 	public Software getSoftware(String ident, boolean isRefresh) throws AppException {
 		Software soft = null;
-		String key = "software_"+ident;
+		String key = "software_"+(URLEncoder.encode(ident));
 		if(isNetworkConnected() && (isCacheDataFailure(key) || isRefresh)) {
 			try{
 				soft = ApiClient.getSoftwareDetail(this, ident);
@@ -675,9 +686,41 @@ public class AppContext extends Application {
 	public PostList getPostList(int catalog, int pageIndex, boolean isRefresh) throws AppException {
 		PostList list = null;
 		String key = "postlist_"+catalog+"_"+pageIndex+"_"+PAGE_SIZE;
-		if(isNetworkConnected() && (isCacheDataFailure(key) || isRefresh)) {		
+		if(isNetworkConnected() && (!isExistDataCache(key) || isRefresh)) {		
 			try{
 				list = ApiClient.getPostList(this, catalog, pageIndex, PAGE_SIZE);
+				if(list != null && pageIndex == 0){
+					Notice notice = list.getNotice();
+					list.setNotice(null);
+					saveObject(list, key);
+					list.setNotice(notice);
+				}
+			}catch(AppException e){
+				list = (PostList)readObject(key);
+				if(list == null)
+					throw e;
+			}
+		} else {
+			list = (PostList)readObject(key);
+			if(list == null)
+				list = new PostList();
+		}
+		return list;
+	}
+	
+	/**
+	 * Tag相关帖子列表
+	 * @param tag
+	 * @param pageIndex
+	 * @return
+	 * @throws ApiException
+	 */
+	public PostList getPostListByTag(String tag, int pageIndex, boolean isRefresh) throws AppException {
+		PostList list = null;
+		String key = "postlist_"+(URLEncoder.encode(tag))+"_"+pageIndex+"_"+PAGE_SIZE;
+		if(isNetworkConnected() && (!isExistDataCache(key) || isRefresh)) {		
+			try{
+				list = ApiClient.getPostListByTag(this, tag, pageIndex, PAGE_SIZE);
 				if(list != null && pageIndex == 0){
 					Notice notice = list.getNotice();
 					list.setNotice(null);
@@ -706,7 +749,7 @@ public class AppContext extends Application {
 	public Post getPost(int post_id, boolean isRefresh) throws AppException {		
 		Post post = null;
 		String key = "post_"+post_id;
-		if(isNetworkConnected() && (isCacheDataFailure(key) || isRefresh)) {	
+		if(isNetworkConnected() && (!isExistDataCache(key) || isRefresh)) {	
 			try{
 				post = ApiClient.getPostDetail(this, post_id);
 				if(post != null){
@@ -738,7 +781,7 @@ public class AppContext extends Application {
 	public TweetList getTweetList(int catalog, int pageIndex, boolean isRefresh) throws AppException {
 		TweetList list = null;
 		String key = "tweetlist_"+catalog+"_"+pageIndex+"_"+PAGE_SIZE;		
-		if(isNetworkConnected() && (isCacheDataFailure(key) || isRefresh)) {
+		if(isNetworkConnected() && (!isExistDataCache(key) || isRefresh)) {
 			try{
 				list = ApiClient.getTweetList(this, catalog, pageIndex, PAGE_SIZE);
 				if(list != null && pageIndex == 0){
@@ -769,7 +812,7 @@ public class AppContext extends Application {
 	public Tweet getTweet(int tweet_id, boolean isRefresh) throws AppException {
 		Tweet tweet = null;
 		String key = "tweet_"+tweet_id;
-		if(isNetworkConnected() && (isCacheDataFailure(key) || isRefresh)) {
+		if(isNetworkConnected() && (!isExistDataCache(key) || isRefresh)) {
 			try{
 				tweet = ApiClient.getTweetDetail(this, tweet_id);
 				if(tweet != null){
@@ -792,7 +835,7 @@ public class AppContext extends Application {
 	}
 	
 	/**
-	 * 评论列表
+	 * 动态列表
 	 * @param catalog 1最新动态 2@我 3评论 4我自己
 	 * @param id
 	 * @param pageIndex
@@ -802,7 +845,7 @@ public class AppContext extends Application {
 	public ActiveList getActiveList(int catalog, int pageIndex, boolean isRefresh) throws AppException {
 		ActiveList list = null;
 		String key = "activelist_"+loginUid+"_"+catalog+"_"+pageIndex+"_"+PAGE_SIZE;
-		if(isNetworkConnected() && (isCacheDataFailure(key) || isRefresh)) {
+		if(isNetworkConnected() && (!isExistDataCache(key) || isRefresh)) {
 			try{
 				list = ApiClient.getActiveList(this, loginUid, catalog, pageIndex, PAGE_SIZE);
 				if(list != null && pageIndex == 0){
@@ -833,7 +876,7 @@ public class AppContext extends Application {
 	public MessageList getMessageList(int pageIndex, boolean isRefresh) throws AppException {
 		MessageList list = null;
 		String key = "messagelist_"+loginUid+"_"+pageIndex+"_"+PAGE_SIZE;
-		if(isNetworkConnected() && (isCacheDataFailure(key) || isRefresh)) {
+		if(isNetworkConnected() && (!isExistDataCache(key) || isRefresh)) {
 			try{
 				list = ApiClient.getMessageList(this, loginUid, pageIndex, PAGE_SIZE);
 				if(list != null && pageIndex == 0){
@@ -865,7 +908,7 @@ public class AppContext extends Application {
 	public BlogCommentList getBlogCommentList(int id, int pageIndex, boolean isRefresh) throws AppException {
 		BlogCommentList list = null;
 		String key = "blogcommentlist_"+id+"_"+pageIndex+"_"+PAGE_SIZE;		
-		if(isNetworkConnected() && (isCacheDataFailure(key) || isRefresh)) {
+		if(isNetworkConnected() && (!isExistDataCache(key) || isRefresh)) {
 			try{
 				list = ApiClient.getBlogCommentList(this, id, pageIndex, PAGE_SIZE);
 				if(list != null && pageIndex == 0){
@@ -898,7 +941,7 @@ public class AppContext extends Application {
 	public CommentList getCommentList(int catalog, int id, int pageIndex, boolean isRefresh) throws AppException {
 		CommentList list = null;
 		String key = "commentlist_"+catalog+"_"+id+"_"+pageIndex+"_"+PAGE_SIZE;		
-		if(isNetworkConnected() && (isCacheDataFailure(key) || isRefresh)) {
+		if(isNetworkConnected() && (!isExistDataCache(key) || isRefresh)) {
 			try{
 				list = ApiClient.getCommentList(this, catalog, id, pageIndex, PAGE_SIZE);
 				if(list != null && pageIndex == 0){
@@ -1279,6 +1322,20 @@ public class AppContext extends Application {
 	}
 	
 	/**
+	 * 判断缓存是否存在
+	 * @param cachefile
+	 * @return
+	 */
+	private boolean isExistDataCache(String cachefile)
+	{
+		boolean exist = false;
+		File data = getFileStreamPath(cachefile);
+		if(data.exists())
+			exist = true;
+		return exist;
+	}
+	
+	/**
 	 * 判断缓存是否失效
 	 * @param cachefile
 	 * @return
@@ -1329,16 +1386,21 @@ public class AppContext extends Application {
 		}
 	}	
 	
-	// clear the cache before time numDays     
-	private int clearCacheFolder(File dir, long numDays) {          
+	/**
+	 * 清除缓存目录
+	 * @param dir 目录
+	 * @param numDays 当前系统时间
+	 * @return
+	 */
+	private int clearCacheFolder(File dir, long curTime) {          
 	    int deletedFiles = 0;         
 	    if (dir!= null && dir.isDirectory()) {             
 	        try {                
 	            for (File child:dir.listFiles()) {    
 	                if (child.isDirectory()) {              
-	                    deletedFiles += clearCacheFolder(child, numDays);          
+	                    deletedFiles += clearCacheFolder(child, curTime);          
 	                }  
-	                if (child.lastModified() < numDays) {     
+	                if (child.lastModified() < curTime) {     
 	                    if (child.delete()) {                   
 	                        deletedFiles++;           
 	                    }    
@@ -1443,6 +1505,8 @@ public class AppContext extends Application {
 	 * @throws IOException
 	 */
 	public Serializable readObject(String file){
+		if(!isExistDataCache(file))
+			return null;
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;
 		try{
@@ -1463,6 +1527,11 @@ public class AppContext extends Application {
 		return null;
 	}
 
+	public boolean containsProperty(String key){
+		Properties props = getProperties();
+		 return props.containsKey(key);
+	}
+	
 	public void setProperties(Properties ps){
 		AppConfig.getAppConfig(this).set(ps);
 	}

@@ -150,7 +150,7 @@ public class SoftwareDetail extends Activity {
 					String title = softwareDetail.getExtensionTitle()+" "+softwareDetail.getTitle();
 					mTitle.setText(title);
 					
-					String body = softwareDetail.getBody();
+					String body = UIHelper.WEB_STYLE + softwareDetail.getBody();
 					//读取用户设置：是否加载文章图片--默认有wifi下始终加载图片
 					boolean isLoadImage;
 					AppContext ac = (AppContext)getApplication();
@@ -164,10 +164,6 @@ public class SoftwareDetail extends Activity {
 						body = body.replaceAll("(<img[^>]*?)\\s+height\\s*=\\s*\\S+","$1");
 					}else{
 						body = body.replaceAll("<\\s*img\\s+([^>]*)\\s*>","");
-					}
-					if(!body.trim().startsWith("<style>")){
-						String html = UIHelper.WEB_STYLE;
-						body = html + body;
 					}
 
 					mWebView.loadDataWithBaseURL(null, body, "text/html", "utf-8",null);

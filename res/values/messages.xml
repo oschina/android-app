@@ -18,8 +18,10 @@
     <string name="load_empty">暂无数据</string>
     <string name="load_error">加载数据出错</string>
     
-    <string name="select">选择</string>
+    <string name="new_data_toast_message">有 %d 条更新</string>
+    <string name="new_data_toast_none">没有新更新</string>
     
+    <string name="select">选择</string>
     <string name="share">分享</string>
     <string name="sharing">分享中...</string>
     <string name="publishing">发布中...</string>

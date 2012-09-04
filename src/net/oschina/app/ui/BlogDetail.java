@@ -268,7 +268,7 @@ public class BlogDetail extends Activity {
 						bv_comment.hide();
 					}
 					
-					String body = blogDetail.getBody() + "<div style=\"margin-bottom: 80px\" />";
+					String body = UIHelper.WEB_STYLE + blogDetail.getBody() + "<div style=\"margin-bottom: 80px\" />";
 					//读取用户设置：是否加载文章图片--默认有wifi下始终加载图片
 					boolean isLoadImage;
 					AppContext ac = (AppContext)getApplication();
@@ -282,10 +282,6 @@ public class BlogDetail extends Activity {
 						body = body.replaceAll("(<img[^>]*?)\\s+height\\s*=\\s*\\S+","$1");
 					}else{
 						body = body.replaceAll("<\\s*img\\s+([^>]*)\\s*>","");
-					}
-					if(!body.trim().startsWith("<style>")){
-						String html = UIHelper.WEB_STYLE;
-						body = html + body;
 					}
 
 					mWebView.loadDataWithBaseURL(null, body, "text/html", "utf-8",null);
