@@ -5,7 +5,6 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +13,11 @@ import android.widget.Toast;
 
 /**
  * 新数据Toast提示控件(带音乐播放)
- * 
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-8-30
  */
 public class NewDataToast extends Toast {
-
 	private MediaPlayer mPlayer;
 	private boolean isSound;
 	private Context context;
@@ -28,7 +25,6 @@ public class NewDataToast extends Toast {
 	public NewDataToast(Context context) {
 		this(context, false);
 	}
-
 	public NewDataToast(Context context, boolean isSound) {
 		super(context);
 		this.context = context;
@@ -46,7 +42,6 @@ public class NewDataToast extends Toast {
 	@Override
 	public void show() {
 		super.show();
-
 		if (isSound) {
 			AudioManager audioManager = (AudioManager) context
 					.getSystemService(Context.AUDIO_SERVICE);
@@ -56,7 +51,6 @@ public class NewDataToast extends Toast {
 				mPlayer.start();
 			}
 		}
-
 	}
 
 	/**
