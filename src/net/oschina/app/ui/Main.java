@@ -230,11 +230,8 @@ public class Main extends Activity {
     		fbactive.setChecked(false);
     	}
     	//读取左右滑动配置
-    	if(appContext.isScroll())
-    		mScrollLayout.setIsScroll(true);
-    	else
-    		mScrollLayout.setIsScroll(false);
-    }        
+    	mScrollLayout.setIsScroll(appContext.isScroll());
+    }
 
 	@Override
 	protected void onNewIntent(Intent intent) {
