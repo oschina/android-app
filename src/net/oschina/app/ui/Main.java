@@ -73,8 +73,15 @@ import android.widget.TextView;
  * @created 2012-3-21
  */
 public class Main extends Activity {
-	
-	private ScrollLayout mScrollLayout;	
+
+    public static final int QUICKACTION_LOGIN_OR_LOGOUT = 0;
+    public static final int QUICKACTION_USERINFO = 1;
+    public static final int QUICKACTION_SOFTWARE = 2;
+    public static final int QUICKACTION_SEARCH = 3;
+    public static final int QUICKACTION_SETTING = 4;
+    public static final int QUICKACTION_EXIT = 5;
+
+    private ScrollLayout mScrollLayout;
 	private RadioButton[] mButtons;
 	private String[] mHeadTitles;
 	private int mViewCount;
@@ -239,14 +246,14 @@ public class Main extends Activity {
 		
 		if(intent.getBooleanExtra("LOGIN", false)){
 			//加载动弹、动态及留言(当前动弹的catalog大于0表示用户的uid)
-			if(lvTweetData.size() == 0 && curTweetCatalog > 0 && mCurSel == 2) {
+			if(lvTweetData.isEmpty() && curTweetCatalog > 0 && mCurSel == 2) {
 				this.loadLvTweetData(curTweetCatalog, 0, lvTweetHandler, UIHelper.LISTVIEW_ACTION_INIT);
 			}
 			else if(mCurSel == 3) {
 				if(lvActiveData.size() == 0) {
 					this.loadLvActiveData(curActiveCatalog, 0, lvActiveHandler, UIHelper.LISTVIEW_ACTION_INIT);
 				}
-				if(lvMsgData.size() == 0) {
+				if(lvMsgData.isEmpty()) {
 					this.loadLvMsgData(0, lvMsgHandler, UIHelper.LISTVIEW_ACTION_INIT);
 				}
 			}			
@@ -353,22 +360,22 @@ public class Main extends Activity {
     private OnQuickActionClickListener mActionListener = new OnQuickActionClickListener() {
         public void onQuickActionClicked(QuickActionWidget widget, int position) {
     		switch (position) {
-    		case 0://用户登录-注销
+    		case QUICKACTION_LOGIN_OR_LOGOUT://用户登录-注销
     			UIHelper.loginOrLogout(Main.this);
     			break;
-    		case 1://我的资料
+    		case QUICKACTION_USERINFO://我的资料
     			UIHelper.showUserInfo(Main.this);
     			break;
-    		case 2://开源软件
+    		case QUICKACTION_SOFTWARE://开源软件
     			UIHelper.showSoftware(Main.this);
     			break;
-    		case 3://搜索
+    		case QUICKACTION_SEARCH://搜索
     			UIHelper.showSearch(Main.this);
     			break;
-    		case 4://设置
+    		case QUICKACTION_SETTING://设置
     			UIHelper.showSetting(Main.this);
     			break;
-    		case 5://退出
+    		case QUICKACTION_EXIT://退出
     			UIHelper.Exit(Main.this);
     			break;
     		}
@@ -404,7 +411,7 @@ public class Main extends Activity {
         lvMsgHandler = this.getLvHandler(lvMsg, lvMsgAdapter, lvMsg_foot_more, lvMsg_foot_progress, AppContext.PAGE_SIZE);      	
     	
         //加载资讯数据
-		if(lvNewsData.size() == 0) {
+		if(lvNewsData.isEmpty()) {
 			loadLvNewsData(curNewsCatalog, 0, lvNewsHandler, UIHelper.LISTVIEW_ACTION_INIT);
 		}
     }
@@ -444,7 +451,7 @@ public class Main extends Activity {
 				lvNews.onScrollStateChanged(view, scrollState);
 				
 				//数据为空--不用继续下面代码了
-				if(lvNewsData.size() == 0) return;
+				if(lvNewsData.isEmpty()) return;
 				
 				//判断是否滚动到底部
 				boolean scrollEnd = false;
@@ -511,7 +518,7 @@ public class Main extends Activity {
 				lvBlog.onScrollStateChanged(view, scrollState);
 				
 				//数据为空--不用继续下面代码了
-				if(lvBlogData.size() == 0) return;
+				if(lvBlogData.isEmpty()) return;
 				
 				//判断是否滚动到底部
 				boolean scrollEnd = false;
@@ -578,7 +585,7 @@ public class Main extends Activity {
 				lvQuestion.onScrollStateChanged(view, scrollState);
 				
 				//数据为空--不用继续下面代码了
-				if(lvQuestionData.size() == 0) return;
+				if(lvQuestionData.isEmpty()) return;
 				
 				//判断是否滚动到底部
 				boolean scrollEnd = false;
@@ -645,7 +652,7 @@ public class Main extends Activity {
 				lvTweet.onScrollStateChanged(view, scrollState);
 				
 				//数据为空--不用继续下面代码了
-				if(lvTweetData.size() == 0) return;
+				if(lvTweetData.isEmpty()) return;
 				
 				//判断是否滚动到底部
 				boolean scrollEnd = false;
@@ -767,7 +774,7 @@ public class Main extends Activity {
 				lvActive.onScrollStateChanged(view, scrollState);
 				
 				//数据为空--不用继续下面代码了
-				if(lvActiveData.size() == 0) return;
+				if(lvActiveData.isEmpty()) return;
 				
 				//判断是否滚动到底部
 				boolean scrollEnd = false;
@@ -843,7 +850,7 @@ public class Main extends Activity {
 				lvMsg.onScrollStateChanged(view, scrollState);
 				
 				//数据为空--不用继续下面代码了
-				if(lvMsgData.size() == 0) return;
+				if(lvMsgData.isEmpty()) return;
 				
 				//判断是否滚动到底部
 				boolean scrollEnd = false;
@@ -1069,27 +1076,27 @@ public class Main extends Activity {
 				//切换列表视图-如果列表数据为空：加载数据
 				switch (viewIndex) {
 				case 0://资讯
-					if(lvNewsData.size() == 0) {
+					if(lvNewsData.isEmpty()) {
 						loadLvNewsData(curNewsCatalog, 0, lvNewsHandler, UIHelper.LISTVIEW_ACTION_INIT);
 					}
 					break;	
 				case 1://问答
-					if(lvQuestionData.size() == 0) {
+					if(lvQuestionData.isEmpty()) {
 						loadLvQuestionData(curQuestionCatalog, 0, lvQuestionHandler, UIHelper.LISTVIEW_ACTION_INIT);
 					} 
 					break;
 				case 2://动弹
-					if(lvTweetData.size() == 0) {
+					if(lvTweetData.isEmpty()) {
 						loadLvTweetData(curTweetCatalog, 0, lvTweetHandler, UIHelper.LISTVIEW_ACTION_INIT);
 					}
 					break;
 				case 3://动态
 					if(lvActive.getVisibility() == View.VISIBLE) {
-						if(lvActiveData.size() == 0) {
+						if(lvActiveData.isEmpty()) {
 							loadLvActiveData(curActiveCatalog, 0, lvActiveHandler, UIHelper.LISTVIEW_ACTION_INIT);
 						}
 					} else {
-						if(lvMsgData.size() == 0) {
+						if(lvMsgData.isEmpty()) {
 							loadLvMsgData(0, lvMsgHandler, UIHelper.LISTVIEW_ACTION_INIT);
 						}
 					}
@@ -1255,7 +1262,7 @@ public class Main extends Activity {
 		    		lvNews.setVisibility(View.GONE);
 		    		lvBlog.setVisibility(View.VISIBLE);
 		    		
-		    		if(lvBlogData.size() > 0){
+		    		if(lvBlogData.isEmpty()){
 		    			lvBlog_foot_more.setText(R.string.load_more);
 		    			lvBlog_foot_progress.setVisibility(View.GONE);		    			
 		    		}
