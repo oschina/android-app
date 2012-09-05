@@ -30,7 +30,7 @@ public class About extends Activity{
         try { 
         	PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
         	mVersion = (TextView)findViewById(R.id.about_version);
-    		mVersion.setText("版本："+info.versionName);
+          mVersion.setText(getResources().getString(R.string.main_menu_version, info.versionName));
         } catch (NameNotFoundException e) {    
 			e.printStackTrace(System.err);
 		} 
