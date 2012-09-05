@@ -52,6 +52,11 @@ public class UpdateManager {
 	private Dialog noticeDialog;
 	//下载对话框
 	private Dialog downloadDialog;
+    //已经是最新或者无法获取最新版本信息的对话框
+    private Dialog latestOrFailDialog;
+    private static final int DIALOG_TYPE_LATEST = 0;
+    private static final int DIALOG_TYPE_FAIL   = 1;
+
     //进度条
     private ProgressBar mProgress;
     //查询动画
@@ -122,19 +127,11 @@ public class UpdateManager {
 							updateMsg = mUpdate.getUpdateLog();
 							showNoticeDialog();
 						}else if(isShowMsg){
-							AlertDialog.Builder builder = new Builder(mContext);
-							builder.setTitle("系统提示");
-							builder.setMessage("您当前已经是最新版本");
-							builder.setPositiveButton("确定", null);
-							builder.create().show();
+							showLatestOrFailDialog(DIALOG_TYPE_LATEST);
 						}
 					}
 				}else if(isShowMsg){
-					AlertDialog.Builder builder = new Builder(mContext);
-					builder.setTitle("系统提示");
-					builder.setMessage("无法获取版本更新信息");
-					builder.setPositiveButton("确定", null);
-					builder.create().show();
+					showLatestOrFailDialog(DIALOG_TYPE_FAIL);
 				}
 			}			
 		};
@@ -165,7 +162,33 @@ public class UpdateManager {
 			e.printStackTrace(System.err);
 		} 
 	}
-	
+
+    /**
+    * 显示已经是最新或者无法获取版本信息对话框
+    */
+    private void showLatestOrFailDialog(int dialogType) {
+        if (latestOrFailDialog != null) {
+            //关闭并释放之前的对话框
+            try {
+               latestOrFailDialog.dismiss();
+            } catch (Exception e) {
+                //when exit the activity, dialog could not dismiss,
+                //it is normal, just catch it
+            }
+            latestOrFailDialog = null;
+        }
+        AlertDialog.Builder builder = new Builder(mContext);
+        builder.setTitle("系统提示");
+        if (dialogType == DIALOG_TYPE_LATEST) {
+            builder.setMessage("您当前已经是最新版本");
+        } else if (dialogType == DIALOG_TYPE_FAIL) {
+            builder.setMessage("无法获取版本更新信息");
+        }
+        builder.setPositiveButton("确定", null);
+        latestOrFailDialog = builder.create();
+        latestOrFailDialog.show();
+    }
+
 	/**
 	 * 显示版本更新通知对话框
 	 */
