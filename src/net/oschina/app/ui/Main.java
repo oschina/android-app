@@ -250,7 +250,7 @@ public class Main extends Activity {
 				this.loadLvTweetData(curTweetCatalog, 0, lvTweetHandler, UIHelper.LISTVIEW_ACTION_INIT);
 			}
 			else if(mCurSel == 3) {
-				if(lvActiveData.size() == 0) {
+				if(lvActiveData.isEmpty()) {
 					this.loadLvActiveData(curActiveCatalog, 0, lvActiveHandler, UIHelper.LISTVIEW_ACTION_INIT);
 				}
 				if(lvMsgData.isEmpty()) {
@@ -1262,7 +1262,7 @@ public class Main extends Activity {
 		    		lvNews.setVisibility(View.GONE);
 		    		lvBlog.setVisibility(View.VISIBLE);
 		    		
-		    		if(lvBlogData.isEmpty()){
+		    		if(lvBlogData.size() > 0){
 		    			lvBlog_foot_more.setText(R.string.load_more);
 		    			lvBlog_foot_progress.setVisibility(View.GONE);		    			
 		    		}
