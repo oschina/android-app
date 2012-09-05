@@ -207,8 +207,8 @@ public class ApiClient {
 			}
 		}while(time < RETRY_TIME);
 		
-		responseBody = responseBody.replace('', '?');
-		if(responseBody.contains("result") && responseBody.contains("errorCode")){
+		responseBody = responseBody.replaceAll("\\p{Cntrl}", "");
+		if(responseBody.contains("result") && responseBody.contains("errorCode") && appContext.containsProperty("user.uid")){
 			try {
 				Result res = Result.parse(new ByteArrayInputStream(responseBody.getBytes()));	
 				if(res.getErrorCode() == 0){
@@ -314,8 +314,8 @@ public class ApiClient {
 			}
 		}while(time < RETRY_TIME);
         
-        responseBody = responseBody.replace('', '?');
-		if(responseBody.contains("result") && responseBody.contains("errorCode")){
+        responseBody = responseBody.replaceAll("\\p{Cntrl}", "");
+		if(responseBody.contains("result") && responseBody.contains("errorCode") && appContext.containsProperty("user.uid")){
 			try {
 				Result res = Result.parse(new ByteArrayInputStream(responseBody.getBytes()));	
 				if(res.getErrorCode() == 0){
@@ -453,6 +453,30 @@ public class ApiClient {
 				
 		try{
 			return MyInformation.parse(_post(appContext, URLs.MY_INFORMATION, params, null));		
+		}catch(Exception e){
+			if(e instanceof AppException)
+				throw (AppException)e;
+			throw AppException.network(e);
+		}
+	}
+	
+	/**
+	 * 更新用户头像
+	 * @param appContext
+	 * @param uid 当前用户uid
+	 * @param portrait 新上传的头像
+	 * @return
+	 * @throws AppException
+	 */
+	public static Result updatePortrait(AppContext appContext, int uid, File portrait) throws AppException {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("uid", uid);
+		
+		Map<String, File> files = new HashMap<String, File>();
+		files.put("portrait", portrait);
+				
+		try{
+			return http_post(appContext, URLs.PORTRAIT_UPDATE, params, files);		
 		}catch(Exception e){
 			if(e instanceof AppException)
 				throw (AppException)e;
@@ -717,26 +741,6 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 获取软件详情
-	 * @param soft_id
-	 * @return
-	 * @throws AppException
-	 */
-	public static Software getSoftwareDetail(AppContext appContext, final String ident) throws AppException {
-		String newUrl = _MakeURL(URLs.SOFTWARE_DETAIL, new HashMap<String, Object>(){{
-			put("ident", ident);
-		}});
-		
-		try{
-			return Software.parse(http_get(appContext, newUrl));			
-		}catch(Exception e){
-			if(e instanceof AppException)
-				throw (AppException)e;
-			throw AppException.network(e);
-		}
-	}
-	
-	/**
 	 * 获取帖子列表
 	 * @param url
 	 * @param catalog
@@ -753,6 +757,29 @@ public class ApiClient {
 
 		try{
 			return PostList.parse(http_get(appContext, newUrl));		
+		}catch(Exception e){
+			if(e instanceof AppException)
+				throw (AppException)e;
+			throw AppException.network(e);
+		}
+	}
+	
+	/**
+	 * 通过Tag获取帖子列表
+	 * @param url
+	 * @param catalog
+	 * @param pageIndex
+	 * @return
+	 * @throws AppException
+	 */
+	public static PostList getPostListByTag(AppContext appContext, final String tag, final int pageIndex, final int pageSize) throws AppException {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("tag", tag);
+		params.put("pageIndex", pageIndex);
+		params.put("pageSize", pageSize);		
+
+		try{
+			return PostList.parse(_post(appContext, URLs.POST_LIST, params, null));		
 		}catch(Exception e){
 			if(e instanceof AppException)
 				throw (AppException)e;
@@ -1321,14 +1348,13 @@ public class ApiClient {
 	 * @throws AppException
 	 */
 	public static SoftwareList getSoftwareList(AppContext appContext,final String searchTag,final int pageIndex,final int pageSize) throws AppException {
-		String newUrl = _MakeURL(URLs.SOFTWARE_LIST, new HashMap<String, Object>(){{
-			put("searchTag", searchTag);
-			put("pageIndex", pageIndex);
-			put("pageSize", pageSize);
-		}});
-
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("searchTag", searchTag);
+		params.put("pageIndex", pageIndex);
+		params.put("pageSize", pageSize);
+		
 		try{
-			return SoftwareList.parse(http_get(appContext, newUrl));	
+			return SoftwareList.parse(_post(appContext, URLs.SOFTWARE_LIST, params, null));
 		}catch(Exception e){
 			if(e instanceof AppException)
 				throw (AppException)e;
@@ -1345,14 +1371,13 @@ public class ApiClient {
 	 * @throws AppException
 	 */
 	public static SoftwareList getSoftwareTagList(AppContext appContext,final int searchTag,final int pageIndex,final int pageSize) throws AppException {
-		String newUrl = _MakeURL(URLs.SOFTWARETAG_LIST, new HashMap<String, Object>(){{
-			put("searchTag", searchTag);
-			put("pageIndex", pageIndex);
-			put("pageSize", pageSize);
-		}});
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("searchTag", searchTag);
+		params.put("pageIndex", pageIndex);
+		params.put("pageSize", pageSize);
 
 		try{
-			return SoftwareList.parse(http_get(appContext, newUrl));	
+			return SoftwareList.parse(_post(appContext, URLs.SOFTWARETAG_LIST, params, null));
 		}catch(Exception e){
 			if(e instanceof AppException)
 				throw (AppException)e;
@@ -1367,12 +1392,11 @@ public class ApiClient {
 	 * @throws AppException
 	 */
 	public static SoftwareCatalogList getSoftwareCatalogList(AppContext appContext,final int tag) throws AppException {
-		String newUrl = _MakeURL(URLs.SOFTWARECATALOG_LIST, new HashMap<String, Object>(){{
-			put("tag", tag);
-		}});
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("tag", tag);
 
 		try{
-			return SoftwareCatalogList.parse(http_get(appContext, newUrl));	
+			return SoftwareCatalogList.parse(_post(appContext, URLs.SOFTWARECATALOG_LIST, params, null));
 		}catch(Exception e){
 			if(e instanceof AppException)
 				throw (AppException)e;
@@ -1380,4 +1404,22 @@ public class ApiClient {
 		}
 	}
 	
+	/**
+	 * 获取软件详情
+	 * @param ident
+	 * @return
+	 * @throws AppException
+	 */
+	public static Software getSoftwareDetail(AppContext appContext, final String ident) throws AppException {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("ident", ident);
+		
+		try{
+			return Software.parse(_post(appContext, URLs.SOFTWARE_DETAIL, params, null));
+		}catch(Exception e){
+			if(e instanceof AppException)
+				throw (AppException)e;
+			throw AppException.network(e);
+		}
+	}
 }

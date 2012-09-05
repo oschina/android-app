@@ -320,7 +320,7 @@ public class ImageUtils{
 	public static void createImageThumbnail(Context context, String largeImagePath, String thumbfilePath, int square_size, int quality) throws IOException
 	{
 		BitmapFactory.Options opts = new BitmapFactory.Options();
-		opts.inSampleSize = 4;
+		opts.inSampleSize = 1;
 		//原始图片bitmap
 		Bitmap cur_bitmap = getBitmapByPath(largeImagePath, opts);
 		

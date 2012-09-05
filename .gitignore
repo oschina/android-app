@@ -8,6 +8,16 @@
 # Java class files
 *.class
 
+<<<<<<< HEAD
 # generated files
 bin/
 gen/
+=======
+# Package Files #
+*.jar
+*.war
+*.ear
+/lint.xml
+/bin
+/gen
+>>>>>>> 0f43e83d7a3a32d0c571445c2a02194715d82ba4

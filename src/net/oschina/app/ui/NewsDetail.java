@@ -262,7 +262,7 @@ public class NewsDetail extends Activity {
 						bv_comment.hide();
 					}
 					
-					String body = newsDetail.getBody();					
+					String body = UIHelper.WEB_STYLE + newsDetail.getBody();					
 					//读取用户设置：是否加载文章图片--默认有wifi下始终加载图片
 					boolean isLoadImage;
 					AppContext ac = (AppContext)getApplication();
@@ -278,10 +278,6 @@ public class NewsDetail extends Activity {
 					}else{
 						//过滤掉 img标签
 						body = body.replaceAll("<\\s*img\\s+([^>]*)\\s*>","");
-					}
-					if(!body.trim().startsWith("<style>")){
-						String html = UIHelper.WEB_STYLE;
-						body = html + body;
 					}
 					
 					//更多关于***软件的信息

@@ -76,6 +76,15 @@
 		           	android:layout_alignLeft="@id/user_info_gender"
 		           	android:textSize="@dimen/text_size_15"
 		            android:textColor="@color/author_text"/>
+			    <Button
+			    	android:id="@+id/user_info_editer"
+			        android:layout_width="wrap_content"
+			    	android:layout_height="wrap_content"
+			    	android:layout_alignParentRight="true"
+			    	android:layout_alignParentBottom="true"
+			    	android:background="@drawable/login_btn_selector" 
+			    	android:textSize="@dimen/text_size_12" 
+			        android:text="编辑头像"/>
 		    </RelativeLayout>
 
             <LinearLayout 

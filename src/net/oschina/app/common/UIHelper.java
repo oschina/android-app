@@ -35,6 +35,7 @@ import net.oschina.app.ui.MessagePub;
 import net.oschina.app.ui.NewsDetail;
 import net.oschina.app.ui.QuestionDetail;
 import net.oschina.app.ui.QuestionPub;
+import net.oschina.app.ui.QuestionTag;
 import net.oschina.app.ui.Search;
 import net.oschina.app.ui.Setting;
 import net.oschina.app.ui.SoftwareLib;
@@ -105,7 +106,8 @@ public class UIHelper {
 	/** 全局web样式 */
 	public final static String WEB_STYLE = "<style>* {font-size:16px;line-height:20px;} p {color:#333;} a {color:#3E62A6;} img {max-width:310px;} " +
 			"img.alignleft {float:left;max-width:120px;margin:0 10px 5px 0;border:1px solid #ccc;background:#fff;padding:2px;} " +
-			"pre {font-size:9pt;line-height:12pt;font-family:Courier New,Arial;border:1px solid #ddd;border-left:5px solid #6CE26C;background:#f6f6f6;padding:5px;}</style>";
+			"pre {font-size:9pt;line-height:12pt;font-family:Courier New,Arial;border:1px solid #ddd;border-left:5px solid #6CE26C;background:#f6f6f6;padding:5px;} " +
+			"a.tag {font-size:15px;text-decoration:none;background-color:#bbd6f3;border-bottom:2px solid #3E6D8E;border-right:2px solid #7F9FB6;color:#284a7b;margin:2px 2px 2px 0;padding:2px 4px;white-space:nowrap;}</style>";
 	/**
 	 * 显示首页
 	 * @param activity
@@ -154,6 +156,18 @@ public class UIHelper {
 	{
 		Intent intent = new Intent(context, QuestionDetail.class);
 		intent.putExtra("post_id", postId);
+		context.startActivity(intent);
+	}
+	
+	/**
+	 * 显示相关Tag帖子列表
+	 * @param context
+	 * @param tag
+	 */
+	public static void showQuestionListByTag(Context context, String tag)
+	{
+		Intent intent = new Intent(context, QuestionTag.class);
+		intent.putExtra("post_tag", tag);
 		context.startActivity(intent);
 	}
 	
@@ -613,10 +627,10 @@ public class UIHelper {
 		.setTitle(context.getString(R.string.republish_tweet))
 		.setPositiveButton(R.string.sure, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				thread.start();
 				dialog.dismiss();
 				if(context == TweetPub.mContext && TweetPub.mMessage != null)
 					TweetPub.mMessage.setVisibility(View.VISIBLE);
+				thread.start();
 			}
 		})
 		.setNegativeButton(R.string.cancle, new DialogInterface.OnClickListener() {
@@ -822,6 +836,9 @@ public class UIHelper {
 				break;
 			case URLs.URL_OBJ_TYPE_QUESTION:
 				showQuestionDetail(context, objId);
+				break;
+			case URLs.URL_OBJ_TYPE_QUESTION_TAG:
+				showQuestionListByTag(context, objKey); 
 				break;
 			case URLs.URL_OBJ_TYPE_SOFTWARE:
 				showSoftwareDetail(context, objKey);

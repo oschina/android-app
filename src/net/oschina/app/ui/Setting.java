@@ -119,6 +119,11 @@ public class Setting extends PreferenceActivity{
 		//左右滑动
 		scroll = (CheckBoxPreference)findPreference("scroll");
 		scroll.setChecked(ac.isScroll());
+		if(ac.isScroll()){
+			scroll.setSummary("已启用左右滑动");
+		}else{
+			scroll.setSummary("已关闭左右滑动");
+		}
 		scroll.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 			public boolean onPreferenceClick(Preference preference) {
 				ac.setConfigScroll(scroll.isChecked());

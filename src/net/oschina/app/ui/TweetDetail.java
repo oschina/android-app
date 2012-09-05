@@ -8,6 +8,7 @@ import net.oschina.app.AppConfig;
 import net.oschina.app.AppContext;
 import net.oschina.app.AppException;
 import net.oschina.app.R;
+import net.oschina.app.adapter.GridViewFaceAdapter;
 import net.oschina.app.adapter.ListViewCommentAdapter;
 import net.oschina.app.bean.Comment;
 import net.oschina.app.bean.CommentList;
@@ -20,9 +21,13 @@ import net.oschina.app.widget.PullToRefreshListView;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -31,6 +36,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -81,6 +87,10 @@ public class TweetDetail extends Activity {
 	private InputMethodManager imm;
 	private String tempCommentKey = AppConfig.TEMP_COMMENT;
 	
+	private ImageView mFace;
+	private GridView mGridView;
+	private GridViewFaceAdapter mGVFaceAdapter;
+	
 	private int _catalog;
 	private int _id;
 	private int _uid;
@@ -95,8 +105,12 @@ public class TweetDetail extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tweet_detail);
         
+        //初始化视图控件
         this.initView();
-        this.initData();        
+        //初始化控件数据
+        this.initData();   
+        //初始化表情视图
+      	this.initGridView();
     }
     
     /**
@@ -131,9 +145,11 @@ public class TweetDetail extends Activity {
     	mRefresh = (ImageView)findViewById(R.id.tweet_detail_refresh);
     	mLinearlayout = (LinearLayout)findViewById(R.id.tweet_detail_linearlayout);
     	mProgressbar = (ProgressBar)findViewById(R.id.tweet_detail_head_progress);
+    	mFace = (ImageView)findViewById(R.id.tweet_detail_foot_face);
     	
     	mBack.setOnClickListener(UIHelper.finish(this));
     	mRefresh.setOnClickListener(refreshClickListener);
+    	mFace.setOnClickListener(facesClickListener);
     	
     	imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE); 
     	
@@ -147,26 +163,24 @@ public class TweetDetail extends Activity {
 				mFootEditer.setVisibility(View.VISIBLE);
 				mFootEditer.requestFocus();
 				mFootEditer.requestFocusFromTouch();
+				imm.showSoftInput(mFootEditer, 0);//显示软键盘
 			}
 		});
     	mFootEditer = (EditText)findViewById(R.id.tweet_detail_foot_editer);
-    	mFootEditer.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-			public void onFocusChange(View v, boolean hasFocus) {
-				if(hasFocus){  
-					imm.showSoftInput(v, 0);  
-		        }  
-		        else{  
-		            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);  
-		        }  
+    	mFootEditer.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				//显示软键盘&隐藏表情
+				showIMM();
 			}
-		}); 
+		});
     	mFootEditer.setOnKeyListener(new View.OnKeyListener() {
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				if (keyCode == KeyEvent.KEYCODE_BACK) {
 					if(mFootViewSwitcher.getDisplayedChild()==1){
 						mFootViewSwitcher.setDisplayedChild(0);
-						mFootEditer.clearFocus();
-						mFootEditer.setVisibility(View.GONE);
+						mFootEditer.clearFocus();//隐藏软键盘
+						mFootEditer.setVisibility(View.GONE);//隐藏编辑框
+						hideFace();//隐藏表情
 					}
 					return true;
 				}
@@ -334,13 +348,9 @@ public class TweetDetail extends Activity {
 					date.setText(StringUtils.friendly_time(tweetDetail.getPubDate()));
 					commentCount.setText(tweetDetail.getCommentCount()+"");
 					
-					String body = tweetDetail.getBody();
+					String body = UIHelper.WEB_STYLE + tweetDetail.getBody();
 					body = body.replaceAll("(<img[^>]*?)\\s+width\\s*=\\s*\\S+","$1");
 					body = body.replaceAll("(<img[^>]*?)\\s+height\\s*=\\s*\\S+","$1");
-					if(!body.trim().startsWith("<style>")){
-						String html = UIHelper.WEB_STYLE;
-						body = html + body;
-					}
 
 					content.loadDataWithBaseURL(null, body, "text/html", "utf-8",null);
 					content.setWebViewClient(UIHelper.getWebViewClient());
@@ -516,6 +526,60 @@ public class TweetDetail extends Activity {
         }
 	}
 	
+	//初始化表情控件
+    private void initGridView() {
+    	mGVFaceAdapter = new GridViewFaceAdapter(this);
+    	mGridView = (GridView)findViewById(R.id.tweet_detail_foot_faces);
+    	mGridView.setAdapter(mGVFaceAdapter);
+    	mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				//插入的表情
+				SpannableString ss = new SpannableString(view.getTag().toString());
+				Drawable d = getResources().getDrawable((int)mGVFaceAdapter.getItemId(position));
+				d.setBounds(0, 0, 35, 35);//设置表情图片的显示大小
+				ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_BOTTOM);
+				ss.setSpan(span, 0, view.getTag().toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);				 
+				//在光标所在处插入表情
+				mFootEditer.getText().insert(mFootEditer.getSelectionStart(), ss);				
+			}    		
+    	});
+    }
+    
+    private void showIMM() {
+    	mFace.setTag(1);
+    	showOrHideIMM();
+    }
+    private void showFace() {
+		mFace.setImageResource(R.drawable.widget_bar_keyboard);
+		mFace.setTag(1);
+		mGridView.setVisibility(View.VISIBLE);
+    }
+    private void hideFace() {
+    	mFace.setImageResource(R.drawable.widget_bar_face);
+		mFace.setTag(null);
+		mGridView.setVisibility(View.GONE);
+    }
+    private void showOrHideIMM() {
+    	if(mFace.getTag() == null){
+			//隐藏软键盘
+			imm.hideSoftInputFromWindow(mFootEditer.getWindowToken(), 0);
+			//显示表情
+			showFace();
+		}else{
+			//显示软键盘
+			imm.showSoftInput(mFootEditer, 0);
+			//隐藏表情
+			hideFace();
+		}
+    }
+    
+    //表情控件点击事件
+    private View.OnClickListener facesClickListener = new View.OnClickListener() {
+		public void onClick(View v) {	
+			showOrHideIMM();
+		}
+	};
+	
     private View.OnClickListener refreshClickListener = new View.OnClickListener() {
 		public void onClick(View v) {	
 			loadTweetDetail(curId, mHandler, true);
@@ -571,7 +635,7 @@ public class TweetDetail extends Activity {
 					
 					if(mProgress!=null)mProgress.dismiss();
 					
-					if(msg.what == 1){
+					if(msg.what == 1 && msg.obj != null){
 						Result res = (Result)msg.obj;
 						UIHelper.ToastMessage(TweetDetail.this, res.getErrorMessage());
 						if(res.OK()){
@@ -584,6 +648,10 @@ public class TweetDetail extends Activity {
 							mFootEditer.clearFocus();
 							mFootEditer.setText("");
 							mFootEditer.setVisibility(View.GONE);
+							//隐藏软键盘
+							imm.hideSoftInputFromWindow(mFootEditer.getWindowToken(), 0);
+							//隐藏表情
+							hideFace();
 							//更新评论列表
 							lvCommentData.add(0, res.getComment());
 							lvCommentAdapter.notifyDataSetChanged();

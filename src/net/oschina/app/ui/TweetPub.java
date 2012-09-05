@@ -242,7 +242,7 @@ public class TweetPub extends Activity{
     private void showOrHideIMM() {
     	if(mFace.getTag() == null){
 			//隐藏软键盘
-			imm.hideSoftInputFromWindow(mFace.getWindowToken(), 0);
+			imm.hideSoftInputFromWindow(mContent.getWindowToken(), 0);
 			//显示表情
 			showFace();				
 		}else{
@@ -568,7 +568,6 @@ public class TweetPub extends Activity{
 			
 			final Handler handler = new Handler(){
 				public void handleMessage(Message msg) {
-					mMessage.setVisibility(View.GONE);
 					if(msg.what == 1){
 						//清除之前保存的编辑内容
 						ac.removeProperty(tempTweetKey,tempTweetImageKey);						

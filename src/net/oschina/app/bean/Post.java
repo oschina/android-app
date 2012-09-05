@@ -2,6 +2,8 @@ package net.oschina.app.bean;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.oschina.app.AppException;
 import net.oschina.app.common.StringUtils;
@@ -50,7 +52,15 @@ public class Post extends Entity{
 	private int catalog;
 	private int isNoticeMe;	
 	private int favorite;
+	private List<String> tags;
 	
+	
+	public List<String> getTags() {
+		return tags;
+	}
+	public void setTags(List<String> tags) {
+		this.tags = tags;
+	}
 	public int getFavorite() {
 		return favorite;
 	}
@@ -187,6 +197,15 @@ public class Post extends Entity{
 				            {			            	
 				            	post.setFavorite(StringUtils.toInt(xmlParser.nextText(),0));		            	
 				            }
+				            //标签
+				            else if(tag.equalsIgnoreCase("tags"))
+				            {
+				            	post.tags = new ArrayList<String>();
+				            }
+				            else if(post.getTags() != null && tag.equalsIgnoreCase("tag"))
+				    		{
+				            	post.getTags().add(xmlParser.nextText());
+				    		}
 				            //通知信息
 				            else if(tag.equalsIgnoreCase("notice"))
 				    		{
