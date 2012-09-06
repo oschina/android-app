@@ -1,5 +1,18 @@
+# built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
 *.class
 
+<<<<<<< HEAD
+# generated files
+bin/
+gen/
+=======
 # Package Files #
 *.jar
 *.war
@@ -7,3 +20,4 @@
 /lint.xml
 /bin
 /gen
+>>>>>>> 0f43e83d7a3a32d0c571445c2a02194715d82ba4

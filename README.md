@@ -97,8 +97,13 @@ AndroidManifest.xml注册的启动界面为"AppStart"，具体文件为net.oschi
 
 #### 2、APP访问API流程 ####
 
+<<<<<<< HEAD
 以首页资讯列表显示访问API数据为例：
 
+=======
+以首页资讯列表显示访问API数据为例：
+
+>>>>>>> 0f43e83d7a3a32d0c571445c2a02194715d82ba4
 **1) 初始化控件**<br>
 首页Activity(Main.java)在onCreate()方法里面加载布局文件(Main.xml)，对下拉刷新列表控件(PullToRefreshListView)进行了初始化，并设置了数据适配器(ListViewNewsAdapter)。<br>
 *注：Main.xml布局文件在res\layout目录下；PullToRefreshListView控件在net.oschina.app.widget包；ListViewNewsAdapter适配器在net.oschina.app.adapter包。*
