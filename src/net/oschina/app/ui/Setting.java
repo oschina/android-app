@@ -31,6 +31,7 @@ public class Setting extends PreferenceActivity{
 	CheckBoxPreference httpslogin;
 	CheckBoxPreference loadimage;
 	CheckBoxPreference scroll;
+	CheckBoxPreference voice;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +132,26 @@ public class Setting extends PreferenceActivity{
 					scroll.setSummary("已启用左右滑动");
 				}else{
 					scroll.setSummary("已关闭左右滑动");
+				}
+				return true;
+			}
+		});
+		
+		//提示声音
+		voice = (CheckBoxPreference)findPreference("voice");
+		voice.setChecked(ac.isVoice());
+		if(ac.isVoice()){
+			voice.setSummary("已开启提示声音");
+		}else{
+			voice.setSummary("已关闭提示声音");
+		}
+		voice.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+			public boolean onPreferenceClick(Preference preference) {
+				ac.setConfigVoice(voice.isChecked());
+				if(voice.isChecked()){
+					voice.setSummary("已开启提示声音");
+				}else{
+					voice.setSummary("已关闭提示声音");
 				}
 				return true;
 			}

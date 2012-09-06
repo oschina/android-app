@@ -1,5 +1,6 @@
 package net.oschina.app.ui;
 
+import net.oschina.app.AppContext;
 import net.oschina.app.R;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -134,8 +135,9 @@ public class BroadCast extends BroadcastReceiver {
 			//设置通知方式
 			notification.defaults |= Notification.DEFAULT_LIGHTS;
 			
-			//设置通知音
-			notification.sound = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.notificationsound);
+			//设置通知音-根据app设置是否发出提示音
+			if(((AppContext)context.getApplicationContext()).isAppSound())
+				notification.sound = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.notificationsound);
 			
 			//设置振动 <需要加上用户权限android.permission.VIBRATE>
 			//notification.vibrate = new long[]{100, 250, 100, 500};

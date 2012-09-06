@@ -49,6 +49,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
@@ -83,6 +84,23 @@ public class AppContext extends Application {
 		}		
 	};
 
+	/**
+	 * 检测当前系统声音是否为正常模式
+	 * @return
+	 */
+	public boolean isAudioNormal() {
+		AudioManager mAudioManager = (AudioManager)getSystemService(AUDIO_SERVICE); 
+		return mAudioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL;
+	}
+	
+	/**
+	 * 应用程序是否发出提示音
+	 * @return
+	 */
+	public boolean isAppSound() {
+		return isAudioNormal() && isVoice();
+	}
+	
 	/**
 	 * 检测网络是否可用
 	 * @return
@@ -1265,6 +1283,29 @@ public class AppContext extends Application {
 	public void setConfigLoadimage(boolean b)
 	{
 		setProperty(AppConfig.CONF_LOAD_IMAGE, String.valueOf(b));
+	}
+	
+	/**
+	 * 是否发出提示音
+	 * @return
+	 */
+	public boolean isVoice()
+	{
+		String perf_voice = getProperty(AppConfig.CONF_VOICE);
+		//默认是开启提示声音
+		if(StringUtils.isEmpty(perf_voice))
+			return true;
+		else
+			return StringUtils.toBool(perf_voice);
+	}
+	
+	/**
+	 * 设置是否发出提示音
+	 * @param b
+	 */
+	public void setConfigVoice(boolean b)
+	{
+		setProperty(AppConfig.CONF_VOICE, String.valueOf(b));
 	}
 	
 	/**

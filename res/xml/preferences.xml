@@ -34,6 +34,12 @@
 	        android:key="scroll" 
 	        android:summary="已关闭左右滑动" 
 		    android:defaultValue="false"/>
+		<CheckBoxPreference 
+		    android:layout="@layout/preference" 
+		    android:title="提示声音" 
+	        android:key="voice" 
+	        android:summary="已开启提示声音" 
+		    android:defaultValue="true"/>
     </PreferenceCategory>
     <PreferenceCategory 
 	    android:layout="@layout/preference_category" 

@@ -37,6 +37,7 @@ public class AppConfig{
 	public final static String CONF_LOAD_IMAGE = "perf_loadimage";
 	public final static String CONF_SCROLL = "perf_scroll";
 	public final static String CONF_HTTPS_LOGIN = "perf_httpslogin";
+	public final static String CONF_VOICE = "perf_voice";
 	
 	private Context mContext;
 	private AccessInfo accessInfo = null;

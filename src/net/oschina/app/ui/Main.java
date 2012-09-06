@@ -1624,10 +1624,11 @@ public class Main extends Activity {
 				}
 				if(actiontype == UIHelper.LISTVIEW_ACTION_REFRESH){
 					//提示新加载数据
-					if(newdata >0)
-						NewDataToast.makeText(this, getString(R.string.new_data_toast_message, newdata), true).show();
-					else
+					if(newdata >0){
+						NewDataToast.makeText(this, getString(R.string.new_data_toast_message, newdata), appContext.isAppSound()).show();
+					}else{
 						NewDataToast.makeText(this, getString(R.string.new_data_toast_none), false).show();
+					}
 				}
 				break;
 			case UIHelper.LISTVIEW_ACTION_SCROLL:
