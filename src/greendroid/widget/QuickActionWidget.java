@@ -235,7 +235,9 @@ public abstract class QuickActionWidget extends PopupWindow {
         }
 
         // Replaces the background of the popup with a cleared background
-        setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        //setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        //修复点击背景空白
+        setBackgroundDrawable(null);
 
         final int[] loc = mLocation;
         anchor.getLocationOnScreen(loc);
