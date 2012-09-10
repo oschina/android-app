@@ -444,7 +444,9 @@ public class BlogDetail extends Activity {
 							}else{
 								blogDetail.setFavorite(1);
 								mFavorite.setImageResource(R.drawable.widget_bar_favorite2);
-							}	
+							}
+							//重新保存缓存
+							ac.saveObject(blogDetail, blogDetail.getCacheKey());
 						}
 						UIHelper.ToastMessage(BlogDetail.this, res.getErrorMessage());
 					}else{

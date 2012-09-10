@@ -464,7 +464,9 @@ public class NewsDetail extends Activity {
 							}else{
 								newsDetail.setFavorite(1);
 								mFavorite.setImageResource(R.drawable.widget_bar_favorite2);
-							}	
+							}
+							//重新保存缓存
+							ac.saveObject(newsDetail, newsDetail.getCacheKey());
 						}
 						UIHelper.ToastMessage(NewsDetail.this, res.getErrorMessage());
 					}else{

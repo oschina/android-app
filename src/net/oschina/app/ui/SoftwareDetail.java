@@ -300,7 +300,9 @@ public class SoftwareDetail extends Activity {
 							}else{
 								softwareDetail.setFavorite(1);
 								mFavorite.setImageResource(R.drawable.head_favorite_y);
-							}	
+							}
+							//重新保存缓存
+							ac.saveObject(softwareDetail, softwareDetail.getCacheKey());
 						}
 						UIHelper.ToastMessage(SoftwareDetail.this, res.getErrorMessage());
 					}else{

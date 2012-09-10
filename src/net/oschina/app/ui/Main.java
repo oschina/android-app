@@ -1061,7 +1061,6 @@ public class Main extends Activity {
 							break;
 						}
 	    			}
-					setCurPoint(pos);
 					mScrollLayout.snapToScreen(pos);
 				}
 			});

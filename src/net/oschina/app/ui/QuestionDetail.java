@@ -450,7 +450,9 @@ public class QuestionDetail extends Activity {
 							}else{
 								postDetail.setFavorite(1);
 								mFavorite.setImageResource(R.drawable.widget_bar_favorite2);
-							}	
+							}
+							//重新保存缓存
+							ac.saveObject(postDetail, postDetail.getCacheKey());
 						}
 						UIHelper.ToastMessage(QuestionDetail.this, res.getErrorMessage());
 					}else{
