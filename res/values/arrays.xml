@@ -4,6 +4,7 @@
     <string-array name="app_share_items">
 	    <item>新浪微博</item>
 	    <item>腾讯微博</item>
+	    <item>更多...</item>
     </string-array>
     <string-array name="message_list_options">
 	    <item>回复</item>

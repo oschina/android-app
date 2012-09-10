@@ -387,6 +387,21 @@ public class UIHelper {
 	}
 	
 	/**
+	 * 调用系统安装了的应用分享
+	 * @param context
+	 * @param title
+	 * @param url
+	 */
+	public static void showShareMore(Activity context,final String title,final String url)
+	{
+		Intent intent = new Intent(Intent.ACTION_SEND);
+		intent.setType("text/plain");
+		intent.putExtra(Intent.EXTRA_SUBJECT, "分享：" + title);
+		intent.putExtra(Intent.EXTRA_TEXT, title + " " +url);
+		context.startActivity(Intent.createChooser(intent, "选择分享"));
+	}
+	
+	/**
 	 * 分享到'新浪微博'或'腾讯微博'的对话框
 	 * @param context 当前Activity
 	 * @param title	分享的标题
@@ -402,7 +417,7 @@ public class UIHelper {
 			AccessInfo access = cfgHelper.getAccessInfo();
 			public void onClick(DialogInterface arg0, int arg1) {
 				switch (arg1) {
-					case 0:
+					case 0://新浪微博
 						//分享的内容
 						final String shareMessage = title + " " +url;
 						//初始化微博
@@ -432,8 +447,11 @@ public class UIHelper {
 				        	SinaWeiboHelper.authorize(context, shareMessage);
 				        }
 						break;
-					case 1:
+					case 1://腾讯微博
 						QQWeiboHelper.shareToQQ(context, title, url);
+						break;
+					case 2://更多
+						showShareMore(context, title, url);
 						break;
 				}				
 			}
