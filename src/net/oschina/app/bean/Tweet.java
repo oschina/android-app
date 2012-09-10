@@ -32,6 +32,11 @@ public class Tweet extends Entity{
 	public final static String NODE_APPCLIENT = "appclient";
 	public final static String NODE_START = "tweet";
 	
+	public final static int CLIENT_MOBILE = 2;
+	public final static int CLIENT_ANDROID = 3;
+	public final static int CLIENT_IPHONE = 4;
+	public final static int CLIENT_WINDOWS_PHONE = 5;
+	
 	private String face;
 	private String body;
 	private String author;

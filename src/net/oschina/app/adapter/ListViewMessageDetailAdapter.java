@@ -38,6 +38,7 @@ public class ListViewMessageDetailAdapter extends BaseAdapter {
 			public LinkView username;  
 		    public TextView date;  
 		    public LinearLayout contentll;
+		    public TextView client;
 	 }  
 
 	/**
@@ -86,6 +87,7 @@ public class ListViewMessageDetailAdapter extends BaseAdapter {
 			listItemView.username = (LinkView)convertView.findViewById(R.id.messagedetail_listitem_username);
 			listItemView.date = (TextView)convertView.findViewById(R.id.messagedetail_listitem_date);
 			listItemView.contentll = (LinearLayout)convertView.findViewById(R.id.messagedetail_listitem_contentll);
+			listItemView.client= (TextView)convertView.findViewById(R.id.messagedetail_listitem_client);
 			
 			//设置控件集到convertView
 			convertView.setTag(listItemView);
@@ -100,6 +102,29 @@ public class ListViewMessageDetailAdapter extends BaseAdapter {
 		//listItemView.username.parseLinkText();
 		listItemView.username.setTag(msg);//设置隐藏参数(实体类)
 		listItemView.date.setText(StringUtils.friendly_time(msg.getPubDate()));
+		
+		switch(msg.getAppClient())
+		{	
+			default:
+				listItemView.client.setText("");
+				break;
+			case Comment.CLIENT_MOBILE:
+				listItemView.client.setText("来自:手机");
+				break;
+			case Comment.CLIENT_ANDROID:
+				listItemView.client.setText("来自:Android");
+				break;
+			case Comment.CLIENT_IPHONE:
+				listItemView.client.setText("来自:iPhone");
+				break;
+			case Comment.CLIENT_WINDOWS_PHONE:
+				listItemView.client.setText("来自:Windows Phone");
+				break;
+		}
+		if(StringUtils.isEmpty(listItemView.client.getText().toString()))
+			listItemView.client.setVisibility(View.GONE);
+		else
+			listItemView.client.setVisibility(View.VISIBLE);
 		
 		String faceURL = msg.getFace();
 		AppContext ac = (AppContext)context.getApplicationContext();

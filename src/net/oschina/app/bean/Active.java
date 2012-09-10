@@ -26,6 +26,11 @@ public class Active extends Entity {
 	public final static int CATALOG_TWEET = 3;//动弹
 	public final static int CATALOG_BLOG = 4;//博客
 	
+	public final static int CLIENT_MOBILE = 2;
+	public final static int CLIENT_ANDROID = 3;
+	public final static int CLIENT_IPHONE = 4;
+	public final static int CLIENT_WINDOWS_PHONE = 5;
+	
 	private String face;
 	private String message;
 	private String author;

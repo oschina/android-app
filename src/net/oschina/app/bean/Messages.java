@@ -19,6 +19,11 @@ import android.util.Xml;
  */
 public class Messages extends Entity {
 
+	public final static int CLIENT_MOBILE = 2;
+	public final static int CLIENT_ANDROID = 3;
+	public final static int CLIENT_IPHONE = 4;
+	public final static int CLIENT_WINDOWS_PHONE = 5;
+	
 	private String face;
 	private int friendId;
 	private String friendName;
@@ -26,8 +31,15 @@ public class Messages extends Entity {
 	private int senderId;
 	private String content;
 	private int messageCount;
-	private String pubDate;
-
+	private String pubDate;	
+	private int appClient; 
+	
+	public int getAppClient() {
+		return appClient;
+	}
+	public void setAppClient(int appClient) {
+		this.appClient = appClient;
+	}
 	public String getFace() {
 		return face;
 	}
@@ -131,6 +143,10 @@ public class Messages extends Entity {
 				            else if(tag.equalsIgnoreCase("pubDate"))
 				            {			            	
 				            	msg.setPubDate(xmlParser.nextText());	            	
+				            }
+				            else if(tag.equalsIgnoreCase("appclient"))
+				            {			            	
+				            	msg.setAppClient(StringUtils.toInt(xmlParser.nextText(),0));			            	
 				            }
 				            //通知信息
 				            else if(tag.equalsIgnoreCase("notice"))

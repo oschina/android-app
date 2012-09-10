@@ -116,20 +116,19 @@ public class ListViewCommentAdapter extends BaseAdapter {
 		
 		switch(comment.getAppClient())
 		{	
-			case 0:
-			case 1:
+			default:
 				listItemView.client.setText("");
 				break;
-			case 2:
+			case Comment.CLIENT_MOBILE:
 				listItemView.client.setText("来自:手机");
 				break;
-			case 3:
+			case Comment.CLIENT_ANDROID:
 				listItemView.client.setText("来自:Android");
 				break;
-			case 4:
+			case Comment.CLIENT_IPHONE:
 				listItemView.client.setText("来自:iPhone");
 				break;
-			case 5:
+			case Comment.CLIENT_WINDOWS_PHONE:
 				listItemView.client.setText("来自:Windows Phone");
 				break;
 		}

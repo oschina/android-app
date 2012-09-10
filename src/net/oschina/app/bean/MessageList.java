@@ -100,6 +100,10 @@ public class MessageList extends Entity{
 				            {			            	
 				            	msg.setPubDate(xmlParser.nextText());     	
 				            }
+				            else if(tag.equalsIgnoreCase("appclient"))
+				            {			            	
+				            	msg.setAppClient(StringUtils.toInt(xmlParser.nextText(),0));			            	
+				            }
 			    		}
 			            //通知信息
 			            else if(tag.equalsIgnoreCase("notice"))

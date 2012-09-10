@@ -35,6 +35,7 @@ public class ListViewMessageAdapter extends BaseAdapter {
 			public TextView username;
 		    public TextView date;  
 		    public TextView messageCount;
+		    public TextView client;
 	 }  
 
 	/**
@@ -82,6 +83,7 @@ public class ListViewMessageAdapter extends BaseAdapter {
 			listItemView.username = (TextView)convertView.findViewById(R.id.message_listitem_username);
 			listItemView.date = (TextView)convertView.findViewById(R.id.message_listitem_date);
 			listItemView.messageCount = (TextView)convertView.findViewById(R.id.message_listitem_messageCount);
+			listItemView.client= (TextView)convertView.findViewById(R.id.message_listitem_client);
 			
 			//设置控件集到convertView
 			convertView.setTag(listItemView);
@@ -100,6 +102,29 @@ public class ListViewMessageAdapter extends BaseAdapter {
 		listItemView.username.setTag(msg);//设置隐藏参数(实体类)
 		listItemView.date.setText(StringUtils.friendly_time(msg.getPubDate()));
 		listItemView.messageCount.setText("共有 "+msg.getMessageCount()+" 条留言");
+		
+		switch(msg.getAppClient())
+		{	
+			default:
+				listItemView.client.setText("");
+				break;
+			case Messages.CLIENT_MOBILE:
+				listItemView.client.setText("来自:手机");
+				break;
+			case Messages.CLIENT_ANDROID:
+				listItemView.client.setText("来自:Android");
+				break;
+			case Messages.CLIENT_IPHONE:
+				listItemView.client.setText("来自:iPhone");
+				break;
+			case Messages.CLIENT_WINDOWS_PHONE:
+				listItemView.client.setText("来自:Windows Phone");
+				break;
+		}
+		if(StringUtils.isEmpty(listItemView.client.getText().toString()))
+			listItemView.client.setVisibility(View.GONE);
+		else
+			listItemView.client.setVisibility(View.VISIBLE);
 		
 		String faceURL = msg.getFace();
 		if(faceURL.endsWith("portrait.gif") || StringUtils.isEmpty(faceURL)){

@@ -33,13 +33,26 @@
 			android:textColorLink="@color/listitem_blue"
 			android:autoLink="web|email"/>
        	
-       	<TextView 
-        	android:id="@+id/messagedetail_listitem_date" 
-            android:layout_width="wrap_content" 
-         	android:layout_height="wrap_content"
-         	android:layout_marginTop="8dip"
-         	android:textSize="@dimen/text_size_10"
-         	android:textColor="@color/listitem_gray"/>
+		<LinearLayout 
+	    	android:orientation="horizontal" 
+	        android:layout_width="wrap_content"  
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="8dip">  
+	        <TextView 
+	        	android:id="@+id/messagedetail_listitem_client" 
+	            android:layout_width="wrap_content" 
+	         	android:layout_height="wrap_content"
+	         	android:layout_marginRight="10dip"
+	         	android:textSize="@dimen/text_size_10"
+	         	android:textColor="@color/listitem_gray"/>
+	        
+	       	<TextView 
+	        	android:id="@+id/messagedetail_listitem_date" 
+	            android:layout_width="wrap_content" 
+	         	android:layout_height="wrap_content"
+	         	android:textSize="@dimen/text_size_10"
+	         	android:textColor="@color/listitem_gray"/>
+       	</LinearLayout>
         
 	</LinearLayout>
 

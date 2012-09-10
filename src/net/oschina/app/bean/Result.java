@@ -99,6 +99,10 @@ public class Result extends Base {
 				            {			            	
 				            	res.comment.setPubDate(xmlParser.nextText());	
 				            }
+				            else if(tag.equalsIgnoreCase("appclient"))
+				            {			            	
+				            	res.comment.setAppClient(StringUtils.toInt(xmlParser.nextText(),0));			            	
+				            }
 				            else if(tag.equalsIgnoreCase("reply"))
 				            {			            	
 				            	reply = new Reply();

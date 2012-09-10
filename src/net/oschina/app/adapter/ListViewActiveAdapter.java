@@ -109,20 +109,19 @@ public class ListViewActiveAdapter extends BaseAdapter {
 		
 		switch(active.getAppClient())
 		{	
-			case 0:
-			case 1:
+			default:
 				listItemView.client.setText("");
 				break;
-			case 2:
+			case Active.CLIENT_MOBILE:
 				listItemView.client.setText("来自:手机");
 				break;
-			case 3:
+			case Active.CLIENT_ANDROID:
 				listItemView.client.setText("来自:Android");
 				break;
-			case 4:
+			case Active.CLIENT_IPHONE:
 				listItemView.client.setText("来自:iPhone");
 				break;
-			case 5:
+			case Active.CLIENT_WINDOWS_PHONE:
 				listItemView.client.setText("来自:Windows Phone");
 				break;
 		}

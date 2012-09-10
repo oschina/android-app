@@ -22,6 +22,11 @@ import android.util.Xml;
  */
 public class Comment extends Entity {
 
+	public final static int CLIENT_MOBILE = 2;
+	public final static int CLIENT_ANDROID = 3;
+	public final static int CLIENT_IPHONE = 4;
+	public final static int CLIENT_WINDOWS_PHONE = 5;
+	
 	private String face;
 	private String content;
 	private String author;
