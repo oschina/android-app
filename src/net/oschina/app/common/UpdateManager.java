@@ -45,6 +45,9 @@ public class UpdateManager {
     private static final int DOWN_UPDATE = 1;
     private static final int DOWN_OVER = 2;
 	
+    private static final int DIALOG_TYPE_LATEST = 0;
+    private static final int DIALOG_TYPE_FAIL   = 1;
+    
 	private static UpdateManager updateManager;
 	
 	private Context mContext;
@@ -52,6 +55,8 @@ public class UpdateManager {
 	private Dialog noticeDialog;
 	//下载对话框
 	private Dialog downloadDialog;
+	//'已经是最新' 或者 '无法获取最新版本' 的对话框
+	private Dialog latestOrFailDialog;
     //进度条
     private ProgressBar mProgress;
     //查询动画
@@ -61,7 +66,7 @@ public class UpdateManager {
     //下载线程
     private Thread downLoadThread;
     //终止标记
-    private boolean interceptFlag = false;
+    private boolean interceptFlag;
 	//提示语
 	private String updateMsg = "";
 	//返回的安装包url
@@ -70,6 +75,8 @@ public class UpdateManager {
     private String savePath = "";
 	//apk保存完整路径
 	private String apkFilePath = "";
+	//临时下载文件路径
+	private String tmpFilePath = "";
 	
 	private String curVersionName = "";
 	private int curVersionCode;
@@ -97,6 +104,7 @@ public class UpdateManager {
 		if(updateManager == null){
 			updateManager = new UpdateManager();
 		}
+		updateManager.interceptFlag = false;
 		return updateManager;
 	}
 	
@@ -108,12 +116,24 @@ public class UpdateManager {
 	public void checkAppUpdate(Context context, final boolean isShowMsg){
 		this.mContext = context;
 		getCurrentVersion();
-		if(isShowMsg)
-			mProDialog = ProgressDialog.show(mContext, null, "正在检测，请稍后...", true, true);
+		if(isShowMsg){
+			if(mProDialog == null)
+				mProDialog = ProgressDialog.show(mContext, null, "正在检测，请稍后...", true, true);
+			else if(mProDialog.isShowing() || (latestOrFailDialog!=null && latestOrFailDialog.isShowing()))
+				return;
+		}
 		final Handler handler = new Handler(){
 			public void handleMessage(Message msg) {
-				if(isShowMsg && mProDialog != null)
+				//进度条对话框不显示 - 检测结果也不显示
+				if(mProDialog != null && !mProDialog.isShowing()){
+					return;
+				}
+				//关闭并释放释放进度条对话框
+				if(isShowMsg && mProDialog != null){
 					mProDialog.dismiss();
+					mProDialog = null;
+				}
+				//显示检测结果
 				if(msg.what == 1){
 					mUpdate = (Update)msg.obj;
 					if(mUpdate != null){
@@ -122,21 +142,13 @@ public class UpdateManager {
 							updateMsg = mUpdate.getUpdateLog();
 							showNoticeDialog();
 						}else if(isShowMsg){
-							AlertDialog.Builder builder = new Builder(mContext);
-							builder.setTitle("系统提示");
-							builder.setMessage("您当前已经是最新版本");
-							builder.setPositiveButton("确定", null);
-							builder.create().show();
+							showLatestOrFailDialog(DIALOG_TYPE_LATEST);
 						}
 					}
 				}else if(isShowMsg){
-					AlertDialog.Builder builder = new Builder(mContext);
-					builder.setTitle("系统提示");
-					builder.setMessage("无法获取版本更新信息");
-					builder.setPositiveButton("确定", null);
-					builder.create().show();
+					showLatestOrFailDialog(DIALOG_TYPE_FAIL);
 				}
-			}			
+			}
 		};
 		new Thread(){
 			public void run() {
@@ -153,6 +165,27 @@ public class UpdateManager {
 		}.start();		
 	}	
 	
+	/**
+	 * 显示'已经是最新'或者'无法获取版本信息'对话框
+	 */
+	private void showLatestOrFailDialog(int dialogType) {
+		if (latestOrFailDialog != null) {
+			//关闭并释放之前的对话框
+			latestOrFailDialog.dismiss();
+			latestOrFailDialog = null;
+		}
+		AlertDialog.Builder builder = new Builder(mContext);
+		builder.setTitle("系统提示");
+		if (dialogType == DIALOG_TYPE_LATEST) {
+			builder.setMessage("您当前已经是最新版本");
+		} else if (dialogType == DIALOG_TYPE_FAIL) {
+			builder.setMessage("无法获取版本更新信息");
+		}
+		builder.setPositiveButton("确定", null);
+		latestOrFailDialog = builder.create();
+		latestOrFailDialog.show();
+	}
+
 	/**
 	 * 获取当前客户端版本信息
 	 */
@@ -220,6 +253,7 @@ public class UpdateManager {
 		public void run() {
 			try {
 				String apkName = "OSChinaApp_"+mUpdate.getVersionName()+".apk";
+				String tmpApk = "OSChinaApp_"+mUpdate.getVersionName()+".tmp";
 				//判断是否挂载了SD卡
 				String storageState = Environment.getExternalStorageState();		
 				if(storageState.equals(Environment.MEDIA_MOUNTED)){
@@ -229,6 +263,7 @@ public class UpdateManager {
 						file.mkdirs();
 					}
 					apkFilePath = savePath + apkName;
+					tmpFilePath = savePath + tmpApk;
 				}
 				
 				//没有挂载SD卡，无法下载文件
@@ -246,7 +281,9 @@ public class UpdateManager {
 					return;
 				}
 				
-				FileOutputStream fos = new FileOutputStream(ApkFile);
+				//输出临时下载文件
+				File tmpFile = new File(tmpFilePath);
+				FileOutputStream fos = new FileOutputStream(tmpFile);
 				
 				URL url = new URL(apkUrl);
 				HttpURLConnection conn = (HttpURLConnection)url.openConnection();
@@ -264,8 +301,11 @@ public class UpdateManager {
 		    	    //更新进度
 		    	    mHandler.sendEmptyMessage(DOWN_UPDATE);
 		    		if(numread <= 0){	
-		    			//下载完成通知安装
-		    			mHandler.sendEmptyMessage(DOWN_OVER);
+		    			//下载完成 - 将临时下载文件转成APK文件
+						if(tmpFile.renameTo(ApkFile)){
+							//通知安装
+							mHandler.sendEmptyMessage(DOWN_OVER);
+						}
 		    			break;
 		    		}
 		    		fos.write(buf,0,numread);
