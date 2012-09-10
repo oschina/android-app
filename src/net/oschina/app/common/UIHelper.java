@@ -2,6 +2,8 @@ package net.oschina.app.common;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import greendroid.widget.MyQuickAction;
 import greendroid.widget.QuickAction;
@@ -10,6 +12,7 @@ import net.oschina.app.AppContext;
 import net.oschina.app.AppException;
 import net.oschina.app.AppManager;
 import net.oschina.app.R;
+import net.oschina.app.adapter.GridViewFaceAdapter;
 import net.oschina.app.api.ApiClient;
 import net.oschina.app.bean.AccessInfo;
 import net.oschina.app.bean.Active;
@@ -55,15 +58,18 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.ImageSpan;
 import android.text.style.StyleSpan;
 import android.view.Menu;
 import android.view.View;
@@ -102,6 +108,9 @@ public class UIHelper {
 	
 	public final static int REQUEST_CODE_FOR_RESULT = 0x01;
 	public final static int REQUEST_CODE_FOR_REPLY = 0x02;
+	
+	/** 表情图片匹配 */
+	private static Pattern facePattern = Pattern.compile("\\[{1}([0-9]\\d*)\\]{1}");
 	
 	/** 全局web样式 */
 	public final static String WEB_STYLE = "<style>* {font-size:16px;line-height:20px;} p {color:#333;} a {color:#3E62A6;} img {max-width:310px;} " +
@@ -932,9 +941,38 @@ public class UIHelper {
 	public static void showTempEditContent(Activity context, EditText editer, String temlKey) {
 		String tempContent = ((AppContext)context.getApplication()).getProperty(temlKey);
 		if(!StringUtils.isEmpty(tempContent)) {
-			editer.setText(tempContent);
+			SpannableStringBuilder builder = parseFaceByText(context, tempContent);
+			editer.setText(builder);
 			editer.setSelection(tempContent.length());//设置光标位置
 		}
+	}
+	
+	/**
+	 * 将[12]之类的字符串替换为表情
+	 * @param context
+	 * @param content
+	 */
+	public static SpannableStringBuilder parseFaceByText(Context context, String content) {
+		SpannableStringBuilder builder = new SpannableStringBuilder(content);
+		Matcher matcher = facePattern.matcher(content);
+		while (matcher.find()) {
+			//使用正则表达式找出其中的数字
+			int position = StringUtils.toInt(matcher.group(1));
+			int resId = 0;
+			try {
+				if(position > 65 && position < 102)
+					position = position-1;
+				else if(position > 102)
+					position = position-2;
+				resId = GridViewFaceAdapter.getImageIds()[position];
+				Drawable d = context.getResources().getDrawable(resId);
+				d.setBounds(0, 0, 35, 35);//设置表情图片的显示大小
+				ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_BOTTOM);
+				builder.setSpan(span, matcher.start(), matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			} catch (Exception e) {
+			}
+		}
+		return builder;
 	}
 	
 	/**

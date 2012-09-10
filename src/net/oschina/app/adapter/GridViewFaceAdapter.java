@@ -20,12 +20,7 @@ public class GridViewFaceAdapter extends BaseAdapter
 	// 定义Context
 	private Context	mContext;
 	// 定义整型数组 即图片源
-	private int[] mImageIds;
-
-	public GridViewFaceAdapter(Context c)
-	{
-		mContext = c;
-		mImageIds = new int[]{
+	private static int[] mImageIds = new int[]{
 			R.drawable.f001,R.drawable.f002,R.drawable.f003,R.drawable.f004,R.drawable.f005,R.drawable.f006,
 			R.drawable.f007,R.drawable.f008,R.drawable.f009,R.drawable.f010,R.drawable.f011,R.drawable.f012,
 			R.drawable.f013,R.drawable.f014,R.drawable.f015,R.drawable.f016,R.drawable.f017,R.drawable.f018,
@@ -45,8 +40,17 @@ public class GridViewFaceAdapter extends BaseAdapter
 			R.drawable.f098,R.drawable.f099,R.drawable.f100,R.drawable.f101,R.drawable.f103,R.drawable.f104,
 			R.drawable.f105
 		};
-	}
 
+	public static int[] getImageIds()
+	{
+		return mImageIds;
+	}
+	
+	public GridViewFaceAdapter(Context c)
+	{
+		mContext = c;
+	}
+	
 	// 获取图片的个数
 	public int getCount()
 	{
@@ -93,5 +97,4 @@ public class GridViewFaceAdapter extends BaseAdapter
 		
 		return imageView;
 	}
-
 }
