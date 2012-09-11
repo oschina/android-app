@@ -263,7 +263,13 @@ public class Main extends Activity {
 		}
 	}
     
-    public class TweetReceiver extends BroadcastReceiver {
+    @Override
+	protected void onDestroy() {
+		super.onDestroy();
+		unregisterReceiver(tweetReceiver);
+	}
+
+	public class TweetReceiver extends BroadcastReceiver {
     	@Override
     	public void onReceive(final Context context, Intent intent) {
 			int what = intent.getIntExtra("MSG_WHAT", 0);	
