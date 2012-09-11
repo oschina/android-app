@@ -26,6 +26,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -234,6 +235,26 @@ public abstract class QuickActionWidget extends PopupWindow {
             throw new IllegalStateException("You need to set the content view using the setContentView method");
         }
 
+        //设置触摸事件 - 修复触摸弹窗以外的地方无法隐藏弹窗
+        contentView.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+	            final int x = (int) event.getX();
+	            final int y = (int) event.getY();
+	            
+	            if ((event.getAction() == MotionEvent.ACTION_DOWN)
+	                    && ((x < 0) || (x >= getWidth()) || (y < 0) || (y >= getHeight()))) {
+	                dismiss();
+	                return true;
+	            } else if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+	                dismiss();
+	                return true;
+	            } else {
+	                return contentView.onTouchEvent(event);
+	            }
+			}
+		});
+        
         // Replaces the background of the popup with a cleared background
         //setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         //修复点击背景空白
