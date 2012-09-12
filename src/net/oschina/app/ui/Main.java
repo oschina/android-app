@@ -241,6 +241,12 @@ public class Main extends Activity {
     }
 
 	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		unregisterReceiver(tweetReceiver);
+	}
+
+	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
 		
