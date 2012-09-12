@@ -49,6 +49,7 @@ import net.oschina.app.ui.UserCenter;
 import net.oschina.app.ui.UserFavorite;
 import net.oschina.app.ui.UserFriend;
 import net.oschina.app.ui.UserInfo;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -395,6 +396,17 @@ public class UIHelper {
 		context.startActivity(intent);
 	}
 	
+	public static void showShareDialog(final Activity context,final String title,final String url)
+	{
+		//分享的内容
+		final String shareMessage = title + " " +url;
+		
+		Intent intent=new Intent(Intent.ACTION_SEND);        
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+        context.startActivity(Intent.createChooser(intent, context.getString(R.string.footbar_share)));
+	}
+	
 	/**
 	 * 调用系统安装了的应用分享
 	 * @param context
@@ -416,7 +428,7 @@ public class UIHelper {
 	 * @param title	分享的标题
 	 * @param url 分享的链接
 	 */
-	public static void showShareDialog(final Activity context,final String title,final String url)
+	public static void showShareDialogSinaAndQQ(final Activity context,final String title,final String url)
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setIcon(android.R.drawable.btn_star);
@@ -1038,6 +1050,7 @@ public class UIHelper {
 	 * @param objecttitle
 	 * @return
 	 */
+	@SuppressLint({ "NewApi", "NewApi" })
 	public static SpannableString parseActiveAction(String author,int objecttype,int objectcatalog,String objecttitle){
 		String title = "";
 		int start = 0;
