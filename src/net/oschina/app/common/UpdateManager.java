@@ -19,9 +19,10 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
@@ -242,7 +243,15 @@ public class UpdateManager {
 				interceptFlag = true;
 			}
 		});
+		builder.setOnCancelListener(new OnCancelListener() {
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				dialog.dismiss();
+				interceptFlag = true;
+			}
+		});
 		downloadDialog = builder.create();
+		downloadDialog.setCanceledOnTouchOutside(false);
 		downloadDialog.show();
 		
 		downloadApk();
