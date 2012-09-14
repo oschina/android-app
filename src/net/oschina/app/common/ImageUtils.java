@@ -50,6 +50,8 @@ public class ImageUtils{
     public static final int REQUEST_CODE_GETIMAGE_BYSDCARD = 0;
     /** 请求相机 */
     public static final int REQUEST_CODE_GETIMAGE_BYCAMERA = 1;
+    /** 请求裁剪 */
+    public static final int REQUEST_CODE_GETIMAGE_BYCROP = 2;
     
 	/**
 	 * 写图片文件

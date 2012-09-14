@@ -63,6 +63,8 @@ public class UserInfo extends Activity{
 		
 	private final static int CROP = 200;
 	private final static String FILE_SAVEPATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/OSChina/Portrait/";
+	private Uri origUri;
+	private Uri cropUri;
 	private File protraitFile;
 	private Bitmap protraitBitmap;
 	private String protraitPath;
@@ -71,7 +73,7 @@ public class UserInfo extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_info);		
 		
-		//初始话视图控件
+		//初始化视图控件
 		this.initView();
 		//初始化视图数据
 		this.initData();
@@ -222,47 +224,74 @@ public class UserInfo extends Activity{
 
 					//输出裁剪的临时文件
 					String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-					String fileName = "osc_" + timeStamp + ".jpg";//照片命名
-					protraitFile = new File(FILE_SAVEPATH, fileName);
-					Uri uri = Uri.fromFile(protraitFile);
+					//照片命名
+					String origFileName = "osc_" + timeStamp + ".jpg";
+					String cropFileName = "osc_crop_" + timeStamp + ".jpg";
 					
-					protraitPath = FILE_SAVEPATH + fileName;//该照片的绝对路径
+					//裁剪头像的绝对路径
+					protraitPath = FILE_SAVEPATH + cropFileName;
+					protraitFile = new File(protraitPath);
 					
-					//手机选图
-					if( item == 0 )
-					{
-						Intent intent = new Intent(Intent.ACTION_PICK);
-						intent.setType("image/*");
-						intent.putExtra("output", uri);
-						intent.putExtra("crop", "true");
-						intent.putExtra("aspectX", 1);// 裁剪框比例
-						intent.putExtra("aspectY", 1);
-						intent.putExtra("outputX", CROP);// 输出图片大小
-						intent.putExtra("outputY", CROP);
-						startActivityForResult(Intent.createChooser(intent, "选择图片"),ImageUtils.REQUEST_CODE_GETIMAGE_BYSDCARD); 
+					origUri = Uri.fromFile(new File(FILE_SAVEPATH, origFileName));
+					cropUri = Uri.fromFile(protraitFile);
+					
+					//相册选图
+					if(item == 0) {
+						startActionPickCrop(cropUri);
 					}
-					//拍照
-					else if( item == 1 )
-					{	
-						Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-						intent.putExtra("output", uri);
-						intent.putExtra("crop", "true");
-						intent.putExtra("aspectX", 1);// 裁剪框比例
-						intent.putExtra("aspectY", 1);
-						intent.putExtra("outputX", CROP);// 输出图片大小
-						intent.putExtra("outputY", CROP);
-						startActivityForResult(intent, ImageUtils.REQUEST_CODE_GETIMAGE_BYCAMERA);
-					}   
+					//手机拍照
+					else if(item == 1){
+						startActionCamera(origUri);
+					}
 				}}).create();
 		
 		 imageDialog.show();
 	}
 	
-	@Override 
-	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data)
-	{ 
-    	if(resultCode != RESULT_OK) return;
-		
+	/**
+	 * 选择图片裁剪
+	 * @param output
+	 */
+	private void startActionPickCrop(Uri output) {
+		Intent intent = new Intent(Intent.ACTION_PICK);
+		intent.setType("image/*");
+		intent.putExtra("output", output);
+		intent.putExtra("crop", "true");
+		intent.putExtra("aspectX", 1);// 裁剪框比例
+		intent.putExtra("aspectY", 1);
+		intent.putExtra("outputX", CROP);// 输出图片大小
+		intent.putExtra("outputY", CROP);
+		startActivityForResult(Intent.createChooser(intent, "选择图片"),ImageUtils.REQUEST_CODE_GETIMAGE_BYSDCARD);
+	}
+	/**
+	 * 相机拍照
+	 * @param output
+	 */
+	private void startActionCamera(Uri output) {
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, output);
+		startActivityForResult(intent, ImageUtils.REQUEST_CODE_GETIMAGE_BYCAMERA);
+	}
+	/**
+	 * 拍照后裁剪
+	 * @param data 原始图片
+	 * @param output 裁剪后图片
+	 */
+	private void startActionCrop(Uri data, Uri output) {
+		Intent intent = new Intent("com.android.camera.action.CROP");
+		intent.setDataAndType(data, "image/*");
+		intent.putExtra("output", output);
+		intent.putExtra("crop", "true");
+		intent.putExtra("aspectX", 1);// 裁剪框比例
+		intent.putExtra("aspectY", 1);
+		intent.putExtra("outputX", CROP);// 输出图片大小
+		intent.putExtra("outputY", CROP);
+		startActivityForResult(intent, ImageUtils.REQUEST_CODE_GETIMAGE_BYCROP);
+	}
+	/**
+	 * 上传新照片
+	 */
+	private void uploadNewPhoto() {
 		final Handler handler = new Handler(){
 			public void handleMessage(Message msg) {
 				if(loading != null)	loading.dismiss();
@@ -288,14 +317,11 @@ public class UserInfo extends Activity{
 		new Thread(){
 			public void run() 
 			{
-		        if(requestCode == ImageUtils.REQUEST_CODE_GETIMAGE_BYSDCARD || requestCode == ImageUtils.REQUEST_CODE_GETIMAGE_BYCAMERA) 
-		        {   
-		        	//获取头像缩略图
-		        	if(!StringUtils.isEmpty(protraitPath) && protraitFile.exists())
-		        	{
-		        		protraitBitmap = ImageUtils.loadImgThumbnail(protraitPath, 200, 200);
-		        	}
-		        }
+	        	//获取头像缩略图
+	        	if(!StringUtils.isEmpty(protraitPath) && protraitFile.exists())
+	        	{
+	        		protraitBitmap = ImageUtils.loadImgThumbnail(protraitPath, 200, 200);
+	        	}
 		        
 				if(protraitBitmap != null)
 				{	
@@ -315,10 +341,26 @@ public class UserInfo extends Activity{
 						msg.obj = e;
 					} catch(IOException e) {
 						e.printStackTrace();
-					}				
+					}
 					handler.sendMessage(msg);
 				}				
 			};
 		}.start();
     }
+	
+	@Override 
+	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data)
+	{ 
+    	if(resultCode != RESULT_OK) return;
+		
+    	switch(requestCode){
+    		case ImageUtils.REQUEST_CODE_GETIMAGE_BYCAMERA:
+    			startActionCrop(origUri, cropUri);//拍照后裁剪
+    			break;
+    		case ImageUtils.REQUEST_CODE_GETIMAGE_BYSDCARD:
+    		case ImageUtils.REQUEST_CODE_GETIMAGE_BYCROP:
+    			uploadNewPhoto();//上传新照片
+    			break;
+    	}
+	}
 }
