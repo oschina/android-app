@@ -701,7 +701,7 @@ public class Main extends Activity {
         		final Tweet tweet = _tweet;				
 				
 				//删除操作
-        		if(appContext.getLoginUid() == tweet.getAuthorId()) {
+        		//if(appContext.getLoginUid() == tweet.getAuthorId()) {
 					final Handler handler = new Handler(){
 						public void handleMessage(Message msg) {
 							if(msg.what == 1){
@@ -732,9 +732,9 @@ public class Main extends Activity {
 						}
 					};
 					UIHelper.showTweetOptionDialog(Main.this, thread);
-        		} else {
-        			UIHelper.showTweetOptionDialog(Main.this, null);
-        		}
+        		//} else {
+        		//	UIHelper.showTweetOptionDialog(Main.this, null);
+        		//}
 				return true;
 			}        	
 		});
@@ -1081,8 +1081,14 @@ public class Main extends Activity {
 				//切换列表视图-如果列表数据为空：加载数据
 				switch (viewIndex) {
 				case 0://资讯
-					if(lvNewsData.isEmpty()) {
-						loadLvNewsData(curNewsCatalog, 0, lvNewsHandler, UIHelper.LISTVIEW_ACTION_INIT);
+					if(lvNews.getVisibility() == View.VISIBLE) {
+						if(lvNewsData.isEmpty()) {
+							loadLvNewsData(curNewsCatalog, 0, lvNewsHandler, UIHelper.LISTVIEW_ACTION_INIT);
+						}
+					} else {
+						if(lvBlogData.isEmpty()) {
+							loadLvBlogData(curNewsCatalog, 0, lvBlogHandler, UIHelper.LISTVIEW_ACTION_INIT);
+						}
 					}
 					break;	
 				case 1://问答
@@ -1096,15 +1102,29 @@ public class Main extends Activity {
 					}
 					break;
 				case 3://动态
-					if(lvActive.getVisibility() == View.VISIBLE) {
-						if(lvActiveData.isEmpty()) {
-							loadLvActiveData(curActiveCatalog, 0, lvActiveHandler, UIHelper.LISTVIEW_ACTION_INIT);
+		    		//判断登录
+					if(!appContext.isLogin()){
+						if(lvActive.getVisibility()==View.VISIBLE && lvActiveData.isEmpty()){
+							lvActive_foot_more.setText(R.string.load_empty);
+							lvActive_foot_progress.setVisibility(View.GONE);
+						}else if(lvMsg.getVisibility()==View.VISIBLE && lvMsgData.isEmpty()){
+							lvMsg_foot_more.setText(R.string.load_empty);
+							lvMsg_foot_progress.setVisibility(View.GONE);
 						}
-					} else {
-						if(lvMsgData.isEmpty()) {
-							loadLvMsgData(0, lvMsgHandler, UIHelper.LISTVIEW_ACTION_INIT);
-						}
+						UIHelper.showLoginDialog(Main.this);
+						break;
 					}
+			    	//处理通知信息
+					if(bv_atme.isShown()) 
+						frameActiveBtnOnClick(framebtn_Active_atme, ActiveList.CATALOG_ATME, UIHelper.LISTVIEW_ACTION_REFRESH);
+					else if(bv_review.isShown()) 
+						frameActiveBtnOnClick(framebtn_Active_comment, ActiveList.CATALOG_COMMENT, UIHelper.LISTVIEW_ACTION_REFRESH);
+					else if(bv_message.isShown())
+						frameActiveBtnOnClick(framebtn_Active_message, 0, UIHelper.LISTVIEW_ACTION_REFRESH);
+					else if(lvActive.getVisibility() == View.VISIBLE && lvActiveData.isEmpty())
+						loadLvActiveData(curActiveCatalog, 0, lvActiveHandler, UIHelper.LISTVIEW_ACTION_INIT);
+					else if(lvMsg.getVisibility() == View.VISIBLE && lvMsgData.isEmpty())
+						loadLvMsgData(0, lvMsgHandler, UIHelper.LISTVIEW_ACTION_INIT);
 					break;
 				}
 				setCurPoint(viewIndex);
@@ -1141,24 +1161,9 @@ public class Main extends Activity {
     		mHeadLogo.setImageResource(R.drawable.frame_logo_tweet);
     		mHeadPub_tweet.setVisibility(View.VISIBLE);
     	}
-    	//处理通知信息
     	else if(index == 3){
     		mHeadLogo.setImageResource(R.drawable.frame_logo_active);
     		mHeadPub_tweet.setVisibility(View.VISIBLE);
-    		
-    		//判断登录
-			int uid = appContext.getLoginUid();
-			if(uid == 0){
-				UIHelper.showLoginDialog(Main.this);
-				return;
-			}    		
-    		
-			if(bv_atme.isShown()) 
-				frameActiveBtnOnClick(framebtn_Active_atme, ActiveList.CATALOG_ATME, UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);
-			else if(bv_review.isShown()) 
-				frameActiveBtnOnClick(framebtn_Active_comment, ActiveList.CATALOG_COMMENT, UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);
-			else if(bv_message.isShown())
-				frameActiveBtnOnClick(framebtn_Active_message, 0, UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);
 		}
     }
     /**
@@ -1214,11 +1219,8 @@ public class Main extends Activity {
 	    		framebtn_Tweet_hot.setEnabled(true);
 	    		framebtn_Tweet_my.setEnabled(false);
 				
-				lvTweet_foot_more.setText(R.string.load_more);
-				lvTweet_foot_progress.setVisibility(View.GONE);
-				
 				curTweetCatalog = uid;
-				loadLvTweetData(uid, 0, lvTweetHandler, UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);
+				loadLvTweetData(curTweetCatalog, 0, lvTweetHandler, UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);
 			}
 		});
     	//动态+留言
@@ -1256,9 +1258,6 @@ public class Main extends Activity {
 		    	{
 		    		lvNews.setVisibility(View.VISIBLE);
 		    		lvBlog.setVisibility(View.GONE);
-		    		
-		    		lvNews_foot_more.setText(R.string.load_more);
-					lvNews_foot_progress.setVisibility(View.GONE);
 					
 					loadLvNewsData(curNewsCatalog, 0, lvNewsHandler, UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);
 		    	}
@@ -1266,11 +1265,6 @@ public class Main extends Activity {
 		    	{
 		    		lvNews.setVisibility(View.GONE);
 		    		lvBlog.setVisibility(View.VISIBLE);
-		    		
-		    		if(lvBlogData.size() > 0){
-		    			lvBlog_foot_more.setText(R.string.load_more);
-		    			lvBlog_foot_progress.setVisibility(View.GONE);		    			
-		    		}
 		    		
 	    			loadLvBlogData(curNewsCatalog, 0, lvBlogHandler, UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);
 		    	}
@@ -1300,9 +1294,6 @@ public class Main extends Activity {
 		    		framebtn_Question_site.setEnabled(false);
 		    	else
 		    		framebtn_Question_site.setEnabled(true);
-		    	
-				lvQuestion_foot_more.setText(R.string.load_more);
-				lvQuestion_foot_progress.setVisibility(View.GONE);
 				
 				curQuestionCatalog = catalog;
 				loadLvQuestionData(curQuestionCatalog, 0, lvQuestionHandler, UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);
@@ -1324,9 +1315,6 @@ public class Main extends Activity {
 		    		framebtn_Tweet_my.setEnabled(false);
 		    	else
 		    		framebtn_Tweet_my.setEnabled(true);	
-		    	
-				lvTweet_foot_more.setText(R.string.load_more);
-				lvTweet_foot_progress.setVisibility(View.GONE);
 				
 				curTweetCatalog = catalog;
 				loadLvTweetData(curTweetCatalog, 0, lvTweetHandler, UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);		    	
@@ -1337,8 +1325,14 @@ public class Main extends Activity {
     	return new View.OnClickListener() {
 			public void onClick(View v) {
 				//判断登录
-				int uid = appContext.getLoginUid();
-				if(uid == 0){
+				if(!appContext.isLogin()){
+					if(lvActive.getVisibility()==View.VISIBLE && lvActiveData.isEmpty()){
+						lvActive_foot_more.setText(R.string.load_empty);
+						lvActive_foot_progress.setVisibility(View.GONE);
+					}else if(lvMsg.getVisibility()==View.VISIBLE && lvMsgData.isEmpty()){
+						lvMsg_foot_more.setText(R.string.load_empty);
+						lvMsg_foot_progress.setVisibility(View.GONE);
+					}
 					UIHelper.showLoginDialog(Main.this);
 					return;
 				}
@@ -1369,28 +1363,26 @@ public class Main extends Activity {
     	else
     		framebtn_Active_message.setEnabled(true);
     	
-    	/*
 		//是否处理通知信息
 		if(btn == framebtn_Active_atme && bv_atme.isShown()){
+			action = UIHelper.LISTVIEW_ACTION_REFRESH;
 			this.isClearNotice = true;
 			this.curClearNoticeType = Notice.TYPE_ATME;
 		}else if(btn == framebtn_Active_comment && bv_review.isShown()){
+			action = UIHelper.LISTVIEW_ACTION_REFRESH;
 			this.isClearNotice = true;
 			this.curClearNoticeType = Notice.TYPE_COMMENT;
 		}else if(btn == framebtn_Active_message && bv_message.isShown()){
+			action = UIHelper.LISTVIEW_ACTION_REFRESH;
 			this.isClearNotice = true;
 			this.curClearNoticeType = Notice.TYPE_MESSAGE;
 		}
-		*/
     	
     	//非留言展示动态列表
     	if(btn != framebtn_Active_message)
     	{
     		lvActive.setVisibility(View.VISIBLE);
     		lvMsg.setVisibility(View.GONE);
-    		
-			lvActive_foot_more.setText(R.string.load_more);
-			lvActive_foot_progress.setVisibility(View.GONE);
 			
 			curActiveCatalog = catalog;
 			loadLvActiveData(curActiveCatalog, 0, lvActiveHandler, action);
@@ -1399,11 +1391,6 @@ public class Main extends Activity {
     	{
     		lvActive.setVisibility(View.GONE);
     		lvMsg.setVisibility(View.VISIBLE);
-    		
-    		if(lvMsgData.size() > 0){
-    			lvMsg_foot_more.setText(R.string.load_more);
-    			lvMsg_foot_progress.setVisibility(View.GONE);   			
-    		}
     		
     		loadLvMsgData(0, lvMsgHandler, action);
     	}
