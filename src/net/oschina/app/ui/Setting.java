@@ -3,6 +3,7 @@ package net.oschina.app.ui;
 import java.io.File;
 
 import net.oschina.app.AppContext;
+import net.oschina.app.AppManager;
 import net.oschina.app.R;
 import net.oschina.app.common.FileUtils;
 import net.oschina.app.common.MethodsCompat;
@@ -36,6 +37,9 @@ public class Setting extends PreferenceActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		//添加Activity到堆栈
+		AppManager.getAppManager().addActivity(this);
 		
 		//设置显示Preferences
 		addPreferencesFromResource(R.xml.preferences);
@@ -225,4 +229,11 @@ public class Setting extends PreferenceActivity{
 			account.setTitle(R.string.main_menu_logout);
 		}				
 	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		//结束Activity&从堆栈中移除
+		AppManager.getAppManager().finishActivity(this);
+	}	
 }

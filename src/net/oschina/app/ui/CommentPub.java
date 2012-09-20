@@ -8,7 +8,6 @@ import net.oschina.app.bean.Result;
 import net.oschina.app.common.StringUtils;
 import net.oschina.app.common.UIHelper;
 import net.oschina.app.widget.LinkView;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,7 +25,7 @@ import android.widget.ImageView;
  * @version 1.0
  * @created 2012-3-21
  */
-public class CommentPub extends Activity{
+public class CommentPub extends BaseActivity{
 
 	public final static int CATALOG_NEWS = 1;
 	public final static int CATALOG_POST = 2;

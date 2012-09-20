@@ -17,7 +17,6 @@ import net.oschina.app.common.ImageUtils;
 import net.oschina.app.common.MediaUtils;
 import net.oschina.app.common.StringUtils;
 import net.oschina.app.common.UIHelper;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -55,7 +54,7 @@ import android.widget.Toast;
  * @version 1.0
  * @created 2012-3-21
  */
-public class TweetPub extends Activity{
+public class TweetPub extends BaseActivity{
 
 	private FrameLayout mForm;
 	private ImageView mBack;

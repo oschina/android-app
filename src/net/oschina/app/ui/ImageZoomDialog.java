@@ -10,7 +10,6 @@ import net.oschina.app.common.FileUtils;
 import net.oschina.app.common.ImageUtils;
 import net.oschina.app.common.StringUtils;
 import net.oschina.app.common.UIHelper;
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -35,7 +34,7 @@ import android.widget.ViewSwitcher;
  * @version 1.0
  * @created 2012-3-21
  */
-public class ImageZoomDialog extends Activity implements OnTouchListener, OnClickListener {
+public class ImageZoomDialog extends BaseActivity implements OnTouchListener, OnClickListener {
 
 	// These matrices will be used to move and zoom image
 	Matrix matrix = new Matrix();

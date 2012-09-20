@@ -12,7 +12,6 @@ import java.util.List;
 import net.oschina.app.AppConfig;
 import net.oschina.app.AppContext;
 import net.oschina.app.AppException;
-import net.oschina.app.AppManager;
 import net.oschina.app.R;
 import net.oschina.app.adapter.ListViewActiveAdapter;
 import net.oschina.app.adapter.ListViewBlogAdapter;
@@ -72,7 +71,7 @@ import android.widget.TextView;
  * @version 1.0
  * @created 2012-3-21
  */
-public class Main extends Activity {
+public class Main extends BaseActivity {
 
     public static final int QUICKACTION_LOGIN_OR_LOGOUT = 0;
     public static final int QUICKACTION_USERINFO = 1;
@@ -195,8 +194,6 @@ public class Main extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
-        AppManager.getAppManager().addActivity(this);
         
         //注册广播接收器
     	tweetReceiver = new TweetReceiver();

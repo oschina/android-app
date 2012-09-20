@@ -8,7 +8,6 @@ import net.oschina.app.bean.Post;
 import net.oschina.app.bean.Result;
 import net.oschina.app.common.StringUtils;
 import net.oschina.app.common.UIHelper;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,7 +27,7 @@ import android.widget.Spinner;
  * @version 1.0
  * @created 2012-3-21
  */
-public class QuestionPub extends Activity{
+public class QuestionPub extends BaseActivity{
 
 	private ImageView mBack;
 	private EditText mTitle;

@@ -18,7 +18,6 @@ import net.oschina.app.common.StringUtils;
 import net.oschina.app.common.UIHelper;
 import net.oschina.app.widget.PullToRefreshListView;
 import net.oschina.app.widget.ScrollLayout;
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -38,7 +37,7 @@ import android.widget.TextView;
  * @version 1.0
  * @created 2012-3-21
  */
-public class SoftwareLib extends Activity{
+public class SoftwareLib extends BaseActivity{
 	
 	private ImageView mBack;
 	private TextView mTitle;

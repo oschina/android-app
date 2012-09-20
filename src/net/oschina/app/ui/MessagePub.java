@@ -7,7 +7,6 @@ import net.oschina.app.R;
 import net.oschina.app.bean.Result;
 import net.oschina.app.common.StringUtils;
 import net.oschina.app.common.UIHelper;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,7 +25,7 @@ import android.widget.TextView;
  * @version 1.0
  * @created 2012-3-21
  */
-public class MessagePub extends Activity{
+public class MessagePub extends BaseActivity{
 	
 	private ImageView mBack;
 	private TextView mReceiver;

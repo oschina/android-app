@@ -16,7 +16,6 @@ import net.oschina.app.common.ImageUtils;
 import net.oschina.app.common.StringUtils;
 import net.oschina.app.common.UIHelper;
 import net.oschina.app.widget.LoadingDialog;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -39,7 +38,7 @@ import android.widget.TextView;
  * @version 1.0
  * @created 2012-3-21
  */
-public class UserInfo extends Activity{	
+public class UserInfo extends BaseActivity{	
 	
 	private ImageView back;
 	private ImageView refresh;

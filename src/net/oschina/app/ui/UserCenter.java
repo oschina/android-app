@@ -20,7 +20,6 @@ import net.oschina.app.common.StringUtils;
 import net.oschina.app.common.UIHelper;
 import net.oschina.app.widget.PullToRefreshListView;
 import net.oschina.app.widget.UserInfoDialog;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -41,7 +40,7 @@ import android.widget.TextView;
  * @version 1.0
  * @created 2012-3-21
  */
-public class UserCenter extends Activity{
+public class UserCenter extends BaseActivity{
 	
 	private ImageView mBack;
 	private ImageView mRefresh;

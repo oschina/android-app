@@ -16,7 +16,6 @@ import net.oschina.app.bean.Result;
 import net.oschina.app.common.StringUtils;
 import net.oschina.app.common.UIHelper;
 import net.oschina.app.widget.PullToRefreshListView;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,7 +39,7 @@ import android.widget.ViewSwitcher;
  * @version 1.0
  * @created 2012-3-21
  */
-public class MessageDetail extends Activity{
+public class MessageDetail extends BaseActivity{
 	
 	private ImageView mBack;
 	private ImageView mRefresh;

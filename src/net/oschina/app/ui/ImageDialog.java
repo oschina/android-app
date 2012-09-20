@@ -10,7 +10,6 @@ import net.oschina.app.common.FileUtils;
 import net.oschina.app.common.ImageUtils;
 import net.oschina.app.common.StringUtils;
 import net.oschina.app.common.UIHelper;
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -26,7 +25,7 @@ import android.widget.ViewSwitcher;
  * @version 1.0
  * @created 2012-3-21
  */
-public class ImageDialog extends Activity{
+public class ImageDialog extends BaseActivity{
 	
 	private ViewSwitcher mViewSwitcher;
 	private ImageButton btn_close;
