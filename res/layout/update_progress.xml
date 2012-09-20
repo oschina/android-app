@@ -4,10 +4,17 @@
   	android:layout_width="fill_parent"
   	android:layout_height="wrap_content"
   	android:paddingLeft="5dip"
-  	android:paddingRight="5dip">  
+  	android:paddingRight="5dip"
+  	android:orientation="vertical">  
   	<ProgressBar
   		android:id="@+id/update_progress"
   		android:layout_width="fill_parent"
   		android:layout_height="wrap_content"
   		style="?android:attr/progressBarStyleHorizontal"/>
+  	<TextView 
+  	    android:id="@+id/update_progress_text"
+  		android:layout_width="wrap_content"
+  		android:layout_height="wrap_content"
+  		android:layout_gravity="right"
+  		android:textColor="@color/white"/>
 </LinearLayout>

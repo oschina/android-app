@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
 
 import net.oschina.app.AppContext;
 import net.oschina.app.AppException;
@@ -32,12 +33,13 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
  * 应用程序更新工具包
  * @author liux (http://my.oschina.net/liux)
- * @version 1.0
+ * @version 1.1
  * @created 2012-6-29
  */
 public class UpdateManager {
@@ -60,9 +62,11 @@ public class UpdateManager {
 	private Dialog latestOrFailDialog;
     //进度条
     private ProgressBar mProgress;
+    //显示下载数值
+    private TextView mProgressText;
     //查询动画
     private ProgressDialog mProDialog;
-    
+    //进度值
     private int progress;
     //下载线程
     private Thread downLoadThread;
@@ -78,6 +82,10 @@ public class UpdateManager {
 	private String apkFilePath = "";
 	//临时下载文件路径
 	private String tmpFilePath = "";
+	//下载文件大小
+	private String apkFileSize;
+	//已下载文件大小
+	private String tmpFileSize;
 	
 	private String curVersionName = "";
 	private int curVersionCode;
@@ -88,6 +96,7 @@ public class UpdateManager {
     		switch (msg.what) {
 			case DOWN_UPDATE:
 				mProgress.setProgress(progress);
+				mProgressText.setText(tmpFileSize + "/" + apkFileSize);
 				break;
 			case DOWN_OVER:
 				downloadDialog.dismiss();
@@ -234,6 +243,7 @@ public class UpdateManager {
 		final LayoutInflater inflater = LayoutInflater.from(mContext);
 		View v = inflater.inflate(R.layout.update_progress, null);
 		mProgress = (ProgressBar)v.findViewById(R.id.update_progress);
+		mProgressText = (TextView) v.findViewById(R.id.update_progress_text);
 		
 		builder.setView(v);
 		builder.setNegativeButton("取消", new OnClickListener() {	
@@ -300,12 +310,20 @@ public class UpdateManager {
 				int length = conn.getContentLength();
 				InputStream is = conn.getInputStream();
 				
+				//显示文件大小格式：2个小数点显示
+		    	DecimalFormat df = new DecimalFormat("0.00");
+		    	//进度条下面显示的总文件大小
+		    	apkFileSize = df.format((float) length / 1024 / 1024) + "MB";
+				
 				int count = 0;
 				byte buf[] = new byte[1024];
 				
 				do{   		   		
 		    		int numread = is.read(buf);
 		    		count += numread;
+		    		//进度条下面显示的当前下载文件大小
+		    		tmpFileSize = df.format((float) count / 1024 / 1024) + "MB";
+		    		//当前进度值
 		    	    progress =(int)(((float)count / length) * 100);
 		    	    //更新进度
 		    	    mHandler.sendEmptyMessage(DOWN_UPDATE);
