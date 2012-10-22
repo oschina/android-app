@@ -8,12 +8,12 @@ import net.oschina.app.bean.Result;
 import net.oschina.app.bean.User;
 import net.oschina.app.common.StringUtils;
 import net.oschina.app.common.UIHelper;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
@@ -29,7 +29,7 @@ import android.widget.ViewSwitcher;
  * @version 1.0
  * @created 2012-3-21
  */
-public class LoginDialog extends Activity{
+public class LoginDialog extends BaseActivity{
 	
 	private ViewSwitcher mViewSwitcher;
 	private ImageButton btn_close;
@@ -170,5 +170,13 @@ public class LoginDialog extends Activity{
 				handler.sendMessage(msg);
 			}
 		}.start();
+    }
+    
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    	if(keyCode == KeyEvent.KEYCODE_BACK) {
+    		this.onDestroy();
+    	}
+    	return super.onKeyDown(keyCode, event);
     }
 }

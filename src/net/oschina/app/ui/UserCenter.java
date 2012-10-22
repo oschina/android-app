@@ -20,7 +20,6 @@ import net.oschina.app.common.StringUtils;
 import net.oschina.app.common.UIHelper;
 import net.oschina.app.widget.PullToRefreshListView;
 import net.oschina.app.widget.UserInfoDialog;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -41,7 +40,7 @@ import android.widget.TextView;
  * @version 1.0
  * @created 2012-3-21
  */
-public class UserCenter extends Activity{
+public class UserCenter extends BaseActivity{
 	
 	private ImageView mBack;
 	private ImageView mRefresh;
@@ -192,6 +191,7 @@ public class UserCenter extends Activity{
 				
 				if(scrollEnd && curLvActiveDataState==UIHelper.LISTVIEW_DATA_MORE)
 				{
+					mLvActive.setTag(UIHelper.LISTVIEW_DATA_LOADING);
 					lvActive_foot_more.setText(R.string.load_ing);
 					lvActive_foot_progress.setVisibility(View.VISIBLE);
 					//当前页数
@@ -250,6 +250,7 @@ public class UserCenter extends Activity{
 				
 				if(scrollEnd && curLvBlogDataState==UIHelper.LISTVIEW_DATA_MORE)
 				{
+					mLvBlog.setTag(UIHelper.LISTVIEW_DATA_LOADING);
 					lvBlog_foot_more.setText(R.string.load_ing);
 					lvBlog_foot_progress.setVisibility(View.VISIBLE);
 					//当前页数

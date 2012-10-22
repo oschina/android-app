@@ -7,7 +7,6 @@ import java.util.List;
 import net.oschina.app.AppConfig;
 import net.oschina.app.AppContext;
 import net.oschina.app.AppException;
-import net.oschina.app.AppManager;
 import net.oschina.app.R;
 import net.oschina.app.adapter.ListViewCommentAdapter;
 import net.oschina.app.bean.Blog;
@@ -20,7 +19,6 @@ import net.oschina.app.common.StringUtils;
 import net.oschina.app.common.UIHelper;
 import net.oschina.app.widget.BadgeView;
 import net.oschina.app.widget.PullToRefreshListView;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -53,7 +51,7 @@ import android.widget.ViewSwitcher;
  * @version 1.0
  * @created 2012-3-21
  */
-public class BlogDetail extends Activity {
+public class BlogDetail extends BaseActivity {
 	
 	private FrameLayout mHeader;
 	private LinearLayout mFooter;
@@ -121,8 +119,6 @@ public class BlogDetail extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.blog_detail);
-        
-        AppManager.getAppManager().addActivity(this);
         
         this.initView();        
         this.initData();
@@ -526,6 +522,7 @@ public class BlogDetail extends Activity {
 				
 				if(scrollEnd && curLvDataState==UIHelper.LISTVIEW_DATA_MORE)
 				{
+					mLvComment.setTag(UIHelper.LISTVIEW_DATA_LOADING);
 					lvComment_foot_more.setText(R.string.load_ing);
 					lvComment_foot_progress.setVisibility(View.VISIBLE);
 					//当前pageIndex

@@ -6,7 +6,6 @@ import net.oschina.app.R;
 import net.oschina.app.bean.Result;
 import net.oschina.app.common.StringUtils;
 import net.oschina.app.common.UIHelper;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,7 +22,7 @@ import android.widget.ImageView;
  * @version 1.0
  * @created 2012-3-21
  */
-public class MessageForward extends Activity{
+public class MessageForward extends BaseActivity{
 	
 	private ImageView mBack;
 	private EditText mReceiver;

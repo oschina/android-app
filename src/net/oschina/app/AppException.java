@@ -4,15 +4,20 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.ConnectException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Date;
 
+import net.oschina.app.common.UIHelper;
+
 import org.apache.commons.httpclient.HttpException;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.os.Environment;
+import android.os.Looper;
 import android.widget.Toast;
 
 /**
@@ -21,7 +26,7 @@ import android.widget.Toast;
  * @version 1.0
  * @created 2012-3-21
  */
-public class AppException extends Exception {
+public class AppException extends Exception implements UncaughtExceptionHandler{
 
 	private final static boolean Debug = false;//是否保存错误日志
 	
@@ -36,6 +41,13 @@ public class AppException extends Exception {
 	
 	private byte type;
 	private int code;
+	
+	/** 系统默认的UncaughtException处理类 */
+	private Thread.UncaughtExceptionHandler mDefaultHandler;
+	
+	private AppException(){
+		this.mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
+	}
 	
 	private AppException(byte type, int code, Exception excp) {
 		super(excp);
@@ -169,5 +181,67 @@ public class AppException extends Exception {
 	public static AppException run(Exception e) {
 		return new AppException(TYPE_RUN, 0, e);
 	}
+
+	/**
+	 * 获取APP异常崩溃处理对象
+	 * @param context
+	 * @return
+	 */
+	public static AppException getAppExceptionHandler(){
+		return new AppException();
+	}
 	
+	@Override
+	public void uncaughtException(Thread thread, Throwable ex) {
+
+		if(!handleException(ex) && mDefaultHandler != null) {
+			mDefaultHandler.uncaughtException(thread, ex);
+		}
+
+	}
+	/**
+	 * 自定义异常处理:收集错误信息&发送错误报告
+	 * @param ex
+	 * @return true:处理了该异常信息;否则返回false
+	 */
+	private boolean handleException(Throwable ex) {
+		if(ex == null) {
+			return false;
+		}
+		
+		final Context context = AppManager.getAppManager().currentActivity();
+		
+		if(context == null) {
+			return false;
+		}
+		
+		final String crashReport = getCrashReport(context, ex);
+		//显示异常信息&发送报告
+		new Thread() {
+			public void run() {
+				Looper.prepare();
+				UIHelper.sendAppCrashReport(context, crashReport);
+				Looper.loop();
+			}
+
+		}.start();
+		return true;
+	}
+	/**
+	 * 获取APP崩溃异常报告
+	 * @param ex
+	 * @return
+	 */
+	private String getCrashReport(Context context, Throwable ex) {
+		PackageInfo pinfo = ((AppContext)context.getApplicationContext()).getPackageInfo();
+		StringBuffer exceptionStr = new StringBuffer();
+		exceptionStr.append("Version: "+pinfo.versionName+"("+pinfo.versionCode+")\n");
+		exceptionStr.append("Android: "+android.os.Build.VERSION.RELEASE+"("+android.os.Build.MODEL+")\n");
+		exceptionStr.append("Exception: "+ex.getMessage()+"\n");
+		StackTraceElement[] elements = ex.getStackTrace();
+		for (int i = 0; i < elements.length; i++) {
+			exceptionStr.append(elements[i].toString()+"\n");
+		}
+		return exceptionStr.toString();
+	}
 }

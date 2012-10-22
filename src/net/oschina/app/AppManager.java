@@ -48,10 +48,7 @@ public class AppManager {
 	 */
 	public void finishActivity(){
 		Activity activity=activityStack.lastElement();
-		if(activity!=null){
-			activity.finish();
-			activity=null;
-		}
+		finishActivity(activity);
 	}
 	/**
 	 * 结束指定的Activity

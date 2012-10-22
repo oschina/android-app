@@ -3,7 +3,6 @@ package net.oschina.app.ui;
 import net.oschina.app.R;
 import net.oschina.app.common.StringUtils;
 import net.oschina.app.common.UIHelper;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +16,7 @@ import android.widget.ImageButton;
  * @version 1.0
  * @created 2012-3-21
  */
-public class FeedBack extends Activity{
+public class FeedBack extends BaseActivity{
 	
 	private ImageButton mClose;
 	private EditText mEditer;

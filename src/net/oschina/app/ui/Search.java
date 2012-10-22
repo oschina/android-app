@@ -12,7 +12,6 @@ import net.oschina.app.bean.Notice;
 import net.oschina.app.bean.SearchList.Result;
 import net.oschina.app.common.StringUtils;
 import net.oschina.app.common.UIHelper;
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -33,7 +32,7 @@ import android.widget.TextView;
  * @version 1.0
  * @created 2012-3-21
  */
-public class Search extends Activity{
+public class Search extends BaseActivity{
 	private Button mSearchBtn;
 	private EditText mSearchEditer;
 	private ProgressBar mProgressbar;
@@ -190,6 +189,7 @@ public class Search extends Activity{
 				
 				if(scrollEnd && curLvDataState==UIHelper.LISTVIEW_DATA_MORE)
 				{
+					mlvSearch.setTag(UIHelper.LISTVIEW_DATA_LOADING);
 					lvSearch_foot_more.setText(R.string.load_ing);
 					lvSearch_foot_progress.setVisibility(View.VISIBLE);
 					//当前pageIndex

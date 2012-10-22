@@ -2,7 +2,6 @@ package net.oschina.app.ui;
 
 import net.oschina.app.AppContext;
 import net.oschina.app.AppException;
-import net.oschina.app.AppManager;
 import net.oschina.app.R;
 import net.oschina.app.api.ApiClient;
 import net.oschina.app.bean.FavoriteList;
@@ -11,7 +10,6 @@ import net.oschina.app.bean.Result;
 import net.oschina.app.bean.Software;
 import net.oschina.app.common.StringUtils;
 import net.oschina.app.common.UIHelper;
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,7 +33,7 @@ import android.widget.TextView;
  * @version 1.0
  * @created 2012-3-21
  */
-public class SoftwareDetail extends Activity {
+public class SoftwareDetail extends BaseActivity {
 	
 	private FrameLayout mHeader;
 	private ImageView mBack;
@@ -78,8 +76,6 @@ public class SoftwareDetail extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.software_detail);
-        
-        AppManager.getAppManager().addActivity(this);
         
         this.initView();        
         this.initData();
@@ -234,8 +230,28 @@ public class SoftwareDetail extends Activity {
                 Message msg = new Message();
 				try {
 					softwareDetail = ((AppContext)getApplication()).getSoftware(ident, isRefresh);
-					if(softwareDetail != null){
-						logo = ApiClient.getNetBitmap(softwareDetail.getLogo());
+					if(softwareDetail != null && !StringUtils.isEmpty(softwareDetail.getLogo())){
+						/* 软件logo格式为gif，保存后再读取图片透明效果消失
+						//先加载SD卡中的图片缓存
+			        	String filename = FileUtils.getFileName(softwareDetail.getLogo());
+			        	String filepath = getFilesDir() + File.separator + filename;
+			    		File file = new File(filepath);
+			    		if(file.exists()){
+			    			logo = ImageUtils.getBitmap(SoftwareDetail.this, filename);
+			    		}else{
+			    			//加载网络图片
+			    			logo = ApiClient.getNetBitmap(softwareDetail.getLogo());
+			    			if(logo != null){
+			    				//向SD卡中写入图片缓存
+				    			try{
+				    				ImageUtils.saveImage(SoftwareDetail.this, filename, logo);
+				    			} catch (IOException e) {
+				    				e.printStackTrace();
+				    			}
+			    			}
+			    		}*/
+						//加载网络图片
+		    			logo = ApiClient.getNetBitmap(softwareDetail.getLogo());
 					}
 	                msg.what = (softwareDetail!=null && softwareDetail.getId()>0) ? 1 : 0;
 	                msg.obj = (softwareDetail!=null) ? softwareDetail.getNotice() : null;

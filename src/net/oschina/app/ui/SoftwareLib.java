@@ -18,7 +18,6 @@ import net.oschina.app.common.StringUtils;
 import net.oschina.app.common.UIHelper;
 import net.oschina.app.widget.PullToRefreshListView;
 import net.oschina.app.widget.ScrollLayout;
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -38,7 +37,7 @@ import android.widget.TextView;
  * @version 1.0
  * @created 2012-3-21
  */
-public class SoftwareLib extends Activity{
+public class SoftwareLib extends BaseActivity{
 	
 	private ImageView mBack;
 	private TextView mTitle;
@@ -295,6 +294,7 @@ public class SoftwareLib extends Activity{
 				
 				if(scrollEnd && curLvSoftwareDataState==UIHelper.LISTVIEW_DATA_MORE)
 				{
+					mlvSoftware.setTag(UIHelper.LISTVIEW_DATA_LOADING);
 					lvSoftware_foot_more.setText(R.string.load_ing);
 					lvSoftware_foot_progress.setVisibility(View.VISIBLE);
 					//当前pageIndex

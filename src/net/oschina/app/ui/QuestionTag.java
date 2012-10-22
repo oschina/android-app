@@ -6,7 +6,6 @@ import java.util.List;
 
 import net.oschina.app.AppContext;
 import net.oschina.app.AppException;
-import net.oschina.app.AppManager;
 import net.oschina.app.R;
 import net.oschina.app.adapter.ListViewQuestionAdapter;
 import net.oschina.app.bean.Notice;
@@ -15,7 +14,6 @@ import net.oschina.app.bean.PostList;
 import net.oschina.app.common.StringUtils;
 import net.oschina.app.common.UIHelper;
 import net.oschina.app.widget.PullToRefreshListView;
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -32,7 +30,7 @@ import android.widget.TextView;
  * @version 1.0
  * @created 2012-8-27
  */
-public class QuestionTag extends Activity{
+public class QuestionTag extends BaseActivity{
 	
 	private ImageView mHome;
 	private TextView mHeadTitle;
@@ -57,8 +55,6 @@ public class QuestionTag extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.question_tag);
-		
-		AppManager.getAppManager().addActivity(this);
 		
 		//初始化视图控件
 		initView();
@@ -123,6 +119,7 @@ public class QuestionTag extends Activity{
 				int lvDataState = StringUtils.toInt(lvQuestion.getTag());
 				if(scrollEnd && lvDataState==UIHelper.LISTVIEW_DATA_MORE)
 				{
+					lvQuestion.setTag(UIHelper.LISTVIEW_DATA_LOADING);
 					lvQuestion_foot_more.setText(R.string.load_ing);
 					lvQuestion_foot_progress.setVisibility(View.VISIBLE);
 					//当前pageIndex

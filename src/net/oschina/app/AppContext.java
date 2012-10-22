@@ -84,6 +84,13 @@ public class AppContext extends Application {
 			}
 		}		
 	};
+	
+	@Override
+	public void onCreate() {
+		super.onCreate();
+        //注册App异常崩溃处理器
+        Thread.setDefaultUncaughtExceptionHandler(AppException.getAppExceptionHandler());
+	}
 
 	/**
 	 * 检测当前系统声音是否为正常模式

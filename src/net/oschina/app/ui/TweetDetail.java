@@ -18,7 +18,6 @@ import net.oschina.app.bean.Tweet;
 import net.oschina.app.common.StringUtils;
 import net.oschina.app.common.UIHelper;
 import net.oschina.app.widget.PullToRefreshListView;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -49,7 +48,7 @@ import android.widget.ViewSwitcher;
  * @version 1.0
  * @created 2012-3-21
  */
-public class TweetDetail extends Activity {
+public class TweetDetail extends BaseActivity {
 	
 	private ImageView mBack;
 	private ImageView mRefresh;
@@ -253,6 +252,7 @@ public class TweetDetail extends Activity {
 				
 				if(scrollEnd && curLvDataState==UIHelper.LISTVIEW_DATA_MORE)
 				{
+					mLvComment.setTag(UIHelper.LISTVIEW_DATA_LOADING);
 					lvComment_foot_more.setText(R.string.load_ing);
 					lvComment_foot_progress.setVisibility(View.VISIBLE);
 					//当前pageIndex

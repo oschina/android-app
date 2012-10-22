@@ -12,7 +12,6 @@ import java.util.List;
 import net.oschina.app.AppConfig;
 import net.oschina.app.AppContext;
 import net.oschina.app.AppException;
-import net.oschina.app.AppManager;
 import net.oschina.app.R;
 import net.oschina.app.adapter.ListViewActiveAdapter;
 import net.oschina.app.adapter.ListViewBlogAdapter;
@@ -72,7 +71,7 @@ import android.widget.TextView;
  * @version 1.0
  * @created 2012-3-21
  */
-public class Main extends Activity {
+public class Main extends BaseActivity {
 
     public static final int QUICKACTION_LOGIN_OR_LOGOUT = 0;
     public static final int QUICKACTION_USERINFO = 1;
@@ -195,8 +194,6 @@ public class Main extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
-        AppManager.getAppManager().addActivity(this);
         
         //注册广播接收器
     	tweetReceiver = new TweetReceiver();
@@ -471,6 +468,7 @@ public class Main extends Activity {
 				int lvDataState = StringUtils.toInt(lvNews.getTag());
 				if(scrollEnd && lvDataState==UIHelper.LISTVIEW_DATA_MORE)
 				{
+					lvNews.setTag(UIHelper.LISTVIEW_DATA_LOADING);
 					lvNews_foot_more.setText(R.string.load_ing);
 					lvNews_foot_progress.setVisibility(View.VISIBLE);
 					//当前pageIndex
@@ -538,6 +536,7 @@ public class Main extends Activity {
 				int lvDataState = StringUtils.toInt(lvBlog.getTag());
 				if(scrollEnd && lvDataState==UIHelper.LISTVIEW_DATA_MORE)
 				{
+					lvBlog.setTag(UIHelper.LISTVIEW_DATA_LOADING);
 					lvBlog_foot_more.setText(R.string.load_ing);
 					lvBlog_foot_progress.setVisibility(View.VISIBLE);
 					//当前pageIndex
@@ -605,6 +604,7 @@ public class Main extends Activity {
 				int lvDataState = StringUtils.toInt(lvQuestion.getTag());
 				if(scrollEnd && lvDataState==UIHelper.LISTVIEW_DATA_MORE)
 				{
+					lvQuestion.setTag(UIHelper.LISTVIEW_DATA_LOADING);
 					lvQuestion_foot_more.setText(R.string.load_ing);
 					lvQuestion_foot_progress.setVisibility(View.VISIBLE);
 					//当前pageIndex
@@ -672,6 +672,7 @@ public class Main extends Activity {
 				int lvDataState = StringUtils.toInt(lvTweet.getTag());
 				if(scrollEnd && lvDataState==UIHelper.LISTVIEW_DATA_MORE)
 				{
+					lvTweet.setTag(UIHelper.LISTVIEW_DATA_LOADING);
 					lvTweet_foot_more.setText(R.string.load_ing);
 					lvTweet_foot_progress.setVisibility(View.VISIBLE);
 					//当前pageIndex
@@ -794,6 +795,7 @@ public class Main extends Activity {
 				int lvDataState = StringUtils.toInt(lvActive.getTag());
 				if(scrollEnd && lvDataState==UIHelper.LISTVIEW_DATA_MORE)
 				{
+					lvActive.setTag(UIHelper.LISTVIEW_DATA_LOADING);
 					lvActive_foot_more.setText(R.string.load_ing);
 					lvActive_foot_progress.setVisibility(View.VISIBLE);
 					//当前pageIndex
@@ -870,6 +872,7 @@ public class Main extends Activity {
 				int lvDataState = StringUtils.toInt(lvMsg.getTag());
 				if(scrollEnd && lvDataState==UIHelper.LISTVIEW_DATA_MORE)
 				{
+					lvMsg.setTag(UIHelper.LISTVIEW_DATA_LOADING);
 					lvMsg_foot_more.setText(R.string.load_ing);
 					lvMsg_foot_progress.setVisibility(View.VISIBLE);
 					//当前pageIndex
@@ -2055,6 +2058,7 @@ public class Main extends Activity {
 	 * 监听返回--是否退出程序
 	 */
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		boolean flag = true;
 		if(keyCode == KeyEvent.KEYCODE_BACK) {
 			//是否退出应用
 			UIHelper.Exit(this);
@@ -2065,7 +2069,9 @@ public class Main extends Activity {
 		}else if(keyCode == KeyEvent.KEYCODE_SEARCH){
 			//展示搜索页
 			UIHelper.showSearch(Main.this);
+		}else{
+			flag = super.onKeyDown(keyCode, event);
 		}
-		return true;
+		return flag;
 	}
 }

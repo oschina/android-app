@@ -2,7 +2,6 @@ package net.oschina.app.ui;
 
 import net.oschina.app.R;
 import net.oschina.app.common.UpdateManager;
-import android.app.Activity;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
@@ -16,7 +15,7 @@ import android.widget.TextView;
  * @version 1.0
  * @created 2012-3-21
  */
-public class About extends Activity{
+public class About extends BaseActivity{
 	
 	private TextView mVersion;
 	private Button mUpdate;
@@ -40,6 +39,6 @@ public class About extends Activity{
 			public void onClick(View v) {
 				UpdateManager.getUpdateManager().checkAppUpdate(About.this, true);
 			}
-		});
+		});        
 	}
 }
