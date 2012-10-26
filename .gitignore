@@ -1,9 +1,10 @@
 *.class
+.classpath
 
 # Package Files #
 *.jar
 *.war
 *.ear
 /lint.xml
-/bin
-/gen
+bin/
+gen/
