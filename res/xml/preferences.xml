@@ -40,6 +40,12 @@
 	        android:key="voice" 
 	        android:summary="已开启提示声音" 
 		    android:defaultValue="true"/>
+		<CheckBoxPreference 
+		    android:layout="@layout/preference" 
+		    android:title="启动检查更新" 
+	        android:key="checkup" 
+	        android:summary="启动程序时检查版本更新" 
+		    android:defaultValue="true"/>
     </PreferenceCategory>
     <PreferenceCategory 
 	    android:layout="@layout/preference_category" 

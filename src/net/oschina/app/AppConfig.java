@@ -38,6 +38,7 @@ public class AppConfig{
 	public final static String CONF_SCROLL = "perf_scroll";
 	public final static String CONF_HTTPS_LOGIN = "perf_httpslogin";
 	public final static String CONF_VOICE = "perf_voice";
+	public final static String CONF_CHECKUP = "perf_checkup";
 	
 	private Context mContext;
 	private AccessInfo accessInfo = null;

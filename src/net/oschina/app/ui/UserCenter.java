@@ -157,7 +157,7 @@ public class UserCenter extends BaseActivity{
     	lvActive_foot_more = (TextView)lvActive_footer.findViewById(R.id.listview_foot_more);
         lvActive_foot_progress = (ProgressBar)lvActive_footer.findViewById(R.id.listview_foot_progress);
 
-    	lvActiveAdapter = new ListViewActiveAdapter(this, lvActiveData, R.layout.active_listitem); 
+    	lvActiveAdapter = new ListViewActiveAdapter(this, lvActiveData, R.layout.active_listitem, false); 
     	mLvActive = (PullToRefreshListView)findViewById(R.id.user_center_activelist);
     	
         mLvActive.addFooterView(lvActive_footer);//添加底部视图  必须在setAdapter前
@@ -654,16 +654,19 @@ public class UserCenter extends BaseActivity{
 	};	
 	private View.OnClickListener messageClickListener = new View.OnClickListener() {
 		public void onClick(View v) {	
+			if(mUser == null)	return;
 			UIHelper.showMessagePub(UserCenter.this, mUser.getUid(), mUser.getName());
 		}
 	};
 	private View.OnClickListener atmeClickListener = new View.OnClickListener() {
 		public void onClick(View v) {	
+			if(mUser == null)	return;
 			UIHelper.showTweetPub(UserCenter.this, "@"+mUser.getName()+" ", mUser.getUid());
 		}
 	};
 	private View.OnClickListener relationClickListener = new View.OnClickListener() {
 		public void onClick(View v) {	
+			if(mUser == null)	return;
 			//判断登录
 			final AppContext ac = (AppContext)getApplication();
 			if(!ac.isLogin()){

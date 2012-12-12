@@ -33,6 +33,7 @@ public class Setting extends PreferenceActivity{
 	CheckBoxPreference loadimage;
 	CheckBoxPreference scroll;
 	CheckBoxPreference voice;
+	CheckBoxPreference checkup;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -157,6 +158,16 @@ public class Setting extends PreferenceActivity{
 				}else{
 					voice.setSummary("已关闭提示声音");
 				}
+				return true;
+			}
+		});
+		
+		//启动检查更新
+		checkup = (CheckBoxPreference)findPreference("checkup");
+		checkup.setChecked(ac.isCheckUp());
+		checkup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+			public boolean onPreferenceClick(Preference preference) {
+				ac.setConfigCheckUp(checkup.isChecked());
 				return true;
 			}
 		});

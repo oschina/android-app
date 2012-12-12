@@ -9,19 +9,19 @@
 		android:layout_height="wrap_content"
 		android:layout_gravity="center"
 		style="?android:attr/progressBarStyleLarge"/>
-	<RelativeLayout
+	<LinearLayout
+	    android:orientation="vertical"
 		android:layout_width="fill_parent" 
-		android:layout_height="fill_parent">
-	    <LinearLayout 
-	    	android:id="@+id/imagedialog_ll" 
-	    	android:layout_width="wrap_content" 
-	    	android:layout_height="wrap_content" 
-	    	android:layout_centerInParent="true"
-	    	android:padding="14.0dip">
-	
+		android:layout_height="fill_parent"
+		android:padding="15dip">
+        <RelativeLayout 
+            android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:layout_weight="1">
 	        <ScrollView 
 	            android:layout_width="wrap_content"
-				android:layout_height="wrap_content">
+				android:layout_height="wrap_content"
+				android:layout_centerInParent="true">
 				<ImageView
 					android:id="@+id/imagedialog_image"
 					android:layout_width="wrap_content"
@@ -31,14 +31,15 @@
 					android:src="@drawable/image_loading"
 					android:background="@drawable/widget_dface_border"/>
 			</ScrollView>
-			
-	    </LinearLayout>
-	    <ImageButton 
-		    android:id="@+id/imagedialog_close_button" 
+		</RelativeLayout>
+	    <Button 
+		    android:id="@+id/imagedialog_preview_button" 
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content"
-		    android:layout_alignRight="@id/imagedialog_ll" 
-		    android:layout_alignTop="@id/imagedialog_ll"
-		    android:background="@drawable/login_close_button"/>
-	</RelativeLayout>
+		    android:layout_gravity="center_horizontal"
+		    android:layout_marginTop="15dip"
+		    android:background="@drawable/preview_button"
+		    android:text="查看原图"
+		    android:textColor="@color/graywhite"/>
+	</LinearLayout>
 </ViewSwitcher>

@@ -64,7 +64,7 @@ public class ImageUtils{
 	}
 	public static void saveImage(Context context, String fileName, Bitmap bitmap, int quality) throws IOException 
 	{ 
-		if(bitmap == null)	return;		
+		if(bitmap==null || fileName==null || context==null)	return;		
 
 		FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();

@@ -24,6 +24,7 @@ public class StringUtils
 	 * @return
 	 */
 	public static Date toDate(String sdate) {
+		if(isEmpty(sdate))	return null;		
 		try {
 			return dateFormater.parse(sdate);
 		} catch (ParseException e) {

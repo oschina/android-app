@@ -1339,6 +1339,29 @@ public class AppContext extends Application {
 	}
 	
 	/**
+	 * 是否启动检查更新
+	 * @return
+	 */
+	public boolean isCheckUp()
+	{
+		String perf_checkup = getProperty(AppConfig.CONF_CHECKUP);
+		//默认是开启
+		if(StringUtils.isEmpty(perf_checkup))
+			return true;
+		else
+			return StringUtils.toBool(perf_checkup);
+	}
+	
+	/**
+	 * 设置启动检查更新
+	 * @param b
+	 */
+	public void setConfigCheckUp(boolean b)
+	{
+		setProperty(AppConfig.CONF_CHECKUP, String.valueOf(b));
+	}
+	
+	/**
 	 * 是否左右滑动
 	 * @return
 	 */

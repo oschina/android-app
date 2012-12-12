@@ -15,7 +15,9 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.widget.ImageButton;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ViewSwitcher;
 
@@ -28,8 +30,11 @@ import android.widget.ViewSwitcher;
 public class ImageDialog extends BaseActivity{
 	
 	private ViewSwitcher mViewSwitcher;
-	private ImageButton btn_close;
+	private Button btn_preview;
 	private ImageView mImage;
+	
+	private Thread thread;
+	private Handler handler;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,21 +46,38 @@ public class ImageDialog extends BaseActivity{
         this.initData();
     }
     
+    private View.OnTouchListener touchListener = new View.OnTouchListener(){
+		public boolean onTouch(View v, MotionEvent event) {
+			thread.interrupt();
+			handler = null;
+			finish();
+			return true;
+		}
+	};
+    
     private void initView()
     {
     	mViewSwitcher = (ViewSwitcher)findViewById(R.id.imagedialog_view_switcher); 
+    	mViewSwitcher.setOnTouchListener(touchListener);
     	
-    	btn_close = (ImageButton)findViewById(R.id.imagedialog_close_button);
-        btn_close.setOnClickListener(UIHelper.finish(this));
+    	btn_preview = (Button)findViewById(R.id.imagedialog_preview_button);
+    	btn_preview.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				String imgURL = getIntent().getStringExtra("img_url");
+				UIHelper.showImageZoomDialog(v.getContext(), imgURL);
+				finish();
+			}
+		});
        
         mImage = (ImageView)findViewById(R.id.imagedialog_image);
+        mImage.setOnTouchListener(touchListener);
     }    
     
     private void initData() 
     {
 		final String imgURL = getIntent().getStringExtra("img_url");		
 		final String ErrMsg = getString(R.string.msg_load_image_fail);
-		final Handler handler = new Handler(){
+		handler = new Handler(){
 			public void handleMessage(Message msg) {
 				if(msg.what==1 && msg.obj != null){
 					mImage.setImageBitmap((Bitmap)msg.obj);
@@ -66,7 +88,7 @@ public class ImageDialog extends BaseActivity{
 				}
 			}
 		};
-		new Thread(){
+		thread = new Thread(){
 			public void run() {
 				Message msg = new Message();
 				Bitmap bmp = null;
@@ -109,8 +131,10 @@ public class ImageDialog extends BaseActivity{
 	            	msg.what = -1;
 	            	msg.obj = e;
 				}
-				handler.sendMessage(msg);
+				if(handler != null && !isInterrupted())
+					handler.sendMessage(msg);
 			}
-		}.start();
+		};
+		thread.start();
     }
 }

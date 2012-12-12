@@ -30,6 +30,7 @@ public class ListViewActiveAdapter extends BaseAdapter {
 	private LayoutInflater 				listContainer;//视图容器
 	private int 						itemViewResource;//自定义项视图源
 	private BitmapManager 				bmpManager;
+	private boolean						faceClickEnable;
 	static class ListItemView{				//自定义控件集合  
 			public ImageView userface;  
 	        public TextView username;  
@@ -49,11 +50,23 @@ public class ListViewActiveAdapter extends BaseAdapter {
 	 * @param resource
 	 */
 	public ListViewActiveAdapter(Context context, List<Active> data,int resource) {
+		this(context, data, resource, true);
+	}
+	
+	/**
+	 * 实例化Adapter
+	 * @param context
+	 * @param data
+	 * @param resource
+	 * @param isFaceClickEnable
+	 */
+	public ListViewActiveAdapter(Context context, List<Active> data,int resource, boolean faceClickEnable) {
 		this.context = context;			
 		this.listContainer = LayoutInflater.from(context);	//创建视图容器并设置上下文
 		this.itemViewResource = resource;
 		this.listItems = data;
 		this.bmpManager = new BitmapManager(BitmapFactory.decodeResource(context.getResources(), R.drawable.widget_dface_loading));
+		this.faceClickEnable = faceClickEnable;
 	}
 	
 	public int getCount() {
@@ -150,7 +163,9 @@ public class ListViewActiveAdapter extends BaseAdapter {
 		}else{
 			bmpManager.loadBitmap(faceURL, listItemView.userface);
 		}
-		listItemView.userface.setOnClickListener(faceClickListener);
+		if(faceClickEnable){
+			listItemView.userface.setOnClickListener(faceClickListener);
+		}
 		listItemView.userface.setTag(active);
 		
 		String imgSmall = active.getTweetimage();

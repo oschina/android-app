@@ -217,7 +217,9 @@ public class Main extends BaseActivity {
         this.initFrameListView();
         
         //检查新版本
-        UpdateManager.getUpdateManager().checkAppUpdate(this, false);
+        if(appContext.isCheckUp()){
+        	UpdateManager.getUpdateManager().checkAppUpdate(this, false);
+        }
         
         //启动轮询通知信息
         this.foreachUserNotice();
