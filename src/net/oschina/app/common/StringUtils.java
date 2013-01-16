@@ -15,8 +15,22 @@ import java.util.regex.Pattern;
 public class StringUtils 
 {
 	private final static Pattern emailer = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
-	private final static SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	private final static SimpleDateFormat dateFormater2 = new SimpleDateFormat("yyyy-MM-dd");
+	//private final static SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	//private final static SimpleDateFormat dateFormater2 = new SimpleDateFormat("yyyy-MM-dd");
+	
+	private final static ThreadLocal<SimpleDateFormat> dateFormater = new ThreadLocal<SimpleDateFormat>() {
+		@Override
+		protected SimpleDateFormat initialValue() {
+			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		}
+	};
+
+	private final static ThreadLocal<SimpleDateFormat> dateFormater2 = new ThreadLocal<SimpleDateFormat>() {
+		@Override
+		protected SimpleDateFormat initialValue() {
+			return new SimpleDateFormat("yyyy-MM-dd");
+		}
+	};
 	
 	/**
 	 * 将字符串转位日期类型
@@ -24,9 +38,8 @@ public class StringUtils
 	 * @return
 	 */
 	public static Date toDate(String sdate) {
-		if(isEmpty(sdate))	return null;		
 		try {
-			return dateFormater.parse(sdate);
+			return dateFormater.get().parse(sdate);
 		} catch (ParseException e) {
 			return null;
 		}
@@ -46,8 +59,8 @@ public class StringUtils
 		Calendar cal = Calendar.getInstance();
 		
 		//判断是否是同一天
-		String curDate = dateFormater2.format(cal.getTime());
-		String paramDate = dateFormater2.format(time);
+		String curDate = dateFormater2.get().format(cal.getTime());
+		String paramDate = dateFormater2.get().format(time);
 		if(curDate.equals(paramDate)){
 			int hour = (int)((cal.getTimeInMillis() - time.getTime())/3600000);
 			if(hour == 0)
@@ -77,7 +90,7 @@ public class StringUtils
 			ftime = days+"天前";			
 		}
 		else if(days > 10){			
-			ftime = dateFormater2.format(time);
+			ftime = dateFormater2.get().format(time);
 		}
 		return ftime;
 	}
@@ -92,8 +105,8 @@ public class StringUtils
 		Date time = toDate(sdate);
 		Date today = new Date();
 		if(time != null){
-			String nowDate = dateFormater2.format(today);
-			String timeDate = dateFormater2.format(time);
+			String nowDate = dateFormater2.get().format(today);
+			String timeDate = dateFormater2.get().format(time);
 			if(nowDate.equals(timeDate)){
 				b = true;
 			}
