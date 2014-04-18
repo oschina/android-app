@@ -103,10 +103,7 @@ public class SinaWeiboHelper {
 	 */
 	public static boolean isWeiboNull()
 	{
-		if(weibo == null)
-			return true;
-		else 
-			return false;
+		return weibo == null;
 	}
 	/**
 	 * 初始化weibo
